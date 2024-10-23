@@ -1,2 +1,1 @@
-# ProjektZajebisty
-Inżynierski Projekt Zespołowy 
+# PlanQR
