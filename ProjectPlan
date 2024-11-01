@@ -1,20 +1,42 @@
+--- Team ---
+
+1.
+2.
+3.
+4.
+
 --- Frontend ---
 
 React JS
 TypeScript
 Vite
+Material UI or Ant Design (?)
+qrcode.react
+Node.js (?)
+Figma
 
 --- Backend ---
 
-server -> windows server 2022
-ASP.NET CORE
-LDAP -> user verification
+C# ASP.NET CORE
+Entity Framework Core
 store plan for next few days in cache 
-SQLite / PostgreSQL
+SQLite 
+MediatR 
 
 --- Website Management ---
 
 PostMan -> check requests
+GitHub
+Docker(?)
+server -> windows server 2022
+
+--- Security ---
+
+SSL/TLS -> HTTPS
+LDAP -> user verification
+Data Protection API (DPAPI) -> to encrypt sensitive data (such as cookies and tokens) (?)
+SQLCipher -> to protect the database (?)
+
 
 --- Functionalities ---
 
