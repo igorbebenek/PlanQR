@@ -1,6 +1,6 @@
 --- Team ---
 
-1. Illia Karmazin API Architecture (ASP.NET Core, C#) + Frontend 
+1. Illia Karmazin API Architecture (ASP.NET Core, C# , RESTful API) + Frontend 
 2. Sebastian Marcinowski   DataBase (SQLite, Entity Framework Core) + Fronted 
 3. Łukasz Watral   Security (ASP.NET Core Identity, LDAP + LDAPS , SSL/TLS) + Frontend 
 4. Igor BębenekDevOps (GitHub Actions, Docker , Postman) + Fronted
