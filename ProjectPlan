@@ -8,12 +8,13 @@
 --- Frontend ---
 
 React JS
-TypeScript
+TypeScript 
 Vite
-Material UI or Ant Design (?)
+Material UI 
 qrcode.react
 Node.js (?)
 Figma
+XML file -> plan
 
 --- Backend ---
 
@@ -27,15 +28,15 @@ MediatR
 
 PostMan -> check requests
 GitHub
-Docker(?)
+Docker
 server -> windows server 2022
 
 --- Security ---
 
 SSL/TLS -> HTTPS
-LDAP -> user verification
-Data Protection API (DPAPI) -> to encrypt sensitive data (such as cookies and tokens) (?)
-SQLCipher -> to protect the database (?)
+LDAP + LDAPS -> user verification
+Data Protection API (DPAPI) -> to encrypt sensitive data (such as cookies and tokens) 
+SQLCipher -> to protect the database 
 
 
 --- Functionalities ---
