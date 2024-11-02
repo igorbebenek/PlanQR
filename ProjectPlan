@@ -1,9 +1,9 @@
 --- Team ---
 
-1.
-2.
-3.
-4.
+1. Illia Karmazin API Architecture (ASP.NET Core, C#) + Frontend 
+2. Sebastian Marcinowski   DataBase (SQLite, Entity Framework Core) + Fronted 
+3. Łukasz Watral   Security (ASP.NET Core Identity, LDAP + LDAPS , SSL/TLS) + Frontend 
+4. Igor BębenekDevOps (GitHub Actions, Docker , Postman) + Fronted
 
 --- Frontend ---
 
@@ -22,6 +22,7 @@ C# 11
 ASP.NET CORE 8.0
 Entity Framework Core 8.0
 store plan for next few days in cache 
+ASP.NET Core Identity
 SQLite 3.41 or newer
 MediatR 12.0 or newer
 
