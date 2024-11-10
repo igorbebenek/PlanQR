@@ -24,7 +24,8 @@ Entity Framework Core 8.0
 store plan for next few days in cache 
 ASP.NET Core Identity
 SQLite 3.41 or newer
-MediatR 12.0 or newer
+MediatR 12.4.1
+AutoMapper 13.0.1
 
 --- Website Management ---
 
