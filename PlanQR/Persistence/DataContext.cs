@@ -9,7 +9,7 @@ public class DataContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlite("Server=(localdb)\\mssqllocaldb;Database=SchoolDb;Trusted_Connection=True;");
+        optionsBuilder.UseSqlite("Data Source = PlanQRDB");
         //optionsBuilder.UseSqlite("Server={server_address};Database={database_name};UserId={username};Password={password};");
     }
 

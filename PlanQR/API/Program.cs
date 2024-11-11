@@ -20,7 +20,7 @@ builder.Services.AddCors(options =>
 
 
 builder.Services.AddDbContext<DataContext>(options =>
-    options.UseSqlite("Server=(localdb)\\mssqllocaldb;Database=SchoolDb;Trusted_Connection=True"));
+    options.UseSqlite("Data Source = PlanQRDB"));
 
 var app = builder.Build();
 
