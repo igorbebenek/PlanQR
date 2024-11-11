@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Persistence;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -14,6 +17,10 @@ builder.Services.AddCors(options =>
         policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
     });
 });
+
+
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseSqlite("Server=(localdb)\\mssqllocaldb;Database=SchoolDb;Trusted_Connection=True"));
 
 var app = builder.Build();
 

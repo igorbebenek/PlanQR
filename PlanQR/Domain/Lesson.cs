@@ -9,5 +9,6 @@ namespace Domain
         public Guid RoomId {get;set;}
         public string Room {get;set;}
         public string Building {get;set;}
+        public string Lecturer { get;set;}
     }
 }
