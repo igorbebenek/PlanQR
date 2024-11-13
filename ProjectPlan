@@ -55,3 +55,5 @@ https://plan.zut.edu.pl/schedule_student.php?kind=apiwi&department=wi&start=2024
 https://www.wi.zut.edu.pl/app/plan/?zut=WI-WI1
 Use for classes and methods PascalCase
 Use for variable camelCase
+uid=wl53674,cn=users,cn=accounts,dc=zut,dc=edu,dc=pl -> do LDAPa, po zalogowaniu zrobić unbinda, timemout, ldap.zut.edu.pl, pobranie danych (np. imię, nazwisko) i wyświetlenie planu dla tych danych
+SEBA => db -> user -> lesson -> message
