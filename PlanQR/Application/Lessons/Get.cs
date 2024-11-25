@@ -1,18 +1,18 @@
-/*using System;
 using Domain;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
-namespace Application.Activities
+namespace Application.Lessons
 {
-    public class Details
+    public class Get
     {
-        public class Query:IRequest<Lesson> 
+        public class Query : IRequest<List<Lesson>> 
         {
-            public Guid Id { get; set; }
+            //public Guid Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Lesson>
+        public class Handler : IRequestHandler<Query, List<Lesson>>
         {
             private readonly DataContext _context;
             public Handler(DataContext context)
@@ -20,11 +20,10 @@ namespace Application.Activities
                 _context = context;
             }
 
-            public async Task<Activity> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<Lesson>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.Activities.FindAsync(request.Id);
+                return await _context.Lessons.ToListAsync();
             }
         }
     }
 }
-*/

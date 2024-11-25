@@ -1,43 +1,28 @@
+using Application.Lessons;
+using Domain;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class LessonController : ControllerBase
+    public class LessonController : BaseApiController
     {
-        [HttpGet]
-        public async Task<IActionResult> GetLessons()
+        [HttpGet]  //api/lessons
+        public async Task<ActionResult<List<Lesson>>> GetLessons()
         {
-            var lessons = new List<string> { "Lesson 1", "Lesson 2", "Lesson 3" };
-            return Ok(lessons); 
+            return await Mediator.Send(new Get.Query());
         }
 
-        [HttpGet("{roomId}")]
-        public async Task<IActionResult> GetLesson(int roomId)
+        [HttpGet("{roomId}")] //api/lessons/roomId
+        public async Task<ActionResult<Lesson>> GetLesson(Guid roomId)
         {
-            var lesson = $"Lesson {roomId}";
-            return Ok(lesson); 
+            return await Mediator.Send(new Details.Query{Id = roomId});
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateLesson([FromBody] string newLesson)
+        [HttpDelete("clear")] // api/lessons/clear
+        public async Task<IActionResult> ClearLessons()
         {
-            return CreatedAtAction(nameof(GetLesson), new { roomId = 1 }, newLesson); 
-        }
-
-        [HttpPut("{roomId}")]
-        public async Task<IActionResult> UpdateLesson(int roomId, [FromBody] string updatedLesson)
-        {
-            return NoContent(); 
-        }
-
-        [HttpDelete("{roomId}")]
-        public async Task<IActionResult> DeleteLesson(int roomId)
-        {
-            return NoContent(); 
+            await Mediator.Send(new Clear.Query());
+            return NoContent();
         }
     }
 }
