@@ -24,5 +24,26 @@ namespace API.Controllers
             await Mediator.Send(new Clear.Query());
             return NoContent();
         }
+
+        [HttpDelete("{roomId}")] 
+        public async Task<IActionResult> DeleteLesson(Guid roomId)
+        {
+            await Mediator.Send(new Delete.Command{Id = roomId});
+            return Ok();
+        }
+
+        /*
+        [HttpPost("Load-XML")]
+        public async Task<IActionResult> LoadLessonsFromXml()
+        {
+            // code here
+        } 
+
+        [HttpPost("Update-XML")]
+        public async Task<IActionResult> UpdateLessonsFromXml()
+        {
+            // code here 
+        }
+        */
     }
 }
