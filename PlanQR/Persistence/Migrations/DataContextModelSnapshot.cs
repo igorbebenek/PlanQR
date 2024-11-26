@@ -34,6 +34,9 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid?>("chatid")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("degreeType")
                         .HasColumnType("TEXT");
 
@@ -81,6 +84,8 @@ namespace Persistence.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("chatid");
+
                     b.ToTable("Lessons");
                 });
 
@@ -113,6 +118,15 @@ namespace Persistence.Migrations
                     b.HasIndex("Chatid");
 
                     b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("Domain.Lesson", b =>
+                {
+                    b.HasOne("Domain.Chat", "chat")
+                        .WithMany()
+                        .HasForeignKey("chatid");
+
+                    b.Navigation("chat");
                 });
 
             modelBuilder.Entity("Domain.Message", b =>

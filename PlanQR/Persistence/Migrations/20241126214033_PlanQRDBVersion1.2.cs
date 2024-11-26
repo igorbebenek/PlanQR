@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class PlanQRDBVersion11 : Migration
+    public partial class PlanQRDBVersion12 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -87,6 +87,12 @@ namespace Persistence.Migrations
                 type: "TEXT",
                 nullable: true);
 
+            migrationBuilder.AddColumn<Guid>(
+                name: "chatid",
+                table: "Lessons",
+                type: "TEXT",
+                nullable: true);
+
             migrationBuilder.AddColumn<string>(
                 name: "degreeType",
                 table: "Lessons",
@@ -153,6 +159,18 @@ namespace Persistence.Migrations
                 table: "Messages",
                 column: "Chatid");
 
+            migrationBuilder.CreateIndex(
+                name: "IX_Lessons_chatid",
+                table: "Lessons",
+                column: "chatid");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Lessons_Chats_chatid",
+                table: "Lessons",
+                column: "chatid",
+                principalTable: "Chats",
+                principalColumn: "id");
+
             migrationBuilder.AddForeignKey(
                 name: "FK_Messages_Chats_Chatid",
                 table: "Messages",
@@ -165,6 +183,10 @@ namespace Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
+                name: "FK_Lessons_Chats_chatid",
+                table: "Lessons");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_Messages_Chats_Chatid",
                 table: "Messages");
 
@@ -175,9 +197,17 @@ namespace Persistence.Migrations
                 name: "IX_Messages_Chatid",
                 table: "Messages");
 
+            migrationBuilder.DropIndex(
+                name: "IX_Lessons_chatid",
+                table: "Lessons");
+
             migrationBuilder.DropColumn(
                 name: "Chatid",
                 table: "Messages");
+
+            migrationBuilder.DropColumn(
+                name: "chatid",
+                table: "Lessons");
 
             migrationBuilder.DropColumn(
                 name: "degreeType",

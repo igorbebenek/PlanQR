@@ -19,4 +19,9 @@ public class DataContext : DbContext
             optionsBuilder.UseSqlite("Data Source=PlanQRDB.db");
         }
     }
+
+    public async Task AddLessonAsync(Lesson lesson){
+        Lessons.Add(lesson);
+        await SaveChangesAsync();
+    }
 }

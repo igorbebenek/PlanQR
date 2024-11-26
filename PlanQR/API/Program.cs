@@ -28,6 +28,23 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 var app = builder.Build();
 
+//Adding object into database
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    try
+    {
+        var context = services.GetRequiredService<DataContext>();
+        await Seed.DBData(context); // Wywołanie metody SeedData
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred during seeding the database.");
+    }
+}
+
 app.UseExceptionHandler("/error");
 app.UseCors("AllowAllOrigins");
 

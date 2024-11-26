@@ -11,8 +11,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241120090318_PlanQRDBVersion1.1")]
-    partial class PlanQRDBVersion11
+    [Migration("20241126214033_PlanQRDBVersion1.2")]
+    partial class PlanQRDBVersion12
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,6 +35,9 @@ namespace Persistence.Migrations
                 {
                     b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("chatid")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("degreeType")
@@ -84,6 +87,8 @@ namespace Persistence.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("chatid");
+
                     b.ToTable("Lessons");
                 });
 
@@ -116,6 +121,15 @@ namespace Persistence.Migrations
                     b.HasIndex("Chatid");
 
                     b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("Domain.Lesson", b =>
+                {
+                    b.HasOne("Domain.Chat", "chat")
+                        .WithMany()
+                        .HasForeignKey("chatid");
+
+                    b.Navigation("chat");
                 });
 
             modelBuilder.Entity("Domain.Message", b =>
