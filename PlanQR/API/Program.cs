@@ -32,18 +32,20 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<DataContext>();
 
     try
     {
-        var context = services.GetRequiredService<DataContext>();
-        await Seed.DBData(context); // Wywołanie metody SeedData
+        await context.Database.MigrateAsync(); // Automatyczne stosowanie migracji
+        await Seed.DBData(context); // Seedowanie danych
     }
     catch (Exception ex)
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred during seeding the database.");
+        logger.LogError(ex, "An error occurred while migrating or seeding the database.");
     }
 }
+
 
 app.UseExceptionHandler("/error");
 app.UseCors("AllowAllOrigins");

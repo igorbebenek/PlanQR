@@ -18,6 +18,6 @@ namespace Domain
         public string typeStudy { get;set;} // rodzaj 
         public string degreeType { get;set;} // typ
         public string speciality  { get;set;} // specjalnosc
-        public Chat chat {get; set;} //chat
+        // public Chat chat {get; set;} //chat
     } 
 }

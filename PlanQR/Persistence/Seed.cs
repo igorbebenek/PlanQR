@@ -6,7 +6,14 @@ using Domain;
 
 public class Seed{
     public static async Task DBData(DataContext context){
-        if (await context.Lessons.AnyAsync()) return;
+        if (context.Lessons.Any())
+        {
+            Console.WriteLine("Lessons table already has data.");
+        }
+        else
+        {
+            Console.WriteLine("Lessons table is empty or does not exist.");
+        }
 
         var lessons = new[]
         {
@@ -40,7 +47,7 @@ public class Seed{
                 description = "Mechanics and thermodynamics",
                 start = DateTime.Now.AddDays(1),
                 end = DateTime.Now.AddDays(1).AddHours(3),
-                typeShort = "LAB",
+                typeShort = "L",
                 semester = 1,
                 faculty = "Physics Department",
                 fieldStudies = "Physics",
@@ -78,7 +85,7 @@ public class Seed{
                 description = "Cell Structure and Function",
                 start = DateTime.Now.AddDays(3),
                 end = DateTime.Now.AddDays(3).AddHours(1.5),
-                typeShort = "SEM",
+                typeShort = "S",
                 semester = 1,
                 faculty = "Biology Department",
                 fieldStudies = "Biology",
