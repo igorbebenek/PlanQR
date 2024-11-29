@@ -9,6 +9,7 @@ public class Seed{
         if (context.Lessons.Any())
         {
             Console.WriteLine("Lessons table already has data.");
+            context.Database.ExecuteSqlRaw("DELETE FROM Lessons");
         }
         else
         {
@@ -19,10 +20,8 @@ public class Seed{
         {
             new Lesson
             {
-                id = Guid.NewGuid(),
+                id = 1,
                 subject = "Mathematics",
-                type = "Lecture",
-                roomId = Guid.NewGuid(),
                 room = "Room 101",
                 lecturer = "Dr. John Doe",
                 description = "Algebra basics",
@@ -34,14 +33,34 @@ public class Seed{
                 fieldStudies = "Mathematics",
                 typeStudy = "Full-time",
                 degreeType = "Bachelor",
-                speciality = "General Mathematics"
+                speciality = "General Mathematics",
+                chat = new Chat
+                {
+                    messages = new List<Message>
+                    {
+                        new Message
+                        {
+                            content = "Welcome to the Calculus lecture!",
+                            date = DateTime.UtcNow,
+                            lecturer = "Dr. John Smith",
+                            roomId = Guid.NewGuid(),
+                            room = "A101"
+                        },
+                        new Message
+                        {
+                            content = "Please review limits before the next class.",
+                            date = DateTime.UtcNow.AddMinutes(30),
+                            lecturer = "Dr. John Smith",
+                            roomId = Guid.NewGuid(),
+                            room = "A101"
+                        }
+                    }
+                }
             },
             new Lesson
             {
-                id = Guid.NewGuid(),
+                id = 2,
                 subject = "Physics",
-                type = "Laboratory",
-                roomId = Guid.NewGuid(),
                 room = "Lab 202",
                 lecturer = "Dr. Jane Smith",
                 description = "Mechanics and thermodynamics",
@@ -53,14 +72,34 @@ public class Seed{
                 fieldStudies = "Physics",
                 typeStudy = "Full-time",
                 degreeType = "Bachelor",
-                speciality = "Applied Physics"
+                speciality = "Applied Physics",
+                chat = new Chat
+                {
+                    messages = new List<Message>
+                    {
+                        new Message
+                        {
+                            content = "Welcome to the Calculus lecture!",
+                            date = DateTime.UtcNow,
+                            lecturer = "Dr. John Smith",
+                            roomId = Guid.NewGuid(),
+                            room = "A101"
+                        },
+                        new Message
+                        {
+                            content = "Please review limits before the next class.",
+                            date = DateTime.UtcNow.AddMinutes(30),
+                            lecturer = "Dr. John Smith",
+                            roomId = Guid.NewGuid(),
+                            room = "A101"
+                        }
+                    }
+                }
             },
             new Lesson
             {
-                id = Guid.NewGuid(),
+                id = 3,
                 subject = "Chemistry",
-                type = "Lecture",
-                roomId = Guid.NewGuid(),
                 room = "Room 303",
                 lecturer = "Dr. Emily Brown",
                 description = "Introduction to Organic Chemistry",
@@ -72,14 +111,34 @@ public class Seed{
                 fieldStudies = "Chemistry",
                 typeStudy = "Full-time",
                 degreeType = "Bachelor",
-                speciality = "General Chemistry"
+                speciality = "General Chemistry",
+                chat = new Chat
+                {
+                    messages = new List<Message>
+                    {
+                        new Message
+                        {
+                            content = "Welcome to the Calculus lecture!",
+                            date = DateTime.UtcNow,
+                            lecturer = "Dr. John Smith",
+                            roomId = Guid.NewGuid(),
+                            room = "A101"
+                        },
+                        new Message
+                        {
+                            content = "Please review limits before the next class.",
+                            date = DateTime.UtcNow.AddMinutes(30),
+                            lecturer = "Dr. John Smith",
+                            roomId = Guid.NewGuid(),
+                            room = "A101"
+                        }
+                    }
+                }
             },
             new Lesson
             {
-                id = Guid.NewGuid(),
+                id = 4,
                 subject = "Biology",
-                type = "Seminar",
-                roomId = Guid.NewGuid(),
                 room = "Room 405",
                 lecturer = "Dr. Sarah Green",
                 description = "Cell Structure and Function",
@@ -91,14 +150,34 @@ public class Seed{
                 fieldStudies = "Biology",
                 typeStudy = "Full-time",
                 degreeType = "Bachelor",
-                speciality = "Cellular Biology"
+                speciality = "Cellular Biology",
+                chat = new Chat
+                {
+                    messages = new List<Message>
+                    {
+                        new Message
+                        {
+                            content = "Welcome to the Calculus lecture!",
+                            date = DateTime.UtcNow,
+                            lecturer = "Dr. John Smith",
+                            roomId = Guid.NewGuid(),
+                            room = "A101"
+                        },
+                        new Message
+                        {
+                            content = "Please review limits before the next class.",
+                            date = DateTime.UtcNow.AddMinutes(30),
+                            lecturer = "Dr. John Smith",
+                            roomId = Guid.NewGuid(),
+                            room = "A101"
+                        }
+                    }
+                }
             },
             new Lesson
             {
-                id = Guid.NewGuid(),
+                id = 5,
                 subject = "Computer Science",
-                type = "Lecture",
-                roomId = Guid.NewGuid(),
                 room = "Room 501",
                 lecturer = "Dr. Michael Johnson",
                 description = "Basics of Algorithms",
@@ -110,14 +189,34 @@ public class Seed{
                 fieldStudies = "Computer Science",
                 typeStudy = "Full-time",
                 degreeType = "Bachelor",
-                speciality = "Software Engineering"
+                speciality = "Software Engineering",
+                chat = new Chat
+                {
+                    messages = new List<Message>
+                    {
+                        new Message
+                        {
+                            content = "Welcome to the Calculus lecture!",
+                            date = DateTime.UtcNow,
+                            lecturer = "Dr. John Smith",
+                            roomId = Guid.NewGuid(),
+                            room = "A101"
+                        },
+                        new Message
+                        {
+                            content = "Please review limits before the next class.",
+                            date = DateTime.UtcNow.AddMinutes(30),
+                            lecturer = "Dr. John Smith",
+                            roomId = Guid.NewGuid(),
+                            room = "A101"
+                        }
+                    }
+                }
             },
             new Lesson
             {
-                id = Guid.NewGuid(),
+                id = 6,
                 subject = "History",
-                type = "Lecture",
-                roomId = Guid.NewGuid(),
                 room = "Room 207",
                 lecturer = "Dr. Laura Wilson",
                 description = "Medieval Europe",
@@ -129,7 +228,29 @@ public class Seed{
                 fieldStudies = "History",
                 typeStudy = "Full-time",
                 degreeType = "Bachelor",
-                speciality = "Medieval Studies"
+                speciality = "Medieval Studies",
+                chat = new Chat
+                {
+                    messages = new List<Message>
+                    {
+                        new Message
+                        {
+                            content = "Welcome to the Calculus lecture!",
+                            date = DateTime.UtcNow,
+                            lecturer = "Dr. John Smith",
+                            roomId = Guid.NewGuid(),
+                            room = "A101"
+                        },
+                        new Message
+                        {
+                            content = "Please review limits before the next class.",
+                            date = DateTime.UtcNow.AddMinutes(30),
+                            lecturer = "Dr. John Smith",
+                            roomId = Guid.NewGuid(),
+                            room = "A101"
+                        }
+                    }
+                }
             }
         };
 
