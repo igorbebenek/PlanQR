@@ -11,7 +11,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241129145844_PlanQRDBVersion1.4")]
+    [Migration("20241129153257_PlanQRDBVersion1.4")]
     partial class PlanQRDBVersion14
     {
         /// <inheritdoc />
