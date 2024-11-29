@@ -29,7 +29,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 var app = builder.Build();
 
 //Adding object into database
-using (var scope = app.Services.CreateScope())
+/*using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<DataContext>();
@@ -45,7 +45,7 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "An error occurred while migrating or seeding the database.");
     }
 }
-
+*/
 
 app.UseExceptionHandler("/error");
 app.UseCors("AllowAllOrigins");
