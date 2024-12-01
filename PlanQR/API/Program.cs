@@ -1,30 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using Persistence;
+using API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAllOrigins", policy =>
-    {
-        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-    });
-});
+builder.Services.AddApplicationServices(builder.Configuration);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlite(connectionString));
-// builder.Services.AddDbContext<DataContext>(options =>
-//     options.UseSqlite("Data Source=PlanQRDB.db"));
-
-
 
 var app = builder.Build();
 
@@ -36,8 +21,8 @@ using (var scope = app.Services.CreateScope())
 
     try
     {
-        await context.Database.MigrateAsync(); // Automatyczne stosowanie migracji
-        await Seed.DBData(context); // Seedowanie danych
+        await context.Database.MigrateAsync(); 
+        await Seed.DBData(context); 
     }
     catch (Exception ex)
     {
@@ -49,7 +34,6 @@ using (var scope = app.Services.CreateScope())
 app.UseExceptionHandler("/error");
 app.UseCors("AllowAllOrigins");
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

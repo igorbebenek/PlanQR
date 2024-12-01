@@ -8,7 +8,7 @@ namespace Application.Lessons
     {
         public class Query:IRequest<Lesson> 
         {
-            public Guid Id { get; set; }
+            public int Id { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, Lesson>

@@ -6,14 +6,15 @@ namespace API.Controllers
 {
     public class LessonController : BaseApiController
     {
-        [HttpGet]  //api/lessons
+        
+        [HttpGet("list")]  //api/lessons
         public async Task<ActionResult<List<Lesson>>> GetLessons()
         {
             return await Mediator.Send(new Get.Query());
         }
 
         [HttpGet("{roomId}")] //api/lessons/roomId
-        public async Task<ActionResult<Lesson>> GetLesson(Guid roomId)
+        public async Task<ActionResult<Lesson>> GetLesson(int roomId)
         {
             return await Mediator.Send(new Details.Query{Id = roomId});
         }
@@ -21,15 +22,20 @@ namespace API.Controllers
         [HttpDelete("clear")] // api/lessons/clear
         public async Task<IActionResult> ClearLessons()
         {
-            await Mediator.Send(new Clear.Query());
-            return NoContent();
+            var result = await Mediator.Send(new Clear.Query());
+            return Ok(result);
         }
 
-        [HttpDelete("{roomId}")] 
-        public async Task<IActionResult> DeleteLesson(Guid roomId)
+        [HttpDelete("delete/{roomId}")] 
+        public async Task<IActionResult> DeleteLesson(int roomId)
         {
-            await Mediator.Send(new Delete.Command{Id = roomId});
-            return Ok();
+            try
+            {
+                await Mediator.Send(new Delete.Command{Id = roomId});
+                return Ok();
+            } catch (KeyNotFoundException ex) {
+                return NotFound(new {error = ex.Message});
+            }
         }
 
         /*

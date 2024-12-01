@@ -7,7 +7,7 @@ namespace Application.Lessons
     {
         public class Command : IRequest
         {
-            public Guid Id { get; set; }
+            public int Id { get; set; }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -21,6 +21,10 @@ namespace Application.Lessons
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
                 var lesson = await _context.Lessons.FindAsync(request.Id);
+                if (lesson == null) 
+                {
+                    throw new KeyNotFoundException($"Lesson with ID {request.Id} does not exist.");
+                }
                 _context.Remove(lesson);
                 await _context.SaveChangesAsync();
             }
