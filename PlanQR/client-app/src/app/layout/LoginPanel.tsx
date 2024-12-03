@@ -10,9 +10,15 @@ export default function LoginPanel() {
         </div>
         <div className="input-group-wrapper">
           <div className="input-group">
+            <span className="icon">
+              <i className="fas fa-envelope"></i>
+            </span>
             <input type="email" placeholder="Email" required />
           </div>
           <div className="input-group">
+            <span className="icon">
+              <i className="fas fa-lock"></i>
+            </span>
             <input type="password" placeholder="Password" required />
           </div>
         </div>

@@ -1,4 +1,5 @@
-body {
+body 
+{
     margin: 0;
     font-family: Arial, sans-serif;
     background-image: linear-gradient(135deg, #00c344 0%, rgb(33,138,174) 69%, rgb(32,167,172) 89%) !important;
@@ -9,110 +10,140 @@ body {
     height: 100vh;
 }
   
-.login-container {
+.login-container 
+{
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.login-form {
+.login-form 
+{
     background: white;
     color: black;
-    padding: 40px; /* Увеличиваем внутренние отступы */
-    border-radius: 0; /* Радиус больше для современного вида */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Увеличиваем тень */
+    padding: 40px; 
+    border-radius: 0; 
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); 
     display: inline-block;
     text-align: center;
     box-sizing: border-box;
-    min-width: 350px; /* Минимальная ширина формы */
-    min-height: 400px; /* Минимальная высота формы */
+    min-width: 350px; 
+    min-height: 410px; 
 }
   
-.login-image img {
-    width: 400px; /* Увеличиваем логотип */
+.login-image img 
+{
+    width: 400px; 
     height: auto;
-    margin-bottom: 30px; /* Увеличиваем отступ под логотипом */
-}
-  
-.input-group {
-    margin-bottom: 25px; /* Увеличиваем отступ между полями */
+    margin-bottom: 30px; 
 }
 
-.input-group-wrapper {
-    margin-top: 15px; /* Отступ между логотипом и первым полем */
+
+.input-group 
+{
+    position: relative; 
+    margin-bottom: 25px;
 }
 
-.input-group input {
+.input-group .icon 
+{
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 18px;
+}
+
+.input-group input 
+{
     width: 100%;
-    padding: 12px; /* Увеличиваем высоту полей */
-    border: 1px solid #d4d4d4; /* Светло-серая рамка */
+    padding: 12px 12px 12px 40px;
+    border: 1px solid #e6e6e6;
     border-radius: 0;
     font-size: 16px;
     box-sizing: border-box;
-    background-color: #d4d4d4; /* Светло-серый фон */
-    color: black; /* Черный текст */
-    text-align: center;
+    background-color: #e6e6e6; 
+    color: black;
+    text-align: left;
 }
 
-.input-group input:focus {
+.input-group input:focus 
+{
     outline: none;
-    border-color: #5f27cd; /* Добавляем фокусный эффект */
+    border-color: #5f27cd; 
     box-shadow: 0 0 5px rgba(95, 39, 205, 0.5);
 }
 
-.login-btn {
-    width: 100%;
+.icon i {
+    pointer-events: none; 
+}
+
+.input-group-wrapper {
+    margin-top: 20px; 
+}
+
+.login-btn 
+{
+    width: 70%;
     padding: 12px;
-    background: #0ae762;
+    background: #11e766;
     border: none;
-    border-radius: 5px;
+    border-radius: 15px;
     color: white;
     font-weight: bold;
     cursor: pointer;
-    font-size: 18px; /* Увеличиваем шрифт кнопки */
-    margin-top: 20px; /* Добавляем отступ сверху */
+    font-size: 18px; 
+    margin-top: 20px; 
 }
 
-.login-btn:hover {
+.login-btn:hover 
+{
     background: #e65c81;
 }
 
-
-p {
+p 
+{
     margin-top: 20px;
     font-size: 14px;
 }
 
-p a {
-    color: #5f27cd;
+p a 
+{
+    color: #4f07e1;
     text-decoration: none;
 }
 
-p a:hover {
+p a:hover 
+{
     text-decoration: underline;
 }
 
-@media (max-width: 768px) {
-    .login-container {
+@media (max-width: 768px) 
+{
+    .login-container 
+    {
         padding: 10px;
     }
 
-    .login-form {
+    .login-form 
+    {
         padding: 20px;
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 480px) 
+{
     .login-container {
         padding: 10px;
     }
 
     .login-form {
         padding: 15px;
-        min-width: 300px; /* Уменьшаем минимальную ширину для мобильных */
+        min-width: 300px;
     }
 
     .login-image img {
-        width: 120px; /* Уменьшаем размер логотипа для мобильных */
+        width: 120px; 
     }
 }
