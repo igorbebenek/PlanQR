@@ -1,4 +1,118 @@
-body
-{
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
     background-image: linear-gradient(135deg, #00c344 0%, rgb(33,138,174) 69%, rgb(32,167,172) 89%) !important;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+  
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form {
+    background: white;
+    color: black;
+    padding: 40px; /* Увеличиваем внутренние отступы */
+    border-radius: 0; /* Радиус больше для современного вида */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Увеличиваем тень */
+    display: inline-block;
+    text-align: center;
+    box-sizing: border-box;
+    min-width: 350px; /* Минимальная ширина формы */
+    min-height: 400px; /* Минимальная высота формы */
+}
+  
+.login-image img {
+    width: 400px; /* Увеличиваем логотип */
+    height: auto;
+    margin-bottom: 30px; /* Увеличиваем отступ под логотипом */
+}
+  
+.input-group {
+    margin-bottom: 25px; /* Увеличиваем отступ между полями */
+}
+
+.input-group-wrapper {
+    margin-top: 15px; /* Отступ между логотипом и первым полем */
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px; /* Увеличиваем высоту полей */
+    border: 1px solid #d4d4d4; /* Светло-серая рамка */
+    border-radius: 0;
+    font-size: 16px;
+    box-sizing: border-box;
+    background-color: #d4d4d4; /* Светло-серый фон */
+    color: black; /* Черный текст */
+    text-align: center;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #5f27cd; /* Добавляем фокусный эффект */
+    box-shadow: 0 0 5px rgba(95, 39, 205, 0.5);
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background: #0ae762;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 18px; /* Увеличиваем шрифт кнопки */
+    margin-top: 20px; /* Добавляем отступ сверху */
+}
+
+.login-btn:hover {
+    background: #e65c81;
+}
+
+
+p {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+p a {
+    color: #5f27cd;
+    text-decoration: none;
+}
+
+p a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .login-container {
+        padding: 10px;
+    }
+
+    .login-form {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        padding: 10px;
+    }
+
+    .login-form {
+        padding: 15px;
+        min-width: 300px; /* Уменьшаем минимальную ширину для мобильных */
+    }
+
+    .login-image img {
+        width: 120px; /* Уменьшаем размер логотипа для мобильных */
+    }
 }
