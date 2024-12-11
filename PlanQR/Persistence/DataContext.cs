@@ -8,19 +8,12 @@ public class DataContext : DbContext
     {
     }
 
-    public DbSet<Lesson> Lessons { get; set; }
     public DbSet<Message> Messages { get; set; }
     public DbSet<Chat> Chats { get; set; }
 
     //Adding relations between tables
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // One-to-One: Lesson -> Chat
-            modelBuilder.Entity<Lesson>()
-                .HasOne(l => l.chat)
-                .WithOne(c => c.lesson)
-                .HasForeignKey<Chat>(c => c.lessonID);
-
             // One-to-Many: Chat -> Messages
             modelBuilder.Entity<Chat>()
                 .HasMany(c => c.messages)
@@ -38,8 +31,8 @@ public class DataContext : DbContext
         }
     }
 
-    public async Task AddLessonAsync(Lesson lesson){
-        Lessons.Add(lesson);
+    public async Task AddChatAsync(Chat chat){
+        
         await SaveChangesAsync();
     }
 }

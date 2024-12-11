@@ -18,6 +18,11 @@ namespace Domain
         public string degreeType { get;set;} // typ
         public string speciality  { get;set;} // specjalnosc
 
+    // zmien worker_title na worker
+    // dodaj worker_cover -> to jest od zastępstw
+    // dodaj wydzial_sk 
+    // dodaj group_name
+
         //One-to-One relation with Chat
         public Chat chat {get; set;} //chat
     } 

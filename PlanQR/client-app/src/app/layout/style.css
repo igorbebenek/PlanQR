@@ -33,7 +33,7 @@ body
   
 .login-image img 
 {
-    width: 400px; 
+    width: 100%; 
     height: auto;
     margin-bottom: 30px; 
 }
@@ -144,6 +144,6 @@ p a:hover
     }
 
     .login-image img {
-        width: 120px; 
+        width: 100%; 
     }
 }
