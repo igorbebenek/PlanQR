@@ -3,13 +3,13 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
-namespace Application.Lessons
+namespace Application.Messages
 {
     public class Get
     {
-        public class Query : IRequest<List<Lesson>> {}
+        public class Query : IRequest<List<Message>> {}
 
-        public class Handler : IRequestHandler<Query, List<Lesson>>
+        public class Handler : IRequestHandler<Query, List<Message>>
         {
             private readonly DataContext _context;
             public Handler(DataContext context)
@@ -17,9 +17,9 @@ namespace Application.Lessons
                 _context = context;
             }
 
-            public async Task<List<Lesson>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<Message>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.Lessons.ToListAsync();
+                return await _context.Messages.ToListAsync();
             }
         }
     }

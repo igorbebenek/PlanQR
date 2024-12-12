@@ -1,5 +1,5 @@
 using Application.Core;
-using Application.Lessons;
+using Application.Messages;
 
 namespace API.Extensions
 {

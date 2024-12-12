@@ -2,7 +2,7 @@ using MediatR;
 using Persistence;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Lessons
+namespace Application.Messages
 {
     public class Clear
     {
@@ -19,18 +19,18 @@ namespace Application.Lessons
 
             public async Task<string> Handle(Query request, CancellationToken cancellationToken)
             {
-                if (_context.Lessons == null)
+                if (_context.Messages == null)
                 {
-                    return "Lessons table does not exist.";
+                    return "Message table does not exist.";
                 }
-                var count = await _context.Lessons.AsNoTracking().CountAsync(cancellationToken);
+                var count = await _context.Messages.AsNoTracking().CountAsync(cancellationToken);
                 if (count > 0)
                 {
-                    _context.Lessons.RemoveRange(_context.Lessons);
+                    _context.Messages.RemoveRange(_context.Messages);
                     await _context.SaveChangesAsync(cancellationToken);
-                    return $"Deleted {count} lessons.";
+                    return $"Deleted {count} messages.";
                 }
-                return "No lessons to delete.";
+                return "No messages to delete.";
             }
         }
     }

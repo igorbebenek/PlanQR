@@ -2,16 +2,16 @@ using Domain;
 using MediatR;
 using Persistence;
 
-namespace Application.Lessons
+namespace Application.Messages
 {
     public class Details
     {
-        public class Query:IRequest<Lesson> 
+        public class Query:IRequest<Message> 
         {
             public int Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Lesson>
+        public class Handler : IRequestHandler<Query, Message>
         {
             private readonly DataContext _context;
             public Handler(DataContext context)
@@ -19,9 +19,9 @@ namespace Application.Lessons
                 _context = context;
             }
 
-            public async Task<Lesson> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Message> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.Lessons.FindAsync(request.Id);
+                return await _context.Messages.FindAsync(request.Id);
             }
         }
     }

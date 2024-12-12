@@ -1,4 +1,4 @@
-using Application.Lessons;
+using Application.Messages;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,27 +7,28 @@ namespace API.Controllers
     public class LessonController : BaseApiController
     {
         
-        [HttpGet("list")]  //api/lessons
-        public async Task<ActionResult<List<Lesson>>> GetLessons()
+        [HttpGet("messages/list")]  //api/messages
+        public async Task<ActionResult<List<Message>>> GetMessages()
         {
             return await Mediator.Send(new Get.Query());
         }
 
-        [HttpGet("{roomId}")] //api/lessons/roomId
-        public async Task<ActionResult<Lesson>> GetLesson(int roomId)
+        
+        [HttpGet("message/{roomId}")] //api/messages/roomId
+        public async Task<ActionResult<Message>> GetMessage(int roomId)
         {
             return await Mediator.Send(new Details.Query{Id = roomId});
         }
 
-        [HttpDelete("clear")] // api/lessons/clear
-        public async Task<IActionResult> ClearLessons()
+        [HttpDelete("messages/clear")] // api/messages/clear
+        public async Task<IActionResult> ClearMessages()
         {
             var result = await Mediator.Send(new Clear.Query());
             return Ok(result);
         }
 
-        [HttpDelete("delete/{roomId}")] 
-        public async Task<IActionResult> DeleteLesson(int roomId)
+        [HttpDelete("message/delete/{roomId}")] 
+        public async Task<IActionResult> DeleteMessage(int roomId)
         {
             try
             {
@@ -37,19 +38,5 @@ namespace API.Controllers
                 return NotFound(new {error = ex.Message});
             }
         }
-
-        /*
-        [HttpPost("Load-XML")]
-        public async Task<IActionResult> LoadLessonsFromXml()
-        {
-            // code here
-        } 
-
-        [HttpPost("Update-XML")]
-        public async Task<IActionResult> UpdateLessonsFromXml()
-        {
-            // code here 
-        }
-        */
     }
 }

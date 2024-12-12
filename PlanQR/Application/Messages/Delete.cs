@@ -1,7 +1,7 @@
 using MediatR;
 using Persistence;
 
-namespace Application.Lessons
+namespace Application.Messages
 {
     public class Delete
     {
@@ -20,10 +20,10 @@ namespace Application.Lessons
 
             public async Task Handle(Command request, CancellationToken cancellationToken)
             {
-                var lesson = await _context.Lessons.FindAsync(request.Id);
+                var lesson = await _context.Messages.FindAsync(request.Id);
                 if (lesson == null) 
                 {
-                    throw new KeyNotFoundException($"Lesson with ID {request.Id} does not exist.");
+                    throw new KeyNotFoundException($"Message with ID {request.Id} does not exist.");
                 }
                 _context.Remove(lesson);
                 await _context.SaveChangesAsync();
