@@ -2,7 +2,7 @@ using System.Dynamic;
 
 namespace Domain{
     public class Message{
-        public Guid id {get;set;}
+        public int id {get;set;}
         public string content {get;set;}
         public DateTime date {get;set;}
         public string lecturer {get;set;}
@@ -11,7 +11,7 @@ namespace Domain{
 
 
         // Many-to-One relation with Chat
-        public Guid chatID {get; set;} //Foreign key
+        public int chatID {get; set;} //Foreign key
         public Chat chat {get; set;}
     }
 }
