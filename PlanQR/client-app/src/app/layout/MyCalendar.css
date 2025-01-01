@@ -1,0 +1,29 @@
+.rbc-calendar {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .rbc-toolbar {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .rbc-event {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 5px;
+    border-radius: 4px;
+  }
+  
+  .rbc-time-view {
+    border-top: 1px solid #ddd;
+  }
+  
+  .rbc-time-header {
+    border-bottom: 1px solid #ddd;
+  }
+  
