@@ -1,4 +1,5 @@
-html, body {
+html, body 
+{
     height: 100%;
     margin: 0;
     background: linear-gradient(135deg, #00c344 0%, rgb(33,138,174) 69%, rgb(32,167,172) 89%); /* Фон */
@@ -6,24 +7,22 @@ html, body {
     background-attachment: fixed;
 }
 
-#root {
-    height: 100%;
-}
-
-.plan-details-main {
-    margin-top: 180%; /* Відступ зверху після навбару */
+.plan-details-main 
+{
+    margin-top: 13%; 
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Вирівнювання по верхньому краю */
-    min-height: 90%; /* Мінімальна висота екрану мінус висота навбару */
+    align-items: flex-start; 
+    min-height: 90%; 
     text-align: center;
-    padding: 2%; /* Відступи всередині */
+    padding: 2%;
     width: 100%;
 }
 
-.plan-details-main p {
-    font-size: 2em; /* Збільшений розмір шрифту */
-    font-weight: bold; /* Жирний текст */
-    margin-top: 2%; /* Відступ зверху */
-    text-transform: uppercase; /* Весь текст з великих літер */
+.plan-details-main p 
+{
+    font-size: 2em; 
+    font-weight: bold; 
+    margin-top: 2%;
+    text-transform: uppercase; 
 }

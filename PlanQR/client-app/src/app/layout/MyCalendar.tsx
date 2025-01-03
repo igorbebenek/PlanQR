@@ -1,36 +1,47 @@
-import { Calendar, momentLocalizer } from 'react-big-calendar';
-import moment from 'moment';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import FullCalendar from '@fullcalendar/react';
 import './MyCalendar.css';
-
-const localizer = momentLocalizer(moment);
+import plLocale from '@fullcalendar/core/locales/pl';
+import { useParams } from 'react-router-dom';
 
 const events = [
   {
     title: 'Inżynierski projekt zespołowy 1 (P)',
-    start: new Date(2024, 11, 6, 8, 30), // 6 декабря 2024, 8:30
-    end: new Date(2024, 11, 6, 11, 30),  // 6 декабря 2024, 11:30
-  },
-  {
-    title: 'Пример встречи',
-    start: new Date(2024, 11, 7, 13, 0), // 7 декабря 2024, 13:00
-    end: new Date(2024, 11, 7, 14, 0),  // 7 декабря 2024, 14:00
+    start : '2025-01-02T08:30:00',
+    end: '2025-01-02T11:30:00',
   },
 ];
 
-const MyCalendar = () => {
+export default function MyCalendar() {
+  const { department , room } = useParams();
   return (
-    <div style={{ height: '80vh', margin: '20px auto', width: '90%' }}>
-      <Calendar
-        localizer={localizer}
+    <>
+      <FullCalendar
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+        initialView="timeGridWeek"
         events={events}
-        startAccessor="start"
-        endAccessor="end"
-        defaultView="week" // Вид "неделя"
-        style={{ height: '100%' }}
+        headerToolbar={{
+          left: 'prev,next today',
+          center: 'title',
+          right: 'timeGridWeek,dayGridMonth,timeGridDay',
+        }}
+        height="auto"
+        locale={plLocale}
+        allDaySlot={false}
+        titleFormat={({ start, end }) => {
+          // Преобразуем start и end
+          const startDate = new Date(start.marker);
+          const endDate = end ? new Date(end.marker) : startDate;
+          // Преобразуем department и room в верхний регистр
+          const departmentUpper = department?.toUpperCase() || '';
+          const roomUpper = room?.toUpperCase() || '';
+          // Возвращаем форматированный заголовок
+          return `${startDate.toLocaleDateString('pl-PL')} – ${endDate.toLocaleDateString('pl-PL')} ${departmentUpper} ${roomUpper}`;
+        }}
+        
       />
-    </div>
+    </>
   );
 };
-
-export default MyCalendar;

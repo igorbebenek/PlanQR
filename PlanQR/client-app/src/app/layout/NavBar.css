@@ -1,8 +1,9 @@
-.navbar {
+.navbar 
+{
     width: 100%;
-    background-color: #ffffff; /* Белый фон */
-    color: #0033cc; /* Синий текст */
-    padding: 1.5% 5%; /* Процентные отступы для высоты и ширины */
+    background-color: #ffffff; 
+    color: #0033cc; 
+    padding: 1.5% 5%;
     box-sizing: border-box;
     position: fixed;
     top: 0;
@@ -10,92 +11,109 @@
     right: 0;
     z-index: 1000;
     display: flex;
-    justify-content: space-between; /* Логотип слева, кнопка справа */
-    align-items: center; /* Выравнивание элементов по вертикали */
-  }
+    justify-content: space-between; 
+    align-items: center; 
+}
   
-  .navbar-logo {
+.navbar-logo 
+{
     display: flex;
-    align-items: center; /* Логотип и текст на одной линии */
-    gap: 2%; /* Процентное расстояние между логотипом и текстом */
-  }
+    align-items: center; 
+    gap: 2%; 
+}
   
-  .navbar-logo img {
-    height: 38px; /* Логотип занимает 5% от высоты экрана */
+.navbar-logo img 
+{
+    height: 38px; 
     object-fit: contain;
-  }
+}
   
-  .navbar-title {
-    font-size: 1.2vw; /* Шрифт зависит от ширины экрана */
+.navbar-title 
+{
+    font-size: 1.2vw; 
     font-weight: bold;
     color: #0033cc;
-  }
+}
   
-  .navbar-menu {
+.navbar-menu 
+{
     display: flex;
-    align-items: center; /* Выравнивание кнопки по вертикали */
-  }
+    align-items: center; /
+}
   
-  .navbar-login-btn {
-    border-radius: 15px; /* Закругленные углы */
-    padding: 10% 20%; /* Процентные отступы внутри кнопки */
-    font-size: 1vw; /* Размер шрифта кнопки зависит от ширины экрана */
+.navbar-login-btn 
+{
+    border-radius: 15px; 
+    padding: 10% 20%; 
+    font-size: 1vw; 
     font-weight: bold;
-    background-color: #0033cc !important; /* Синий фон */
-    color: #ffffff !important; /* Белый текст */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Легкая тень */
+    background-color: #0033cc !important;
+    color: #ffffff !important; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
     transition: background-color 0.3s ease;
-  }
+}
   
-  .navbar-login-btn:hover {
-    background-color: #0055ff !important; /* Светлее при наведении */
-  }
+.navbar-login-btn:hover 
+{
+    background-color: #0055ff !important; 
+}
   
-  /* --- Полностью адаптивный дизайн --- */
-  @media (max-width: 768px) {
-    .navbar {
+  
+@media (max-width: 768px) 
+{
+  .navbar 
+  {
       padding: 3% 5%;
-      flex-direction: column; /* Элементы становятся вертикальными */
+      flex-direction: column; 
       align-items: center;
-    }
+  }
   
-    .navbar-logo {
-      justify-content: center; /* Центрируем логотип */
+  .navbar-logo
+  {
+      justify-content: center; 
       margin-bottom: 2%;
-    }
+  }
   
-    .navbar-menu {
-      justify-content: center; /* Центрируем кнопку */
-    }
+  .navbar-menu 
+  {
+      justify-content: center; 
+  }
   
-    .navbar-login-btn {
-      width: 80%; /* Кнопка на 80% ширины */
+  .navbar-login-btn 
+  {
+      width: 80%; 
       text-align: center;
-      padding: 1.5% 2%; /* Увеличиваем высоту кнопки */
-      font-size: 1.5vw; /* Увеличиваем шрифт для мобильных */
-    }
-  
-    .navbar-title {
-      font-size: 2vw; /* Увеличиваем размер текста на мобильных */
-    }
+      padding: 1.5% 2%; 
+      font-size: 1.5vw; 
   }
   
-  @media (min-width: 2560px) {
-    .navbar {
-      padding: 1% 10%; /* Увеличиваем отступы на 4K экранах */
-    }
-  
-    .navbar-logo img {
-      height: 6%; /* Логотип немного больше */
-    }
-  
-    .navbar-title {
-      font-size: 1.5vw; /* Увеличиваем текст */
-    }
-  
-    .navbar-login-btn {
-      padding: 1% 2%; /* Больше отступов внутри кнопки */
-      font-size: 1.2vw; /* Увеличиваем размер текста */
-    }
+  .navbar-title 
+  {
+      font-size: 2vw; 
   }
+}
+  
+@media (min-width: 2560px) 
+{
+  .navbar 
+  {
+      padding: 1% 10%; 
+  }
+  
+  .navbar-logo img 
+  {
+      height: 6%; 
+  }
+  
+  .navbar-title 
+  {
+      font-size: 1.5vw; 
+  }
+  
+  .navbar-login-btn 
+  {
+      padding: 1% 2%; 
+      font-size: 1.2vw; 
+  }
+}
   
