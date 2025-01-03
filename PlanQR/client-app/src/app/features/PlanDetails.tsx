@@ -5,12 +5,12 @@ import MyCalendar from "../layout/MyCalendar";
 
 export default function PlanDetails() 
 {
-    const { department , room } = useParams();
+    const { room } = useParams();
     return(
         <>
            <NavBar />
            <main className="plan-details-main">
-                <p><strong>{department} {room}</strong></p>
+                <p><strong>{room}</strong></p>
            </main>
            <MyCalendar />
         </>

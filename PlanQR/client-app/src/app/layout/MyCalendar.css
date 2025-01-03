@@ -48,3 +48,8 @@
 {
     color: #121212; 
 }
+
+.tippy-box[data-theme~='custom-yellow'] {
+    background-color: rgb(229, 255, 35);
+    color: black;
+}

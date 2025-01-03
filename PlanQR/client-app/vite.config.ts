@@ -7,6 +7,14 @@ export default defineConfig({
   server: {
     https: true,
     port: 3000,
+    proxy: {
+      '/schedule_student.php': {
+        target: 'https://plan.zut.edu.pl',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/schedule_student.php/, '/schedule_student.php')
+      }
+    }
   },
   plugins: [react(), mkcert()],
 });
