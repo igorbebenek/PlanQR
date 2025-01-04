@@ -1,11 +1,16 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 .navbar 
 {
     width: 100%;
     background-color: #ffffff; 
     color: #0033cc; 
-    padding: 1.5% 5%;
+    padding: 1% 5%;
     box-sizing: border-box;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
@@ -20,6 +25,7 @@
     display: flex;
     align-items: center; 
     gap: 2%; 
+    flex: 1;
 }
   
 .navbar-logo img 
@@ -38,7 +44,9 @@
 .navbar-menu 
 {
     display: flex;
-    align-items: center; /
+    align-items: center;
+    flex: 1;
+    justify-content: flex-end;
 }
   
 .navbar-login-btn 
@@ -58,6 +66,25 @@
     background-color: #0055ff !important; 
 }
   
+.room-name
+{
+    flex: 1;
+}
+
+.room-name p 
+{
+    font-size: 2em; 
+    font-weight: bold; 
+    margin-top: 0;
+    padding-bottom: 1%;
+    text-transform: uppercase; 
+    margin-bottom: 0;
+    background: linear-gradient(135deg, #00c344 0%, rgb(33,138,174) 69%, rgb(32,167,172) 89%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
   
 @media (max-width: 768px) 
 {

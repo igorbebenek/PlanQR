@@ -94,6 +94,7 @@ export default function MyCalendar() {
           });
         }}
         slotMinTime="07:00:00"
+        slotMaxTime="21:00:00"
       />
     </>
   );
