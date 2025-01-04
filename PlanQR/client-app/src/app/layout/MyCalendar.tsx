@@ -31,10 +31,18 @@ export default function MyCalendar() {
         borderColor: event.borderColor,
         worker: event.worker,
         worker_title: event.worker_title,
+        worker_cover: event.worker_cover,
         room: event.room,
         group_name: event.group_name,
         lesson_form: event.lesson_form,
         lesson_status: event.lesson_status,
+        lesson_form_short: event.lesson_form_short,
+        tok_name: event.tok_name,
+        lesson_status_short: event.lesson_status_short,
+        status_item: event.status_item,
+        subject: event.subject,
+        wydzial: event.wydzial,
+        wydz_sk: event.wydz_sk,
       })));
 
       console.log('Fetched events:', data); 
@@ -85,6 +93,7 @@ export default function MyCalendar() {
             theme: 'custom-yellow',
           });
         }}
+        slotMinTime="07:00:00"
       />
     </>
   );
