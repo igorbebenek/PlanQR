@@ -7,8 +7,8 @@ export default function PlanDetails()
     return(
         <>
            <NavBar />
-           <main className="plan-details-main">
-           </main>
+           {/* <main className="plan-details-main">
+           </main> */}
            <MyCalendar />
         </>
     )
