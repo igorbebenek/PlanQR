@@ -57,3 +57,4 @@ Use for classes and methods PascalCase
 Use for variable camelCase
 uid=wl53674,cn=users,cn=accounts,dc=zut,dc=edu,dc=pl -> do LDAPa, po zalogowaniu zrobić unbinda, timemout, ldap.zut.edu.pl, pobranie danych (np. imię, nazwisko) i wyświetlenie planu dla tych danych (Given Name, Surname)
 sprawdzić jak połączyć się z planem zajęć np za pomocą hasha id-grupa
+https://www.hkvstore.com, DB AppMaker
