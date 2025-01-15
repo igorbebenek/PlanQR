@@ -1,10 +1,4 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-html, body 
-{
+body {
     height: 100%;
     margin: 0;
     background: linear-gradient(135deg, #00c344 0%, rgb(33,138,174) 69%, rgb(32,167,172) 89%); /* Фон */
@@ -12,8 +6,7 @@ html, body
     background-attachment: fixed;
 }
 
-.plan-details-main 
-{
+.plan-details-main {
     margin-top: 5%;
     display: flex;
     justify-content: center;
@@ -21,14 +14,5 @@ html, body
     min-height: 90%; 
     text-align: center;
     width: 100%;
+    padding: 1rem;
 }
-
-/* .plan-details-main p 
-{
-    font-size: 2em; 
-    font-weight: bold; 
-    margin-top: 0;
-    padding-bottom: 1%;
-    text-transform: uppercase; 
-    margin-bottom: 0;
-} */
