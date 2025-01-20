@@ -17,18 +17,25 @@ namespace API.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginRequest request)
         {
-            if (_ldapService.Authenticate(request.Username, request.Password))
+            var (isAuthenticated, givenName, surname) = _ldapService.Authenticate(request.Username, request.Password);
+
+            if (isAuthenticated)
             {
-                return Ok(new { message = "Login successful" });
+                return Ok(new 
+                { 
+                    message = "Login successful", 
+                    givenName = givenName, 
+                    surname = surname 
+                });
             }
 
             return Unauthorized(new { message = "Invalid username or password" });
         }
     }
-}
 
     public class LoginRequest
     {
         public string Username { get; set; }
         public string Password { get; set; }
     }
+}

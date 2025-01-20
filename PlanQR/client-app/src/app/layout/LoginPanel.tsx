@@ -1,10 +1,12 @@
 import "../layout/style.css"; 
 import logo from "../../assets/ZUT_Logo.png";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPanel() {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -17,6 +19,17 @@ export default function LoginPanel() {
         },
         body: JSON.stringify({ username: login, password }),
       });
+
+      if (response.ok) {
+        const data = await response.json();
+        const { givenName, surname } = data;
+        const fullName = `${surname} ${givenName}`;
+        const encodedFullName = encodeURIComponent(fullName);
+        navigate(`/LecturerPlan/${encodedFullName}`);
+      } else {
+        alert("Invalid username or password");
+      }
+
 
     } catch (error) {
       console.error("Error during login:", error);
