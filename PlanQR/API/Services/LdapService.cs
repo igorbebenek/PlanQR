@@ -4,63 +4,72 @@ using Novell.Directory.Ldap;
 
 namespace API.Services
 {
-public class LdapService
-{
-    private readonly IConfiguration _configuration;
-
-    public LdapService(IConfiguration configuration)
+    public class LdapService
     {
-        _configuration = configuration;
-    }
+        private readonly IConfiguration _configuration;
+        private LdapConnection _ldapConnection;
 
-    public (bool isAuthenticated, string givenName, string surname) Authenticate(string username, string password)
-    {
-        var ldapHost = _configuration["Ldap:Host"];
-        var ldapPort = int.Parse(_configuration["Ldap:Port"]);
-        var ldapBaseDn = _configuration["Ldap:BaseDn"];
-        var bindDn = Environment.GetEnvironmentVariable("LDAP_BIND_DN");
-        var bindCredentials = Environment.GetEnvironmentVariable("LDAP_BIND_CREDENTIALS");
-
-        string givenName = string.Empty;
-        string surname = string.Empty;
-
-        try
+        public LdapService(IConfiguration configuration)
         {
-            using (var ldapConnection = new LdapConnection())
+            _configuration = configuration;
+            _ldapConnection = new LdapConnection();
+        }
+
+        public (bool isAuthenticated, string givenName, string surname) Authenticate(string username, string password)
+        {
+            var ldapHost = _configuration["Ldap:Host"];
+            var ldapPort = int.Parse(_configuration["Ldap:Port"]);
+            var ldapBaseDn = _configuration["Ldap:BaseDn"];
+            var bindDn = Environment.GetEnvironmentVariable("LDAP_BIND_DN");
+            var bindCredentials = Environment.GetEnvironmentVariable("LDAP_BIND_CREDENTIALS");
+
+            string givenName = string.Empty;
+            string surname = string.Empty;
+
+            try
             {
-                ldapConnection.Connect(ldapHost, ldapPort);
-                ldapConnection.Bind(bindDn, bindCredentials);
+                _ldapConnection.Connect(ldapHost, ldapPort);
+                _ldapConnection.Bind(bindDn, bindCredentials);
 
-                ldapConnection.Bind($"uid={username},{ldapBaseDn}", password);
+                _ldapConnection.Bind($"uid={username},{ldapBaseDn}", password);
 
-                if (ldapConnection.Bound)
+                if (_ldapConnection.Bound)
                 {
                     var searchFilter = $"(uid={username})";
-                    var searchResults = ldapConnection.Search(
-                    ldapBaseDn,
-                    LdapConnection.ScopeSub,
-                    searchFilter,
-                    new[] { "givenName", "sn" },
-                    false
-                );
+                    var searchResults = _ldapConnection.Search(
+                        ldapBaseDn,
+                        LdapConnection.ScopeSub,
+                        searchFilter,
+                        new[] { "givenName", "sn" },
+                        false
+                    );
 
-                if (searchResults.HasMore())
-                {
-                    var entry = searchResults.Next();
-                    givenName = entry.GetAttribute("givenName")?.StringValue ?? string.Empty;
-                    surname = entry.GetAttribute("sn")?.StringValue ?? string.Empty;
-                }
+                    if (searchResults.HasMore())
+                    {
+                        var entry = searchResults.Next();
+                        givenName = entry.GetAttribute("givenName")?.StringValue ?? string.Empty;
+                        surname = entry.GetAttribute("sn")?.StringValue ?? string.Empty;
+                    }
 
                     return (true, givenName, surname);
                 }
             }
-        }
-        catch (LdapException)
-        {
+            catch (LdapException)
+            {
+                return (false, givenName, surname);
+            }
+
             return (false, givenName, surname);
         }
 
-        return (false, givenName, surname);
+        public void CloseConnection()
+        {
+            if (_ldapConnection != null && _ldapConnection.Connected)
+            {
+                _ldapConnection.Disconnect();
+                _ldapConnection = null;
+                Console.WriteLine("LDAP connection closed");
+            }
+        }
     }
-}
 }

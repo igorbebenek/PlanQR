@@ -18,6 +18,7 @@ export default function LoginPanel() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ username: login, password }),
+        credentials: "include",
       });
 
       if (response.ok) {

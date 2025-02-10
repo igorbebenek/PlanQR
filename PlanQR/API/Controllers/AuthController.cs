@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,43 +26,79 @@ namespace API.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginRequest request)
         {
+            if (request == null)
+            {
+                return BadRequest(new { message = "Invalid request" });
+            }
+
             var (isAuthenticated, givenName, surname) = _ldapService.Authenticate(request.Username, request.Password);
 
             if (isAuthenticated)
             {
                 var token = GenerateJwtToken(request.Username);
+
+                _ldapService.CloseConnection();
+
+                var cookieOptions = new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    Expires = DateTime.Now.AddMinutes(30),
+                    SameSite = SameSiteMode.Strict
+                };
+                Response.Cookies.Append("jwt", token, cookieOptions);
+
                 return Ok(new 
                 { 
                     message = "Login successful", 
                     givenName = givenName, 
                     surname = surname,
-                    Token = token
                 });
             }
+
+            _ldapService.CloseConnection();
 
             return Unauthorized(new { message = "Invalid username or password" });
         }
 
-        [HttpGet("token-expiration")]
-        public IActionResult GetTokenExpiration([FromHeader] string authorization)
+        [HttpPost("validate-token")]
+        public IActionResult ValidateToken()
         {
-            if (string.IsNullOrEmpty(authorization) || !authorization.StartsWith("Bearer "))
+            var token = Request.Cookies["jwt"];
+            if (string.IsNullOrEmpty(token))
             {
-                return BadRequest(new { Message = "Invalid token" });
+                return Unauthorized(new { message = "Token is missing" });
             }
 
-            var token = authorization.Substring("Bearer ".Length).Trim();
             var handler = new JwtSecurityTokenHandler();
-            var jwtToken = handler.ReadJwtToken(token);
-
-            var expiration = jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Exp)?.Value;
-            if (expiration == null)
+            SecurityToken validatedToken;
+            var validationParameters = new TokenValidationParameters
             {
-                return BadRequest(new { Message = "Invalid token" });
-            }
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = _configuration["JwtSettings:Issuer"],
+                ValidAudience = _configuration["JwtSettings:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"]))
+            };
 
-            var expirationTime = DateTimeOffset.FromUnixTimeSeconds(long.Parse(expiration)).UtcDateTime;
-            return Ok(new { Expiration = expirationTime });
+            try
+            {
+                handler.ValidateToken(token, validationParameters, out validatedToken);
+                var jwtToken = handler.ReadJwtToken(token);
+                var username = jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value;
+
+                return Ok(new { message = "Token is valid", username = username });
+            }
+            catch (SecurityTokenExpiredException)
+            {
+                return Unauthorized(new { message = "Token has expired" });
+            }
+            catch (Exception)
+            {
+                return Unauthorized(new { message = "Invalid token" });
+            }
         }
 
         private string GenerateJwtToken(string username)
@@ -75,7 +112,7 @@ namespace API.Controllers
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
-             var token = new JwtSecurityToken(
+            var token = new JwtSecurityToken(
                 issuer: _configuration["JwtSettings:Issuer"],
                 audience: _configuration["JwtSettings:Audience"],
                 claims: claims,
@@ -90,5 +127,10 @@ namespace API.Controllers
     {
         public string Username { get; set; }
         public string Password { get; set; }
+    }
+
+    public class TokenRequest
+    {
+        public string Token { get; set; }
     }
 }

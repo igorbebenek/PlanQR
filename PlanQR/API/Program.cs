@@ -8,6 +8,18 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy.WithOrigins("https://localhost:3000") // Podaj dokładny adres frontendowy
+                  .AllowCredentials()
+                  .AllowAnyMethod()
+                  .AllowAnyHeader();
+        });
+});
+
 builder.Services.AddControllers();
 builder.Services.AddApplicationServices(builder.Configuration);
 
@@ -56,7 +68,7 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseExceptionHandler("/error");
-app.UseCors("AllowAllOrigins");
+app.UseCors("AllowFrontend");
 
 if (app.Environment.IsDevelopment())
 {
