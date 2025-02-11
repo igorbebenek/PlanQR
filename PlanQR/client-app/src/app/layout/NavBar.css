@@ -18,6 +18,7 @@
     display: flex;
     justify-content: space-between; 
     align-items: center; 
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
   
 .navbar-logo 
@@ -80,7 +81,8 @@
     text-transform: uppercase; 
     margin-bottom: 0;
     background: linear-gradient(135deg, #00c344 0%, rgb(33,138,174) 69%, rgb(32,167,172) 89%);
-    -webkit-background-clip: text;
+    /*-webkit-background-clip: text;*/
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
