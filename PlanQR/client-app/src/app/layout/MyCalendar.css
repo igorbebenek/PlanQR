@@ -63,3 +63,63 @@
     background-color: rgb(229, 255, 35);
     color: black;
 }
+
+/* Sidebar */
+.main-content {
+    transition: margin-right 0.3s ease;
+    margin-right: 0;
+    width: clac(100%-300px);
+}
+.main-content.shrink {
+    width: 80%;
+}
+.sidebar {
+    color: black;
+    position: fixed;
+    top: 14%;
+    right: 0;
+    height: 80%;
+    width: 420px;
+    background-color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+    padding: 16px;
+    z-index: 9999;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+.sidebar.open {
+    transform: translateX(0);
+}
+.sidebarCloseButton{
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+.sidebarChat{
+    position: absolute;
+    bottom:50px;
+}
+.sidebarChatInput{
+    width: 65%;
+    padding: 10px;
+    margin-left:20px;
+    color:black;
+    background-color: white;
+    font-size: 20px;
+    border: 2px solid black;
+    border-radius: 15px;
+    outline: none;
+}
+.sidebarChatButton{
+    color: white;
+    border: none;
+    margin-left: 5px;
+    font-size: 18px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+button.sidebarChatButton:hover {
+    background-color: #1A91DA;
+}
+button.sidebarChatButton:active {
+    background-color: #1681C0;
+    transform: scale(0.95);
+}

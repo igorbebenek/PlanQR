@@ -7,6 +7,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import plLocale from '@fullcalendar/core/locales/pl';
 import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
+import { EventApi, EventClickArg } from '@fullcalendar/core';
 
 export default function LecturerCalendar() {
     const { teacher } = useParams();
@@ -49,6 +50,22 @@ export default function LecturerCalendar() {
         console.error('Error fetching events:', error);
       }
     };
+
+    //Sidebar
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [selectedEvent, setSelectedEvent] = useState<EventApi | null>(null);
+
+    const handleEventClick = (info: EventClickArg) => {
+      const event = info.event;
+      console.log(event.extendedProps);
+      setSelectedEvent(event);
+      setIsSidebarOpen(true);
+    };
+    const closeSidebar = () => {
+      setSelectedEvent(null); // Wyczyść dane wydarzenia
+      setIsSidebarOpen(false);
+    };
+
   
     useEffect(() => {
       if (currentDates.start && currentDates.end) {
@@ -64,37 +81,68 @@ export default function LecturerCalendar() {
     }, [teacher , currentDates]);
   
     return (
-      <>
-        <FullCalendar
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-          initialView="timeGridWeek"
-          events={events}
-          headerToolbar={{
-            left: 'prev,next today',
-            center: 'title',
-            right: 'timeGridWeek,dayGridMonth,timeGridDay',
-          }}
-          height="auto"
-          locale={plLocale}
-          allDaySlot={false}
-          datesSet={(dateInfo) => {
-            setCurrentDates({
-              start: dateInfo.startStr,
-              end: dateInfo.endStr,
-            });
-          }}
-          eventDidMount={(info) => {
-            const content = `${info.event.title} , prowadzący ${info.event.extendedProps.worker_title}, sala ${info.event.extendedProps.room}, grupa ${info.event.extendedProps.group_name} - ${info.event.extendedProps.lesson_status}`;
-            tippy(info.el, {
-              content: content,
-              placement: 'top',
-              trigger: 'mouseenter',
-              theme: 'custom-yellow',
-            });
-          }}
-          slotMinTime="07:00:00"
-          slotMaxTime="21:00:00"
-        />
-      </>
+      <div className="lecturer-calendar">
+        <div className={`main-content ${isSidebarOpen ? 'shrink' : ''}`}>
+          <FullCalendar
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            initialView="timeGridWeek"
+            events={events}
+            headerToolbar={{
+              left: 'prev,next today',
+              center: 'title',
+              right: 'timeGridWeek,dayGridMonth,timeGridDay',
+            }}
+            height="auto"
+            locale={plLocale}
+            allDaySlot={false}
+            datesSet={(dateInfo) => {
+              setCurrentDates({
+                start: dateInfo.startStr,
+                end: dateInfo.endStr,
+              });
+            }}
+            eventDidMount={(info) => {
+              const content = `${info.event.title} , prowadzący ${info.event.extendedProps.worker_title}, sala ${info.event.extendedProps.room}, grupa ${info.event.extendedProps.group_name} - ${info.event.extendedProps.lesson_status}`;
+              tippy(info.el, {
+                content: content,
+                placement: 'top',
+                trigger: 'mouseenter',
+                theme: 'custom-yellow',
+              });
+            }}
+            eventClick={handleEventClick}
+            slotMinTime="07:00:00"
+            slotMaxTime="21:00:00"
+          />
+        </div>
+    
+        {/* Sidebar */}
+        {isSidebarOpen && (
+          <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
+            <button
+              className="sidebarCloseButton"
+              onClick={closeSidebar}
+            >
+              Zamknij
+            </button>
+            {selectedEvent ? (
+              <div>
+                <h2 className="text-xl font-bold mb-4">{selectedEvent.title}</h2>
+                <p><strong>Opis:</strong> {selectedEvent.extendedProps.description}</p>
+                <p><strong>Prowadzący:</strong> {selectedEvent.extendedProps.worker_title}</p>
+                <p><strong>Sala:</strong> {selectedEvent.extendedProps.room}</p>
+                <p><strong>Grupa:</strong> {selectedEvent.extendedProps.group_name}</p>
+                <p><strong>Status zajęć:</strong> {selectedEvent.extendedProps.lesson_status}</p>
+              </div>
+            ) : (
+              <p>Brak szczegółów wydarzenia</p>
+            )}
+            <div className="sidebarChat">
+              <input type="text" placeholder="Chat..." className="sidebarChatInput"></input>
+              <button className="sidebarChatButton">Wyślij</button>
+            </div>
+          </div>
+        )}
+      </div>
     );
-  } 
+  }
