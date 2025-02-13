@@ -31,11 +31,17 @@ namespace API.Controllers
                 return BadRequest(new { message = "Invalid request" });
             }
 
-            var (isAuthenticated, givenName, surname) = _ldapService.Authenticate(request.Username, request.Password);
+            var (isAuthenticated, givenName, surname, title) = _ldapService.Authenticate(request.Username, request.Password);
 
             if (isAuthenticated)
             {
-                var token = GenerateJwtToken(request.Username);
+                // uniemożliwienie zalogowania się studentom
+                // if(title == "student")
+                // {
+                //     _ldapService.CloseConnection();
+                //     return Unauthorized(new { message = "Students are not allowed to login" });
+                // }
+                var token = GenerateJwtToken(request.Username, givenName, surname);
 
                 _ldapService.CloseConnection();
 
@@ -43,7 +49,6 @@ namespace API.Controllers
                 {
                     HttpOnly = true,
                     Secure = true,
-                    Expires = DateTime.Now.AddMinutes(30),
                     SameSite = SameSiteMode.Strict
                 };
                 Response.Cookies.Append("jwt", token, cookieOptions);
@@ -53,12 +58,64 @@ namespace API.Controllers
                     message = "Login successful", 
                     givenName = givenName, 
                     surname = surname,
+                    title = title
                 });
             }
 
             _ldapService.CloseConnection();
 
             return Unauthorized(new { message = "Invalid username or password" });
+        }
+
+
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("jwt");
+
+            return Ok(new { message = "Logout successful" });
+        }
+
+        [HttpGet("check-login")]
+        public IActionResult CheckLogin()
+        {
+            var token = Request.Cookies["jwt"];
+            if (string.IsNullOrEmpty(token))
+            {
+                return Unauthorized(new { message = "Not logged in" });
+            }
+
+            var handler = new JwtSecurityTokenHandler();
+            SecurityToken validatedToken;
+            var validationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = _configuration["JwtSettings:Issuer"],
+                ValidAudience = _configuration["JwtSettings:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"]))
+            };
+
+            try
+            {
+                handler.ValidateToken(token, validationParameters, out validatedToken);
+                var jwtToken = handler.ReadJwtToken(token);
+                var givenName = jwtToken.Claims.FirstOrDefault(c => c.Type == "givenName")?.Value;
+                var surname = jwtToken.Claims.FirstOrDefault(c => c.Type == "surname")?.Value;
+                return Ok(new { message = "Logged in",
+                                givenName = givenName,
+                                surname = surname }); 
+            }
+            catch (SecurityTokenExpiredException)
+            {
+                return Unauthorized(new { message = "Token has expired" });
+            }
+            catch (Exception)
+            {
+                return Unauthorized(new { message = "Invalid token" });
+            }
         }
 
         [HttpPost("validate-token")]
@@ -101,7 +158,7 @@ namespace API.Controllers
             }
         }
 
-        private string GenerateJwtToken(string username)
+        private string GenerateJwtToken(string username, string givenName, string surname)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -109,6 +166,8 @@ namespace API.Controllers
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, username),
+                new Claim("givenName", givenName),
+                new Claim("surname", surname),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
@@ -116,7 +175,7 @@ namespace API.Controllers
                 issuer: _configuration["JwtSettings:Issuer"],
                 audience: _configuration["JwtSettings:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(30),
+                expires: DateTime.Now.AddMinutes(1440),
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

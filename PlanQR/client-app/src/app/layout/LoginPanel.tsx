@@ -1,12 +1,34 @@
 import "../layout/style.css"; 
 import logo from "../../assets/ZUT_Logo.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function LoginPanel() {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+      const checkLoginStatus = async () => {
+        try {
+          const response = await fetch('https://localhost:5000/api/auth/check-login', {
+            method: 'GET',
+            credentials: 'include',
+          });
+          if(response.ok){
+            const data = await response.json();
+            const { givenName, surname } = data;
+            const fullName = `${surname} ${givenName}`;
+            const encodedFullName = encodeURIComponent(fullName);
+            navigate(`/LecturerPlan/${encodedFullName}`);
+          }
+        } catch (error) {
+          ;
+        }
+      };
+
+      checkLoginStatus();
+    }, [navigate]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -23,7 +45,7 @@ export default function LoginPanel() {
 
       if (response.ok) {
         const data = await response.json();
-        const { givenName, surname } = data;
+        const { givenName, surname, title } = data;
         const fullName = `${surname} ${givenName}`;
         const encodedFullName = encodeURIComponent(fullName);
         navigate(`/LecturerPlan/${encodedFullName}`);
@@ -35,6 +57,7 @@ export default function LoginPanel() {
     } catch (error) {
       console.error("Error during login:", error);
       alert("An error occurred during login. Please try again.");
+      navigate("/");
     }
   };
 

@@ -15,7 +15,7 @@ namespace API.Services
             _ldapConnection = new LdapConnection();
         }
 
-        public (bool isAuthenticated, string givenName, string surname) Authenticate(string username, string password)
+        public (bool isAuthenticated, string givenName, string surname, string title) Authenticate(string username, string password)
         {
             var ldapHost = _configuration["Ldap:Host"];
             var ldapPort = int.Parse(_configuration["Ldap:Port"]);
@@ -25,6 +25,7 @@ namespace API.Services
 
             string givenName = string.Empty;
             string surname = string.Empty;
+            string title = string.Empty;
 
             try
             {
@@ -40,7 +41,7 @@ namespace API.Services
                         ldapBaseDn,
                         LdapConnection.ScopeSub,
                         searchFilter,
-                        new[] { "givenName", "sn" },
+                        new[] { "givenName", "sn", "title" },
                         false
                     );
 
@@ -49,17 +50,18 @@ namespace API.Services
                         var entry = searchResults.Next();
                         givenName = entry.GetAttribute("givenName")?.StringValue ?? string.Empty;
                         surname = entry.GetAttribute("sn")?.StringValue ?? string.Empty;
+                        title = entry.GetAttribute("title")?.StringValue ?? string.Empty;
                     }
 
-                    return (true, givenName, surname);
+                    return (true, givenName, surname, title);
                 }
             }
             catch (LdapException)
             {
-                return (false, givenName, surname);
+                return (false, givenName, surname, title);
             }
 
-            return (false, givenName, surname);
+            return (false, givenName, surname, title);
         }
 
         public void CloseConnection()
