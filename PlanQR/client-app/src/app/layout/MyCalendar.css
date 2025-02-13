@@ -123,3 +123,62 @@ button.sidebarChatButton:active {
     background-color: #1681C0;
     transform: scale(0.95);
 }
+
+@media (max-width: 1441px) {
+    .sidebar{
+        width: 350px;
+    }
+    .main-content.shrink{
+        width: 78%;
+    }
+    .sidebarChatInput{
+        margin-left: 0px;
+    }
+}
+
+@media (max-width: 1025px){
+    .sidebar{
+        width: 300px;
+    }
+    .main-content.shrink{
+        width: 70%;
+    }
+    .sidebarChatInput{
+        margin-left: 0px;
+    }
+}
+
+@media (max-width: 500px){
+    img{
+        width: 80%;
+    }
+    div.item.room-name{
+        font-size: 10px;
+        float: left;
+    }
+    div.right.menu.navbar-menu{
+        float: left;
+    }
+    a.ui.blue.button.navbar-login-btn{
+        font-size: 15px;
+    }
+    .sidebar{
+        width: 100%;
+        height: 100%;
+        top: 0;
+        transform: translateX(100%);
+    }
+    .sidebar.open {
+        transform: translateX(0);
+    }
+    .main-content.shrink{
+        width: 100%;
+        margin-right: 0;
+    }
+    .sidebarChatInput{
+        margin-left: 0px;
+    }
+    .fc {
+        margin-top: 30%;
+    }
+}
