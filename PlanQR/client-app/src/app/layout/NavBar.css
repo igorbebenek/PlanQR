@@ -66,6 +66,23 @@
 {
     background-color: #0055ff !important; 
 }
+
+.navbar-login-btn-exit
+{
+    border-radius: 15px; 
+    padding: 10% 20%; 
+    font-size: 1vw; 
+    font-weight: bold;
+    background-color: red !important;
+    color: #ffffff !important; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    transition: background-color 0.3s ease;
+}
+
+.navbar-login-btn-exit:hover 
+{
+    background-color: red !important; 
+}
   
 .room-name
 {

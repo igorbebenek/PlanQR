@@ -11,6 +11,11 @@ export default function LoginPanel() {
   useEffect(() => {
       const checkLoginStatus = async () => {
         try {
+          const token = localStorage.getItem("token");
+          if (!token) {
+            console.log("User is unauthorized (token is NULL)");
+            return;
+          }
           const response = await fetch('https://localhost:5000/api/auth/check-login', {
             method: 'GET',
             credentials: 'include',
@@ -23,7 +28,7 @@ export default function LoginPanel() {
             navigate(`/LecturerPlan/${encodedFullName}`);
           }
         } catch (error) {
-          ;
+            console.log(error);
         }
       };
 

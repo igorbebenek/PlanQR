@@ -56,7 +56,7 @@ export default function NavBar() {
       <Menu.Menu position="right" className="navbar-menu">
         <Menu.Item>
           {isLoggedIn ? (
-            <button onClick={handleLogout} color="blue" className="navbar-login-btn">
+            <button onClick={handleLogout} color="red" className="navbar-login-btn-exit">
               Wyloguj
             </button>
           ) : (
