@@ -71,7 +71,7 @@
     width: clac(100%-300px);
 }
 .main-content.shrink {
-    width: 80%;
+    width: 90%;
 }
 .sidebar {
     color: black;
@@ -79,7 +79,7 @@
     top: 14%;
     right: 0;
     height: 80%;
-    width: 420px;
+    width: 410px;
     background-color: white;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
     padding: 16px;
@@ -124,19 +124,56 @@ button.sidebarChatButton:active {
     transform: scale(0.95);
 }
 
-@media (max-width: 1441px) {
+
+@media (min-width: 1600px) and (max-width: 1825px) {
     .sidebar{
-        width: 350px;
+        width: 400px;
     }
     .main-content.shrink{
-        width: 78%;
+        width: 80%;
     }
     .sidebarChatInput{
         margin-left: 0px;
     }
 }
 
-@media (max-width: 1025px){
+@media (min-width: 1400px) and (max-width: 1600px) {
+    .sidebar{
+        width: 380px;
+    }
+    .main-content.shrink{
+        width: 75%;
+    }
+    .sidebarChatInput{
+        margin-left: 0px;
+    }
+}
+
+@media (min-width: 1301px) and (max-width: 1400px) {
+    .sidebar{
+        width: 350px;
+    }
+    .main-content.shrink{
+        width: 73%;
+    }
+    .sidebarChatInput{
+        margin-left: 0px;
+    }
+}
+
+@media (min-width: 1200px) and (max-width: 1300px) {
+    .sidebar{
+        width: 320px;
+    }
+    .main-content.shrink{
+        width: 73%;
+    }
+    .sidebarChatInput{
+        margin-left: 0px;
+    }
+}
+
+@media (min-width: 1000px) and (max-width: 1200px) {
     .sidebar{
         width: 300px;
     }
