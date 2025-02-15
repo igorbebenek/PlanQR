@@ -24,18 +24,14 @@ public class Seed{
                 {
                     new Message
                     {
-                        content = "Welcome to the Calculus lecture!",
-                        date = DateTime.UtcNow,
+                        createdAt = DateTime.UtcNow,
                         lecturer = "Dr. John Smith",
-                        roomId = Guid.NewGuid(),
                         room = "A101"
                     },
                     new Message
                     {
-                        content = "Please review limits before the next class.",
-                        date = DateTime.UtcNow.AddMinutes(30),
+                        createdAt = DateTime.UtcNow.AddMinutes(30),
                         lecturer = "Dr. John Smith",
-                        roomId = Guid.NewGuid(),
                         room = "A101"
                     }
                 }
@@ -46,18 +42,14 @@ public class Seed{
                 {
                     new Message
                     {
-                        content = "Welcome to the Calculus lecture!",
-                        date = DateTime.UtcNow,
+                        createdAt = DateTime.UtcNow,
                         lecturer = "Dr. John Smith",
-                        roomId = Guid.NewGuid(),
                         room = "A101"
                     },
                     new Message
                     {
-                        content = "Please review limits before the next class.",
-                        date = DateTime.UtcNow.AddMinutes(30),
+                        createdAt = DateTime.UtcNow.AddMinutes(30),
                         lecturer = "Dr. John Smith",
-                        roomId = Guid.NewGuid(),
                         room = "A101"
                     }
                 }
@@ -68,18 +60,14 @@ public class Seed{
                 {
                     new Message
                     {
-                        content = "Welcome to the Calculus lecture!",
-                        date = DateTime.UtcNow,
+                        createdAt = DateTime.UtcNow,
                         lecturer = "Dr. John Smith",
-                        roomId = Guid.NewGuid(),
                         room = "A101"
                     },
                     new Message
                     {
-                        content = "Please review limits before the next class.",
-                        date = DateTime.UtcNow.AddMinutes(30),
+                        createdAt = DateTime.UtcNow.AddMinutes(30),
                         lecturer = "Dr. John Smith",
-                        roomId = Guid.NewGuid(),
                         room = "A101"
                     }
                 }
@@ -90,18 +78,14 @@ public class Seed{
                 {
                     new Message
                     {
-                        content = "Welcome to the Calculus lecture!",
-                        date = DateTime.UtcNow,
+                        createdAt = DateTime.UtcNow,
                         lecturer = "Dr. John Smith",
-                        roomId = Guid.NewGuid(),
                         room = "A101"
                     },
                     new Message
                     {
-                        content = "Please review limits before the next class.",
-                        date = DateTime.UtcNow.AddMinutes(30),
+                        createdAt = DateTime.UtcNow.AddMinutes(30),
                         lecturer = "Dr. John Smith",
-                        roomId = Guid.NewGuid(),
                         room = "A101"
                     }
                 }
