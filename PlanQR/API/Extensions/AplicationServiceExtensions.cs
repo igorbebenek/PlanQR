@@ -1,6 +1,7 @@
 using Application.Core;
 using Application.Messages;
 using API.Services; // Add this line
+using Infrastructure.Data;
 
 namespace API.Extensions
 {
@@ -20,7 +21,8 @@ namespace API.Extensions
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Get.Handler).Assembly));
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
             services.AddScoped<LdapService>(); // Add this line
-
+            services.AddScoped<MessageRepository>();
+            
             return services;
         }
     }
