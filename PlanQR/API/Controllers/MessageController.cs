@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [ApiController]
+    [Route("api/messages")]
     public class MessageController : BaseApiController
     {
         private readonly IMediator _mediator;
@@ -16,13 +18,18 @@ namespace API.Controllers
         {
             _mediator = mediator;
         }
-         
+
         [HttpPost]
-        public async Task<IActionResult> CreateMessage(CreateMessageCommand command)
+        public async Task<IActionResult> CreateMessage([FromBody] CreateMessageCommand command)
         {
-            await _mediator.Send(command);
-            return Ok();
+            if (command == null)
+                return BadRequest("Invalid request");
+
+            Console.WriteLine($"Received message: {command.body} from {command.login} for lesson {command.lessonId}");
+            var result = await _mediator.Send(command);
+            return Ok(result);
         }
+
 
         [HttpGet("{lessonId}")]
         public async Task<ActionResult<List<Message>>> GetMessages(int lessonId)

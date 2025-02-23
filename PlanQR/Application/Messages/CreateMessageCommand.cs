@@ -35,7 +35,8 @@ namespace Application.Messages
                     login = request.login,
                     room = request.room,
                     lessonId = request.lessonId,
-                    group = request.group
+                    group = request.group,
+                    createdAt = DateTime.UtcNow
                 };
 
                 await _repository.AddMessageAsync(message);
