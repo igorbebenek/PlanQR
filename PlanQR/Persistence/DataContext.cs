@@ -9,19 +9,8 @@ public class DataContext : DbContext
     }
 
     public DbSet<Message> Messages { get; set; }
-    public DbSet<Chat> Chats { get; set; }
 
-    //Adding relations between tables
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-            // One-to-Many: Chat -> Messages
-            modelBuilder.Entity<Chat>()
-                .HasMany(c => c.messages)
-                .WithOne(m => m.chat)
-                .HasForeignKey(m => m.chatID);
-                
-        base.OnModelCreating(modelBuilder);
-    }
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -31,7 +20,7 @@ public class DataContext : DbContext
         }
     }
 
-    public async Task AddChatAsync(Chat chat){
+    public async Task AddChatAsync(Message message){
         
         await SaveChangesAsync();
     }

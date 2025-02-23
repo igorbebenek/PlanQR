@@ -6,93 +6,51 @@ using Domain;
 
 public class Seed{
     public static async Task DBData(DataContext context){
-        if (context.Chats.Any())
+        if (context.Messages.Any())
         {
             Console.WriteLine("Chats table already has data.");
-            context.Database.ExecuteSqlRaw("DELETE FROM Chats");
+            context.Database.ExecuteSqlRaw("DELETE FROM Messages");
         }
         else
         {
-            Console.WriteLine("Chats table is empty or does not exist.");
+            Console.WriteLine("Messages table is empty or does not exist.");
         }
 
-        var chats = new[]
+        var messages = new[]
         {
-            new Chat
+            new Message
             {
-                messages = new List<Message>
-                {
-                    new Message
-                    {
-                        createdAt = DateTime.UtcNow,
-                        lecturer = "Dr. John Smith",
-                        room = "A101"
-                    },
-                    new Message
-                    {
-                        createdAt = DateTime.UtcNow.AddMinutes(30),
-                        lecturer = "Dr. John Smith",
-                        room = "A101"
-                    }
-                }
+                createdAt = DateTime.UtcNow,
+                body = "Hello",
+                lecturer = "Kowalski",
+                login = "kowal",
+                room = "101",
+                lessonId = 1,
+                group = "1A"
             },
-            new Chat
+            new Message
             {
-                messages = new List<Message>
-                {
-                    new Message
-                    {
-                        createdAt = DateTime.UtcNow,
-                        lecturer = "Dr. John Smith",
-                        room = "A101"
-                    },
-                    new Message
-                    {
-                        createdAt = DateTime.UtcNow.AddMinutes(30),
-                        lecturer = "Dr. John Smith",
-                        room = "A101"
-                    }
-                }
+                createdAt = DateTime.UtcNow,
+                body = "Hi",
+                lecturer = "Nowak",
+                login = "nowak",
+                room = "102",
+                lessonId = 2,
+                group = "1B"
             },
-            new Chat
+            new Message
             {
-                messages = new List<Message>
-                {
-                    new Message
-                    {
-                        createdAt = DateTime.UtcNow,
-                        lecturer = "Dr. John Smith",
-                        room = "A101"
-                    },
-                    new Message
-                    {
-                        createdAt = DateTime.UtcNow.AddMinutes(30),
-                        lecturer = "Dr. John Smith",
-                        room = "A101"
-                    }
-                }
-            },
-            new Chat
-            {
-                messages = new List<Message>
-                {
-                    new Message
-                    {
-                        createdAt = DateTime.UtcNow,
-                        lecturer = "Dr. John Smith",
-                        room = "A101"
-                    },
-                    new Message
-                    {
-                        createdAt = DateTime.UtcNow.AddMinutes(30),
-                        lecturer = "Dr. John Smith",
-                        room = "A101"
-                    }
-                }
-            },
+                createdAt = DateTime.UtcNow,
+                body = "Hey",
+                lecturer = "Kowal",
+                login = "kowal",
+                room = "103",
+                lessonId = 3,
+                group = "1C"
+            }
         };
 
-        await context.Chats.AddRangeAsync(chats);
+        await context.Messages.AddRangeAsync(messages);
         await context.SaveChangesAsync();
     }
 }
