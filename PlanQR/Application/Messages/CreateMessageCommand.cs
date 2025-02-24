@@ -16,6 +16,7 @@ namespace Application.Messages
         public string room { get; set; }
         public int lessonId { get; set; }
         public string group { get; set; }
+        public DateTime createdAt { get; set; } // Тепер сервер не змінює час
 
         public class Handler : IRequestHandler<CreateMessageCommand,Unit>
         {
@@ -36,7 +37,8 @@ namespace Application.Messages
                     room = request.room,
                     lessonId = request.lessonId,
                     group = request.group,
-                    createdAt = DateTime.UtcNow
+                    createdAt = TimeZoneInfo.ConvertTimeFromUtc(request.createdAt, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time")) 
+
                 };
 
                 await _repository.AddMessageAsync(message);

@@ -8,7 +8,13 @@ import plLocale from '@fullcalendar/core/locales/pl';
 import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
 import { EventApi, EventClickArg } from '@fullcalendar/core';
-import { fetchMessages, createMessage } from "../services/messageService";
+import { fetchMessages, createMessage, deleteMessage } from "../services/messageService";
+import { FaTrashAlt } from "react-icons/fa"; 
+import * as leoProfanity from "leo-profanity";
+import polishBadWords from "../../assets/badWords";
+
+leoProfanity.loadDictionary("en");
+leoProfanity.add(polishBadWords);
 
 export default function LecturerCalendar() {
   const { teacher } = useParams();
@@ -68,14 +74,14 @@ export default function LecturerCalendar() {
 
   const handleEventClick = (info: EventClickArg) => {
     const event = info.event;
-    console.log("Clicked event:", event.extendedProps); // Лог для перевірки
+    console.log("Clicked event:", event.extendedProps);
 
     setSelectedEvent(event);
     const lessonId = event.extendedProps.id;
 
     if (lessonId) {
-      setSelectedLessonId(lessonId); // Встановлюємо lessonId
-      fetchMessages(lessonId) // Викликаємо API
+      setSelectedLessonId(lessonId);
+      fetchMessages(lessonId)
         .then(setMessages)
         .catch((err) => console.error("Error fetching messages:", err));
     } else {
@@ -86,35 +92,47 @@ export default function LecturerCalendar() {
   };
 
   const closeSidebar = () => {
-    setSelectedEvent(null); // Wyczyść dane wydarzenia
+    setSelectedEvent(null);
     setIsSidebarOpen(false);
   };
 
 
   const handleSendMessage = async () => {
+    const localTime = new Date();
+    console.log(localTime);
     if (selectedLessonId && newMessage.trim() !== "") {
+      const sanitizedMessage = leoProfanity.clean(newMessage); 
       const message = {
-        body: newMessage,
+        body: sanitizedMessage,
         lecturer: selectedEvent?.extendedProps.worker_title || "N/A",
         login: selectedEvent?.extendedProps.login || "Guest",
         room: selectedEvent?.extendedProps.room || "Unknown",
         lessonId: selectedLessonId,
         group: selectedEvent?.extendedProps.group_name || "Unknown",
-        createdAt: new Date().toISOString(),
+        createdAt: localTime,
       };
 
       console.log("Sending message:", message);
 
       try {
-        const sentMessage = await createMessage(message);
-        setMessages([...messages, sentMessage]); // Додаємо нове повідомлення в UI
-        setNewMessage(""); // Очищаємо поле вводу
+        await createMessage(message);
+        const updatedMessages = await fetchMessages(selectedLessonId);
+        setMessages(updatedMessages);
+        setNewMessage("");
       } catch (error) {
         console.error("Error sending message:", error);
       }
     }
   };
 
+  const handleDeleteMessage = async (id: number) => {
+    try {
+      await deleteMessage(id);
+      setMessages(messages.filter(msg => msg.id !== id));
+    } catch (error) {
+      console.error("Error deleting message:", error);
+    }
+  };
 
   useEffect(() => {
     if (currentDates.start && currentDates.end) {
@@ -128,6 +146,11 @@ export default function LecturerCalendar() {
 
     return () => clearInterval(intervalId);
   }, [teacher, currentDates]);
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleString();
+  };
+
 
   return (
     <div className="lecturer-calendar">
@@ -176,22 +199,29 @@ export default function LecturerCalendar() {
           </button>
           {selectedEvent ? (
             <div>
-              <h2 className="text-xl font-bold mb-4">{selectedEvent.title}</h2>
+              <h3 className="text-xl font-bold mb-4">{selectedEvent.title}</h3>
               {/*<p><strong>Opis:</strong> {selectedEvent.extendedProps.description}</p>*/}
-              <p><strong>Prowadzący:</strong> {selectedEvent.extendedProps.worker_title}</p>
-              <p><strong>Sala:</strong> {selectedEvent.extendedProps.room}</p>
-              <p><strong>Grupa:</strong> {selectedEvent.extendedProps.group_name}</p>
+              {/*<p><strong>Prowadzący:</strong> {selectedEvent.extendedProps.worker_title}</p>*/}
+              <p><strong>Sala:</strong> {selectedEvent.extendedProps.room}<strong>  Grupa:</strong> {selectedEvent.extendedProps.group_name}</p>
               {/*<p><strong>Status zajęć:</strong> {selectedEvent.extendedProps.lesson_status}</p>*/}
             </div>
           ) : (
             <p>Brak szczegółów wydarzenia</p>
           )}
           <div className="sidebarChat">
-            <div className="messages">
+            <div className="messages-container">
               {messages.map((msg, index) => (
-                <div key={index} className="message">
-                  <p><strong>{msg.login}:</strong> {msg.body}</p>
-                  <span>{msg.createdAt ? new Date(msg.createdAt).toLocaleString() : "Invalid Date"}</span>
+                <div key={index} className="message-wrapper">
+                  <div className="message-header">
+                    <strong>{msg.lecturer}</strong>
+                    <span className="message-time">{msg.createdAt ? formatDate(msg.createdAt) : "Invalid Date"}</span>
+                  </div>
+                  <div className="message-bubble">
+                    <p className="message-text">{msg.body}</p>
+                    <button className="delete-btn" onClick={() => handleDeleteMessage(msg.id)}>
+                      <FaTrashAlt />
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>

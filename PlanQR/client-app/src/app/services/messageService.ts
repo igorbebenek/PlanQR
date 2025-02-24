@@ -24,3 +24,15 @@ export const createMessage = async (message: any) => {
         console.error("Error sending message:", error);
     }
 };
+
+export const deleteMessage = async (id: number) => {
+    try {
+        const response = await fetch(`${API_URL}/${id}`, {
+            method: 'DELETE'
+        });
+        if (!response.ok) throw new Error('Failed to delete message');
+    } catch (error) {
+        console.error("Error deleting message:", error);
+        throw error;
+    }
+};

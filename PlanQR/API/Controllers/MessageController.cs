@@ -24,7 +24,6 @@ namespace API.Controllers
         {
             if (command == null)
                 return BadRequest("Invalid request");
-
             Console.WriteLine($"Received message: {command.body} from {command.login} for lesson {command.lessonId}");
             var result = await _mediator.Send(command);
             return Ok(result);
@@ -41,6 +40,13 @@ namespace API.Controllers
         public async Task<ActionResult<List<Message>>> GetAllMessages()
         {
             return await _mediator.Send(new GetAllMessagesQuery());
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMessage(int id)
+        {
+            await _mediator.Send(new DeleteMessageCommand { id = id });
+            return NoContent();
         }
     }
 }

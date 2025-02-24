@@ -34,5 +34,15 @@ namespace Infrastructure.Data
         {
             return await _context.Messages.ToListAsync();
         }
+
+        public async Task DeleteMessageAsync(int id)
+        {
+            var message = await _context.Messages.FindAsync(id);
+            if (message != null)
+            {
+                _context.Messages.Remove(message);
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }
