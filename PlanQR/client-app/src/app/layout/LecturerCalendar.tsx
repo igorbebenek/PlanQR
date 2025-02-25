@@ -24,6 +24,8 @@ export default function LecturerCalendar() {
   const [messages, setMessages] = useState<any[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const [selectedLessonId, setSelectedLessonId] = useState<number | null>(null);
+  const [login, setLogin] = useState<string | null>(null);
+  const [lessonLogin, setLessonLogin] = useState<string | null>(null);
 
   const fetchEvents = async (startDate: string, endDate: string) => {
     const url = `/schedule_student.php?kind=apiwi&teacher=${teacher}&start=${startDate}&end=${endDate}`;
@@ -60,6 +62,7 @@ export default function LecturerCalendar() {
           id: event.id,
           login: event.login,
         }
+        
       })));
 
       console.log('Fetched events:', data);
@@ -81,6 +84,7 @@ export default function LecturerCalendar() {
 
     if (lessonId) {
       setSelectedLessonId(lessonId);
+      setLessonLogin(event.extendedProps.login);
       fetchMessages(lessonId)
         .then(setMessages)
         .catch((err) => console.error("Error fetching messages:", err));
@@ -150,7 +154,25 @@ export default function LecturerCalendar() {
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleString();
   };
-
+  
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const response = await fetch('https://localhost:5000/api/auth/check-login', {
+          method: 'GET',
+          credentials: 'include',
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setLogin(data.login); // Zaktualizuj stan loginu
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+    checkLoginStatus();
+  }, []);
 
   return (
     <div className="lecturer-calendar">
@@ -187,7 +209,6 @@ export default function LecturerCalendar() {
           slotMaxTime="21:00:00"
         />
       </div>
-
       {/* Sidebar */}
       {isSidebarOpen && (
         <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
@@ -218,13 +239,17 @@ export default function LecturerCalendar() {
                   </div>
                   <div className="message-bubble">
                     <p className="message-text">{msg.body}</p>
+                    {/* {login === lessonLogin && ( */}
                     <button className="delete-btn" onClick={() => handleDeleteMessage(msg.id)}>
                       <FaTrashAlt />
                     </button>
+                    {/* )} */}
                   </div>
                 </div>
               ))}
             </div>
+            {/* {login === lessonLogin && ( */}
+              {/* <> */}
             <input
               type="text"
               placeholder="Chat..."
@@ -233,6 +258,8 @@ export default function LecturerCalendar() {
               onChange={(e) => setNewMessage(e.target.value)}
             />
             <button className="sidebarChatButton" onClick={handleSendMessage}>Wyślij</button>
+            {/* </> */}
+            {/* )} */}
           </div>
         </div>
       )}

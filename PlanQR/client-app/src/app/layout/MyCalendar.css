@@ -68,7 +68,7 @@
 .main-content {
     transition: margin-right 0.3s ease;
     margin-right: 0;
-    width: clac(100%-300px);
+    width: calc(100%-300px);
 }
 .main-content.shrink {
     width: 90%;
@@ -96,6 +96,7 @@
 }
 .sidebarChat{
     position: absolute;
+    width: 90%;
     bottom:50px;
 }
 .sidebarChatInput{
