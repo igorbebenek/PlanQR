@@ -41,7 +41,7 @@ namespace API.Controllers
                 //     _ldapService.CloseConnection();
                 //     return Unauthorized(new { message = "Students are not allowed to login" });
                 // }
-                var token = GenerateJwtToken(request.Username, givenName, surname);
+                var token = GenerateJwtToken(request.Username, givenName, surname, title);
 
                 _ldapService.CloseConnection();
 
@@ -104,9 +104,13 @@ namespace API.Controllers
                 var jwtToken = handler.ReadJwtToken(token);
                 var givenName = jwtToken.Claims.FirstOrDefault(c => c.Type == "givenName")?.Value;
                 var surname = jwtToken.Claims.FirstOrDefault(c => c.Type == "surname")?.Value;
+                var title = jwtToken.Claims.FirstOrDefault(c => c.Type == "title")?.Value;
+                var login = jwtToken.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value;
                 return Ok(new { message = "Logged in",
                                 givenName = givenName,
-                                surname = surname }); 
+                                surname = surname,
+                                title = title,
+                                login = login }); 
             }
             catch (SecurityTokenExpiredException)
             {
@@ -158,7 +162,7 @@ namespace API.Controllers
             }
         }
 
-        private string GenerateJwtToken(string username, string givenName, string surname)
+        private string GenerateJwtToken(string username, string givenName, string surname, string title)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -168,6 +172,7 @@ namespace API.Controllers
                 new Claim(JwtRegisteredClaimNames.Sub, username),
                 new Claim("givenName", givenName),
                 new Claim("surname", surname),
+                new Claim("title", title),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
