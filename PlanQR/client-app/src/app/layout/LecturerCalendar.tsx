@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import listPlugin from '@fullcalendar/list'; // Import list plugin
 import plLocale from '@fullcalendar/core/locales/pl';
 import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
@@ -100,7 +101,6 @@ export default function LecturerCalendar() {
     setIsSidebarOpen(false);
   };
 
-
   const handleSendMessage = async () => {
     const localTime = new Date();
     console.log(localTime);
@@ -174,12 +174,35 @@ export default function LecturerCalendar() {
     checkLoginStatus();
   }, []);
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSendMessage();
+    }
+  };
+
+  const [calendarView, setCalendarView] = useState(window.innerWidth < 600 ? 'listWeek' : 'timeGridWeek');
+
+  const handleWindowResize = () => {
+    if (window.innerWidth < 600) {
+      setCalendarView('listWeek');
+    } else {
+      setCalendarView('timeGridWeek');
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleWindowResize);
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, []);
+
   return (
     <div className="lecturer-calendar">
       <div className={`main-content ${isSidebarOpen ? 'shrink' : ''}`}>
         <FullCalendar
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-          initialView="timeGridWeek"
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]} // Dodano listPlugin
+          initialView={calendarView}
           events={events}
           headerToolbar={{
             left: 'prev,next today',
@@ -207,6 +230,7 @@ export default function LecturerCalendar() {
           eventClick={handleEventClick}
           slotMinTime="07:00:00"
           slotMaxTime="21:00:00"
+          windowResize={handleWindowResize} // Dodano obsługę zmiany rozmiaru okna
         />
       </div>
       {/* Sidebar */}
@@ -256,6 +280,7 @@ export default function LecturerCalendar() {
               className="sidebarChatInput"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
             <button className="sidebarChatButton" onClick={handleSendMessage}>Wyślij</button>
             {/* </> */}
