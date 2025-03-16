@@ -1,4 +1,5 @@
-const API_URL = "https://localhost:5000/api/messages";
+const siteUrl = import.meta.env.VITE_SITE_URL;
+const API_URL = siteUrl + ":5000/api/messages";
 
 export const fetchMessages = async (lessonId: number) => {
     try {

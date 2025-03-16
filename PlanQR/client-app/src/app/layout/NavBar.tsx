@@ -5,6 +5,8 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
+const siteUrl = import.meta.env.VITE_SITE_URL;
+
 export default function NavBar() {
   const { room, teacher } = useParams();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -13,7 +15,7 @@ export default function NavBar() {
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
-        const response = await fetch('https://localhost:5000/api/auth/check-login', {
+        const response = await fetch(siteUrl + ':5000/api/auth/check-login', {
           method: 'GET',
           credentials: 'include',
         });
@@ -28,7 +30,7 @@ export default function NavBar() {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('https://localhost:5000/api/auth/logout', {
+      const response = await fetch(siteUrl + ':5000/api/auth/logout', {
         method: 'POST',
         credentials: 'include',
       });

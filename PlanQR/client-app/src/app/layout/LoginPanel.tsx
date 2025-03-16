@@ -3,6 +3,8 @@ import logo from "../../assets/ZUT_Logo.png";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+const siteUrl = import.meta.env.VITE_SITE_URL;
+
 export default function LoginPanel() {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
@@ -16,7 +18,7 @@ export default function LoginPanel() {
             console.log("User is unauthorized (token is NULL)");
             return;
           }
-          const response = await fetch('https://localhost:5000/api/auth/check-login', {
+          const response = await fetch(siteUrl + ':5000/api/auth/check-login', {
             method: 'GET',
             credentials: 'include',
           });
@@ -39,7 +41,8 @@ export default function LoginPanel() {
     event.preventDefault();
 
     try {
-      const response = await fetch("https://localhost:5000/api/auth/login", {
+      console.log(siteUrl);
+      const response = await fetch(siteUrl + ':5000/api/auth/login', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

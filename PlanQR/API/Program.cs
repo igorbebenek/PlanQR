@@ -8,12 +8,14 @@ using Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var siteUrl = builder.Configuration["SiteSettings:SiteUrl"];
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
         policy =>
         {
-            policy.WithOrigins("https://localhost:3000") // Podaj dokładny adres frontendowy
+            policy.WithOrigins(siteUrl + ":3000") // Podaj dokładny adres frontendowy
                   .AllowCredentials()
                   .AllowAnyMethod()
                   .AllowAnyHeader();

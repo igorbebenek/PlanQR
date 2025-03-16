@@ -17,6 +17,8 @@ import polishBadWords from "../../assets/badWords";
 leoProfanity.loadDictionary("en");
 leoProfanity.add(polishBadWords);
 
+const siteUrl = import.meta.env.VITE_SITE_URL;
+
 export default function LecturerCalendar() {
   const { teacher } = useParams();
   const [events, setEvents] = useState([]);
@@ -158,7 +160,7 @@ export default function LecturerCalendar() {
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
-        const response = await fetch('https://localhost:5000/api/auth/check-login', {
+        const response = await fetch(siteUrl + ':5000/api/auth/check-login', {
           method: 'GET',
           credentials: 'include',
         });
@@ -245,10 +247,10 @@ export default function LecturerCalendar() {
           {selectedEvent ? (
             <div>
               <h3 className="text-xl font-bold mb-4">{selectedEvent.title}</h3>
-              {/*<p><strong>Opis:</strong> {selectedEvent.extendedProps.description}</p>*/}
+              {/* <p><strong>Opis:</strong> {selectedEvent.extendedProps.description}</p> */}
               {/*<p><strong>Prowadzący:</strong> {selectedEvent.extendedProps.worker_title}</p>*/}
               <p><strong>Sala:</strong> {selectedEvent.extendedProps.room}<strong>  Grupa:</strong> {selectedEvent.extendedProps.group_name}</p>
-              {/*<p><strong>Status zajęć:</strong> {selectedEvent.extendedProps.lesson_status}</p>*/}
+              {/* <p><strong>Status zajęć:</strong> {selectedEvent.extendedProps.lesson_status}</p> */}
             </div>
           ) : (
             <p>Brak szczegółów wydarzenia</p>
@@ -263,17 +265,17 @@ export default function LecturerCalendar() {
                   </div>
                   <div className="message-bubble">
                     <p className="message-text">{msg.body}</p>
-                    {/* {login === lessonLogin && ( */}
+                    {login === lessonLogin && (
                     <button className="delete-btn" onClick={() => handleDeleteMessage(msg.id)}>
                       <FaTrashAlt />
                     </button>
-                    {/* )} */}
+                    )}
                   </div>
                 </div>
               ))}
             </div>
-            {/* {login === lessonLogin && ( */}
-              {/* <> */}
+            {login === lessonLogin && (
+              <>
             <input
               type="text"
               placeholder="Chat..."
@@ -283,8 +285,8 @@ export default function LecturerCalendar() {
               onKeyDown={handleKeyDown}
             />
             <button className="sidebarChatButton" onClick={handleSendMessage}>Wyślij</button>
-            {/* </> */}
-            {/* )} */}
+            </>
+            )}
           </div>
         </div>
       )}
