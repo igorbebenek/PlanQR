@@ -1,163 +1,395 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    background-color: #f0f0f0;
-    font-family: Arial, sans-serif;
-    color: #000;
-    overflow: hidden;
-  }
-  
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  background-color: #fff !important;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
 .tablet-container {
-    width: 100%;
-    height: 100vh;
-    max-width: 1200px;
-    max-height: 800px;
-    margin: 0 auto;
-    background-color: #fff;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-  
-  .header-logos {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 70px;
-    padding: 0 10px;
-  }
-  
-  .university-logo {
-    height: 65px;
-    object-fit: contain;
-  }
-  
-  .faculty-logo {
-    height: 60px;
-    object-fit: contain;
-  }
-  
-  .room-info-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 70px;
-    margin: 5px 0;
-    padding: 0 10px;
-    width: calc(100% - 20px); 
-  }
-  
-  .address {
-    font-weight: bold;
-    font-size: 18px;
-    text-align: left;
-    line-height: 1.4;
-    width: 25%;
-  }
-  .room-number {
-    font-size: 46px;
-    font-weight: bold;
-    text-align: center;
-    width: 60%;
-  }
-  
-  .datetime {
-    font-weight: bold;
-    font-size: 16px;
-    text-align: right;
-    line-height: 1.3;
-    width: 20%;
-    padding-right: 2px; 
-  }
-  
-  .schedule-table {
-    width: 100%;
-    border-collapse: collapse;
-    border: 1px solid #000;
-    table-layout: fixed;
-  }
-  
-  .schedule-table th, .schedule-table td {
-    border: 1px solid #000;
-    padding: 6px 12px; 
-    vertical-align: middle; 
-  }
-  
-  .column-time {
-    width: 15%;
-    text-align: center;
-    font-weight: bold;
-    font-size: 22px;
-    vertical-align: middle;
-  }
-  
-  .column-description {
-    width: 50%; 
-    text-align: center;
-  }
-  
-  .column-notifications {
-    width: 35%;
-    text-align: center;
-  }
-  
-  .schedule-table thead th {
-    background-color: #fff;
-    font-size: 20px;
-    text-align: center;
-    padding: 8px;
-    border-bottom: 2px solid #000;
-  }
-  
-  .schedule-table tbody tr {
-    height: 110px; 
-  }
-  
-  .course-name {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 6px;
-    text-align: center;
-  }
-  
-  .instructor {
-    font-size: 18px;
-    margin-bottom: 4px;
-    text-align: center;
-  }
-  
-  .room-code {
-    font-size: 18px;
-    text-align: center;
-    color: #333;
-  }
-  
-  .notification {
-    margin: 3px 0;
-    font-size: 18px;
-    padding: 2px;
-    border-bottom: 1px dotted #ccc;
-    text-align: center;
-  }
-  
-  .tablet-footer {
-    padding: 10px 0;
-    text-align: center;
-    height: auto;
-    margin-top: 15px;
-  }
-  
-  .tablet-footer div {
-    font-size: 1.3rem; 
-    margin-bottom: 4px;
-  }
-  
-  .system-info {
-    font-size: 1.1rem;
-  }
-  
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.calendar-layout {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+}
+
+.calendar-panel {
+  width: 70%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #dadce0;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.notifications-panel {
+  width: 30%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+}
+
+.header-container {
+  padding-bottom: 5px;
+  border-bottom: 1px solid #dadce0;
+  background-color: #fff;
+  width: 100%;
+}
+
+.header-logos {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  padding: 0 15px;
+}
+
+.university-logo {
+  height: 55px;
+  object-fit: contain;
+}
+
+.faculty-logo {
+  height: 50px;
+  object-fit: contain;
+}
+
+.room-info-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  padding: 0 15px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.address {
+  font-weight: normal;
+  font-size: 16px;
+  text-align: left;
+  line-height: 1.4;
+  width: 25%;
+}
+
+.room-number {
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+  width: 60%;
+}
+
+.datetime-placeholder {
+  width: 20%;
+}
+
+.calendar-container {
+  position: relative;
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  padding-top: 0;
+  height: 100%;
+}
+
+.day-indicator {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 70px;
+  min-width: 70px;
+  border-right: 1px solid #dadce0;
+  background-color: #fff;
+  z-index: 2;
+  padding: 120px 0 0 0;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.day-name {
+  color: #1a73e8;
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.day-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: #1a73e8;
+  color: white;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 22px;
+  margin: 5px 0;
+}
+
+.month-name {
+  color: #1a73e8;
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.time-grid {
+  position: relative;
+  flex: 1;
+  padding-left: 0;
+  overflow: hidden;
+  height: 100%;
+  width: calc(100% - 70px);
+  background-color: #fff;
+}
+
+.time-slot {
+  display: flex;
+  height: 36px;
+  border-bottom: 1px solid #f1f3f4;
+  background-color: #fff;
+}
+
+.time-label {
+  width: 45px;
+  font-size: 12px;
+  color: #70757a;
+  text-align: right;
+  padding-right: 8px;
+  padding-top: 1px;
+}
+
+.time-cell {
+  flex: 1;
+  background-color: #fff;
+}
+
+.current-time-indicator {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 2px solid #ea4335;
+  z-index: 10;
+  pointer-events: none;
+  width: 100%;
+}
+
+.time-circle {
+  position: absolute;
+  left: 60px;
+  top: -5px;
+  width: 10px;
+  height: 10px;
+  background-color: #ea4335;
+  border-radius: 50%;
+}
+
+.calendar-event {
+  position: absolute;
+  left: 70px;
+  right: 15px;
+  border-radius: 4px;
+  padding: 5px 10px;
+  color: white;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  z-index: 1;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  background-color: #4285f4;
+}
+
+.calendar-event:hover {
+  transform: scale(1.01);
+  z-index: 5;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.calendar-event.active {
+  transform: scale(1.01);
+  z-index: 5;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.2);
+}
+
+.event-title {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.event-time {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.event-check {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.check-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.calendar-event.current {
+  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.4);
+  z-index: 8;
+}
+
+.notifications-header {
+  padding: 20px 15px 15px;
+  border-bottom: 1px solid #dadce0;
+  background-color: #fff;
+}
+
+.notifications-header h2 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #3c4043;
+}
+
+.notification-content {
+  padding: 20px 15px;
+  height: calc(100% - 60px);
+  overflow: hidden;
+}
+
+.notification-item {
+  background-color: #f1f3f4;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.no-notifications,
+.select-event-message {
+  color: #5f6368;
+  font-style: italic;
+  padding: 30px 15px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.loading-container,
+.error-container,
+.no-events-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 18px;
+  color: #5f6368;
+  padding: 20px;
+}
+body, html {
+  background-color: #fff !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+body > div {
+  background-color: #fff !important;
+}
+
+#root {
+  width: 100% !important;
+  height: 100% !important;
+  background-color: #fff !important;
+}
+
+.tablet-container {
+  width: 100% !important;
+  height: 100vh !important;
+  max-width: none !important;
+  background-color: #fff !important;
+}
+
+.calendar-layout {
+  width: 100% !important;
+  background-color: #fff !important;
+}
+
+.calendar-panel, .notifications-panel {
+  background-color: #fff !important;
+}
+
+.day-indicator {
+  background-color: #fff !important;
+}
+
+.calendar-panel {
+  max-width: none !important;
+  width: 70% !important;
+}
+
+.notifications-panel {
+  max-width: none !important;
+  width: 30% !important;
+}
+
+.notifications-header, 
+.notification-content, 
+.time-slot, 
+.time-cell, 
+.time-grid {
+  background-color: #fff !important;
+}
+
+
+::-webkit-scrollbar {
+  display: none !important;
+}
+
+* {
+  scrollbar-width: none !important;
+}
