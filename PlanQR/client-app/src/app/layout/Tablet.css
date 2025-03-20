@@ -1,3 +1,4 @@
+
 * {
   box-sizing: border-box;
   font-family: Arial, sans-serif;
@@ -212,7 +213,7 @@ html, body {
 
 .time-circle {
   position: absolute;
-  left: 60px;
+  left: 50px;
   top: -5px;
   width: 10px;
   height: 10px;
@@ -281,8 +282,9 @@ html, body {
 }
 
 .calendar-event.current {
-  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.4);
-  z-index: 8;
+  border: 5px solid #ea4335; /* Czerwony border */
+  box-shadow: 0 0 5px rgba(234, 67, 53, 0.5); /* Opcjonalny efekt podświetlenia */
+  z-index: 1000; /* Ustaw wyższy z-index, aby wyróżnić event */
 }
 
 .notifications-header {
@@ -303,14 +305,6 @@ html, body {
   overflow: hidden;
 }
 
-.notification-item {
-  background-color: #f1f3f4;
-  border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 12px;
-  font-size: 14px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-}
 
 .no-notifications,
 .select-event-message {
@@ -432,8 +426,7 @@ body > div {
   border-top: 2px solid #ea4335;
   z-index: 10;
   pointer-events: none;
-  width: 6%;
-  display: none;
+  width: 0;
 }
 
 .qrcode {
@@ -443,25 +436,172 @@ body > div {
 }
 
 
-.left-disp {
-  width: 20%;
-  left: 0
+.calendar-event {
+  display: flex; /* Flexbox dla podziału na lewą i prawą stronę */
+  position: absolute;
+  left: 70px;
+  right: 15px;
+  border-radius: 4px;
+  padding: 5px;
+  color: white;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  z-index: 1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  align-items: center; /* Wyśrodkowanie w pionie dla dzieci */
 }
 
-.right-disp {
-  width: 80%;
-  float: right;
-  display: grid;
+.calendar-event-left {
+  width: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  font-size: clamp(10px, 2.5vh, 16px); /* Minimalny 10px, skalowanie do 2.5% wysokości widoku, maksymalny 16px */
+  font-weight: bold;
+  text-align: center;
 }
 
-.event-title {
-  grid: 1;
+.calendar-event-right {
+  width: 90%;
+  position: relative; /* Ustawienie kontekstu dla pozycji absolutnej */
+  padding: 5px;
+  font-size: clamp(12px, 2.5vh, 18px);
+  overflow: hidden;
 }
 
-.event-lecturer {
-  grid: 2;
+.calendar-event-right {
+  width: 90%;
+  height: 100%;
+  position: relative; /* Ustawienie kontekstu dla pozycji absolutnej */
+  padding: 5px;
+  font-size: clamp(12px, 2.5vh, 18px);
+  overflow: hidden;
 }
 
-.event-group {
-  grid: 3;
+.event-description {
+  width: 100%;
+  flex: 1; /* Górny blok zajmuje pozostałą przestrzeń */
+  display: flex; /* Ustawienie flexboxa */
+  align-items: center; /* Wyśrodkowanie w pionie */
+  justify-content: center; /* Opcjonalne: Wyśrodkowanie w poziomie */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.event-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #fff;
+  border-top: 1px solid rgba(0, 0, 0, 0.2); /* Biała linia oddzielająca */
+}
+
+.event-description {
+  display: flex; /* Ustawienie flexboxa */
+  align-items: center; /* Wyśrodkowanie w pionie */
+  justify-content: space-between; /* Rozdzielenie elementów w poziomie */
+  width: 100%;
+  height: 100%; /* Ustaw wysokość na 100%, aby dopasować do rodzica */
+  overflow: hidden;
+}
+
+.description-block {
+  display: flex; /* Flexbox dla każdego bloku */
+  align-items: center; /* Wyśrodkowanie zawartości w pionie */
+  justify-content: flex-start; /* Wyrównanie tekstu do lewej */
+  text-align: left; /* Wyrównanie tekstu */
+  overflow-wrap: break-word; /* Zawijanie tekstu */
+  word-wrap: break-word; /* Alternatywne zawijanie tekstu */
+  white-space: normal; /* Pozwala na zawijanie tekstu */
+  height: 100%; /* Dopasowanie wysokości do rodzica */
+}
+
+.description-block-1, .description-block-2 {
+  width: 40%; /* Podział na dwie równe części */
+}
+
+.description-block-3 {
+  width: 20%; /* Trzecia część */
+}
+
+.event-description {
+  display: flex; /* Ustawienie flexboxa */
+  align-items: center; /* Wyśrodkowanie w pionie */
+  justify-content: space-between; /* Rozdzielenie elementów w poziomie */
+  width: 100%;
+  height: 100%; /* Dopasowanie do rodzica */
+  padding-bottom: 20px; /* Ustępuje miejsca dla event-footer */
+  overflow: hidden;
+}
+
+.description-block-1, .description-block-2 {
+  width: 40%; /* Podział na dwie równe części */
+  position: relative; /* Ustawienie kontekstu dla pseudoelementu */
+}
+
+.description-block-1::after, .description-block-2::after {
+  content: ''; /* Pseudoelement */
+  position: absolute;
+  top: 20%; /* Odstęp od góry */
+  bottom: 20%; /* Odstęp od dołu */
+  right: 0; /* Linia po prawej stronie */
+  width: 1px; /* Szerokość linii */
+  background-color: rgba(255, 255, 255, 0.2); /* Kolor linii */
+}
+
+.description-block-1 {
+  display: flex; /* Flexbox dla bloku */
+  align-items: center; /* Wyśrodkowanie w pionie */
+  justify-content: flex-start; /* Wyrównanie tekstu do lewej */
+  text-align: left; /* Wyrównanie tekstu w ramach bloku */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: wrap;
+  height: 100%; /* Dopasowanie wysokości do rodzica */
+}
+
+.description-block-2, .description-block-3 {
+  display: flex; /* Flexbox dla każdego bloku */
+  align-items: center; /* Wyśrodkowanie w pionie */
+  justify-content: center; /* Wyśrodkowanie w poziomie */
+  text-align: center; /* Wyrównanie tekstu w środku */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: wrap;
+  height: 100%; /* Dopasowanie wysokości do rodzica */
+}
+
+.event-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: auto; /* Automatyczna wysokość, aby dostosować się do liczby powiadomień */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Wyrównanie powiadomień do lewej */
+  gap: 5px; /* Odstęp między powiadomieniami */
+  padding: 5px;
+  font-size: 10px;
+  color: #fff;
+  border-top: 1px solid rgba(255, 255, 255, 0.2); /* Biała linia oddzielająca */
+  overflow-x: auto; /* Pozwala na przewijanie w poziomie, jeśli powiadomień jest dużo */
+}
+
+.notification-item {
+  background-color: rgba(255, 255, 255, 0.2); /* Tło dla każdego powiadomienia */
+  padding: 2px 5px;
+  border-radius: 4px; /* Zaokrąglone rogi */
+  font-size: 10px;
+  color: #fff;
+  white-space: nowrap; /* Zapobiega zawijaniu tekstu w powiadomieniu */
 }

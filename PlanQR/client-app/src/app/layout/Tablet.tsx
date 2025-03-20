@@ -13,6 +13,7 @@ interface ScheduleEvent {
   description: string;
   instructor: string;
   room: string;
+  form: string;
   group_name: string;
   login: string;
   notifications: string[];
@@ -94,22 +95,25 @@ export default function Tablet() {
   }, [location.pathname, params]);
   
   useEffect(() => {
-    const fixedDate = new Date();
-    
-    setCurrentDateTime({
-      date: fixedDate.toLocaleDateString('pl-PL', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-      }),
-      time: fixedDate.toLocaleTimeString('pl-PL', {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-      }),
-      dayName: fixedDate.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase(),
-      dayNumber: fixedDate.getDate()
-    });
+    const intervalId = setInterval(() => {
+      const now = new Date();
+      setCurrentDateTime({
+        date: now.toLocaleDateString('pl-PL', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+        }),
+        time: now.toLocaleTimeString('pl-PL', {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+        }),
+        dayName: now.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase(),
+        dayNumber: now.getDate(),
+      });
+    }, 1000); // Aktualizacja co sekundę
+  
+    return () => clearInterval(intervalId); // Czyszczenie interwału przy odmontowaniu komponentu
   }, []);
 
   useEffect(() => {
@@ -136,7 +140,7 @@ export default function Tablet() {
         } else {
           // Tu można zmienić, by pokazywało dzisiejszą datę
           // targetDate = new Date();
-          targetDate = new Date();
+          targetDate = new Date('2025-03-19');
         }
         
         const formattedDate = targetDate.toISOString().split('T')[0];
@@ -193,7 +197,8 @@ export default function Tablet() {
             group_name: event.group_name || '',
             login: event.login || '',
             notifications: messages.map((msg: { body: string }) => msg.body),
-            color: event.color || '#039be5'
+            color: event.color || '#039be5',
+            form: event.lesson_form_short || '',
           } as ScheduleEvent;
         }));
 
@@ -235,16 +240,17 @@ export default function Tablet() {
   
 
   const isEventCurrent = (event: ScheduleEvent) => {
-    const currentTimeValue = 9;
-    
+    const now = new Date();
+    const currentTimeValue = now.getHours() + now.getMinutes() / 60; // Aktualny czas w formacie dziesiętnym
+  
     const startHour = parseInt(event.startTime.split(':')[0]);
     const startMinute = parseInt(event.startTime.split(':')[1]);
     const endHour = parseInt(event.endTime.split(':')[0]);
     const endMinute = parseInt(event.endTime.split(':')[1]);
-    
+  
     const startTimeValue = startHour + startMinute / 60;
     const endTimeValue = endHour + endMinute / 60;
-    
+  
     return currentTimeValue >= startTimeValue && currentTimeValue < endTimeValue;
   };
 
@@ -289,11 +295,8 @@ export default function Tablet() {
   };
 
   const getCurrentTimePosition = () => {
-    // Fixed at 14:00
-    const currentTime = new Date().getHours();
-  
-    
-    return (currentTime - 8) * 36 + new Date().getMinutes() * 0.6; 
+    const currentTime = new Date().getHours(); // Pobiera aktualną godzinę
+    return (currentTime - 8) * 50 + new Date().getMinutes() * 0.6; 
   };
   
   const findCurrentEvent = () => {
@@ -332,8 +335,7 @@ export default function Tablet() {
           <div className="room-info-container">
           <div className="datetime-placeholder">
                 <div className="time">
-                  {/* {currentDateTime.time} */}
-                  9:05:23
+                  {currentDateTime.time}
                   </div>
               </div>
           
@@ -377,32 +379,43 @@ export default function Tablet() {
                 
                 {/* Events */}
                 {scheduleItems.map((event, index) => (
-                <div 
+                <div
                 key={index}
-                className={`calendar-event event-type-${getEventType(event)}`}
+                className={`calendar-event ${isEventCurrent(event) ? 'current' : ''}`}
                 style={{
-                  ...getEventStyle(event), // Pozycjonowanie i wysokość
-                  backgroundColor: event.color, // Kolor tła z właściwości `color`
-                  color: '#fff', // Kolor tekstu (np. biały dla kontrastu)
+                  ...getEventStyle(event),
+                  backgroundColor: event.color,
+                  color: '#fff',
                 }}
                 onClick={() => setSelectedEvent(event)}
               >
-                {/* <div className="left-disp">
-                  <div className="event-time">{event.startTime} 
-                    <br></br>- <br></br>
-                    {event.endTime}</div>
-                    
+                <div className="calendar-event-left">
+                  <span>{event.startTime}<br /> - <br />{event.endTime}</span>
                 </div>
-                <div className="right-disp">
-                  <div className="right-disp-top">
-                <div className="event-title">{event.description}</div>
-                    <div className="event-lecturer">{event.instructor}</div>
-                  <div className="event-group">{event.group_name}</div>
-                 </div>
-                 <div className="right-disp-bottom">
-                  <div className="event-notification">{event.notifications}</div>
+                <div className="calendar-event-right">
+                  <div className="event-description">
+                    <div className="description-block description-block-1">
+                      <span>{event.description} ({event.form})</span>
+                    </div>
+                    <div className="description-block description-block-2">
+                      <span>{event.instructor}</span>
+                    </div>
+                    <div className="description-block description-block-3">
+                      <span>{event.group_name}</span>
+                    </div>
                   </div>
-                </div> */}
+                  <div className="event-footer">
+                    {event.notifications && event.notifications.length > 0 ? (
+                      event.notifications.map((notification, index) => (
+                        <div key={index} className="notification-item">
+                          {notification}
+                        </div>
+                      ))
+                    ) : (
+                      <span>Brak powiadomień</span>
+                    )}
+                  </div>
+                </div>
               </div>
               ))}
               </div>
