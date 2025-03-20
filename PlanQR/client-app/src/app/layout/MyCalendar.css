@@ -368,7 +368,7 @@ button.sidebarChatButton:active {
     }
 
     .messages-container {
-        height: calc(100vh - 400px);
+        height: calc(100vh - 250px);
     }
 
     .delete-btn {

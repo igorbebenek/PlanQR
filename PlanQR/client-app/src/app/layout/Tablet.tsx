@@ -3,7 +3,8 @@ import { useParams, useLocation } from 'react-router-dom';
 import './Tablet.css';
 import { fetchMessages } from '../services/messageService';
 import LogoWI from '../../assets/WI.jpg';
-import LogoZUT from '../../assets/Logo.png';
+import LogoZUT from '../../assets/ZUT_Logo.png';
+import QRcode from '../../assets/wiwi1-308.png';
 
 interface ScheduleEvent {
   id: string;
@@ -15,6 +16,7 @@ interface ScheduleEvent {
   group_name: string;
   login: string;
   notifications: string[];
+  color: string;
 }
 
 export default function Tablet() {
@@ -30,7 +32,7 @@ export default function Tablet() {
   const hasSpecialDate = showSpecialDateForAll;
   
   const initialDate = hasSpecialDate
-    ? new Date('2025-03-03')
+    ? new Date()
     : new URLSearchParams(location.search).get('date') 
       ? new Date(new URLSearchParams(location.search).get('date') || '')
       : new Date();
@@ -92,7 +94,7 @@ export default function Tablet() {
   }, [location.pathname, params]);
   
   useEffect(() => {
-    const fixedDate = new Date('2025-03-17T12:00:00');
+    const fixedDate = new Date();
     
     setCurrentDateTime({
       date: fixedDate.toLocaleDateString('pl-PL', {
@@ -125,7 +127,7 @@ export default function Tablet() {
         
         let targetDate;
         if (hasSpecialDate) {
-          targetDate = new Date('2025-03-03');
+          targetDate = new Date();
         } else if (dateParam) {
           targetDate = new Date(dateParam);
           if (isNaN(targetDate.getTime())) {
@@ -134,7 +136,7 @@ export default function Tablet() {
         } else {
           // Tu można zmienić, by pokazywało dzisiejszą datę
           // targetDate = new Date();
-          targetDate = new Date('2025-03-03');
+          targetDate = new Date();
         }
         
         const formattedDate = targetDate.toISOString().split('T')[0];
@@ -190,7 +192,8 @@ export default function Tablet() {
             room: event.room || 'Brak informacji',
             group_name: event.group_name || '',
             login: event.login || '',
-            notifications: messages.map((msg: { body: string }) => msg.body)
+            notifications: messages.map((msg: { body: string }) => msg.body),
+            color: event.color || '#039be5'
           } as ScheduleEvent;
         }));
 
@@ -228,61 +231,7 @@ export default function Tablet() {
   useEffect(() => {
   }, []);
   
-  useEffect(() => {
-    if (scheduleItems.length === 0 && !isLoading) {
-      const mockItems = [
-        {
-          id: "1",
-          startTime: "10:15",
-          endTime: "12:00",
-          description: "Systemy multimedialne",
-          instructor: "dr inż. Anton Smoliński",
-          room: "WI WI1- 300",
-          group_name: "",
-          login: "",
-          notifications: []
-        },
-        {
-          id: "2",
-          startTime: "12:15",
-          endTime: "14:00",
-          description: "Zarządzanie informacją 1",
-          instructor: "dr hab. Janusz Kowalski",
-          room: "WI WI1- 300",
-          group_name: "",
-          login: "",
-          notifications: []
-        },
-        {
-          id: "3",
-          startTime: "14:15",
-          endTime: "16:00",
-          description: "Zarządzanie informacją 1",
-          instructor: "dr hab. Janusz Kowalski",
-          room: "WI WI1- 300",
-          group_name: "",
-          login: "",
-          notifications: []
-        },
-        {
-          id: "4",
-          startTime: "16:15",
-          endTime: "18:00",
-          description: "Zarządzanie informacją 1",
-          instructor: "dr hab. Janusz Kowalski",
-          room: "WI WI1- 300",
-          group_name: "",
-          login: "",
-          notifications: []
-        }
-      ];
-      
-      const currentEvent = mockItems.find(item => isEventCurrent(item));
-      
-      setScheduleItems(mockItems);
-      setSelectedEvent(currentEvent || mockItems[0]);
-    }
-  }, [isLoading, scheduleItems.length]);
+  
   
 
   const isEventCurrent = (event: ScheduleEvent) => {
@@ -324,26 +273,27 @@ export default function Tablet() {
     const startMinute = parseInt(event.startTime.split(':')[1]);
     const endHour = parseInt(event.endTime.split(':')[0]);
     const endMinute = parseInt(event.endTime.split(':')[1]);
-    
+  
     const startTime = startHour + startMinute / 60;
     const endTime = endHour + endMinute / 60;
     const duration = endTime - startTime;
-    
-    const topPosition = (startTime - 8) * 34; 
-    
-    const height = duration * 34; 
-    
+  
+    const slotHeight = 50; // Nowa wysokość slotu czasu w pikselach
+    const topPosition = (startTime - 8) * slotHeight; // Pozycja od godziny 8:00
+    const height = duration * slotHeight; // Wysokość eventu
+  
     return {
       top: `${topPosition}px`,
-      height: `${height}px`
+      height: `${height}px`,
     };
   };
 
   const getCurrentTimePosition = () => {
     // Fixed at 14:00
-    const currentTime = 14;
+    const currentTime = new Date().getHours();
+  
     
-    return (currentTime - 8) * 36; 
+    return (currentTime - 8) * 36 + new Date().getMinutes() * 0.6; 
   };
   
   const findCurrentEvent = () => {
@@ -372,20 +322,27 @@ export default function Tablet() {
               <div className="university-logo-container">
                 <img src={LogoZUT} alt="Logo ZUT" className="university-logo" />
               </div>
-              <div className="faculty-logo-container">
+              {/* <div className="faculty-logo-container">
                 <img src={LogoWI} alt="Logo Wydziału Informatyki" className="faculty-logo" />
-              </div>
+              </div> */}
+              
+              
             </div>
             
           <div className="room-info-container">
-              <div className="address">
-                <div>ul. Żołnierska 49</div>
-                <div>71-210 Szczecin</div>
+          <div className="datetime-placeholder">
+                <div className="time">
+                  {/* {currentDateTime.time} */}
+                  9:05:23
+                  </div>
               </div>
+          
               <div className="room-number">
-                WI WI1- 300
+                WI WI1- 308
               </div>
-              <div className="datetime-placeholder"></div>
+              <div className='qrcode'>
+                <img src={QRcode} alt="QR code" className="qrcode" />
+              </div>
             </div>
           </div>
 
@@ -420,30 +377,40 @@ export default function Tablet() {
                 
                 {/* Events */}
                 {scheduleItems.map((event, index) => (
-                  <div 
-                    key={index}
-                    className={`calendar-event event-type-${getEventType(event)}`}
-                    style={getEventStyle(event)}
-                    onClick={() => setSelectedEvent(event)}
-                  >
-                    <div className="event-title">{event.description}</div>
-                    <div className="event-time">
-                      {event.startTime} - {event.endTime}
-                    </div>
-                    {event.description.toLowerCase().includes('finalize') && (
-                      <div className="event-check">
-                        <span className="check-circle">✓</span>
-                        <span className="check-time">10:20 AM</span>
-                      </div>
-                    )}
+                <div 
+                key={index}
+                className={`calendar-event event-type-${getEventType(event)}`}
+                style={{
+                  ...getEventStyle(event), // Pozycjonowanie i wysokość
+                  backgroundColor: event.color, // Kolor tła z właściwości `color`
+                  color: '#fff', // Kolor tekstu (np. biały dla kontrastu)
+                }}
+                onClick={() => setSelectedEvent(event)}
+              >
+                {/* <div className="left-disp">
+                  <div className="event-time">{event.startTime} 
+                    <br></br>- <br></br>
+                    {event.endTime}</div>
+                    
+                </div>
+                <div className="right-disp">
+                  <div className="right-disp-top">
+                <div className="event-title">{event.description}</div>
+                    <div className="event-lecturer">{event.instructor}</div>
+                  <div className="event-group">{event.group_name}</div>
+                 </div>
+                 <div className="right-disp-bottom">
+                  <div className="event-notification">{event.notifications}</div>
                   </div>
-                ))}
+                </div> */}
+              </div>
+              ))}
               </div>
             </div>
           )}
           
           {/* Legend at the bottom */}
-          <div className="calendar-legend">
+          {/* <div className="calendar-legend">
             <span className="legend-title">Legenda:</span>
             <div className="legend-item">
               <span className="legend-color-box" style={{backgroundColor: '#039be5'}}></span>
@@ -473,11 +440,11 @@ export default function Tablet() {
               <span className="legend-color-box" style={{backgroundColor: '#8e24aa'}}></span>
               <span className="legend-label">seminarium</span>
             </div>
-          </div>
+          </div> */}
         </div>
         
         {/* Right notifications panel */}
-        <div className="notifications-panel">
+        {/* <div className="notifications-panel">
         <div className="notifications-header">
             <h2>Powiadomienia prowadzącego</h2>
           </div>
@@ -499,7 +466,7 @@ export default function Tablet() {
           ) : (
             <div className="select-event-message">Wybierz wydarzenie, aby zobaczyć powiadomienia</div>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );

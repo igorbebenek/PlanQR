@@ -265,17 +265,17 @@ export default function LecturerCalendar() {
                   </div>
                   <div className="message-bubble">
                     <p className="message-text">{msg.body}</p>
-                    {login === lessonLogin && (
+                    {/* {login === lessonLogin && ( */}
                     <button className="delete-btn" onClick={() => handleDeleteMessage(msg.id)}>
                       <FaTrashAlt />
                     </button>
-                    )}
+                    {/* )} */}
                   </div>
                 </div>
               ))}
             </div>
-            {login === lessonLogin && (
-              <>
+            {/* {login === lessonLogin && (
+              <> */}
             <input
               type="text"
               placeholder="Chat..."
@@ -285,8 +285,8 @@ export default function LecturerCalendar() {
               onKeyDown={handleKeyDown}
             />
             <button className="sidebarChatButton" onClick={handleSendMessage}>Wyślij</button>
-            </>
-            )}
+            {/* </>
+            )} */}
           </div>
         </div>
       )}
