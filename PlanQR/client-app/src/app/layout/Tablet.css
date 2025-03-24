@@ -335,11 +335,7 @@ body, html {
   overflow: hidden !important;
 }
 
-body > div {
-  background-color: #fff !important;
-}
-
-#root {
+#root.tablet-mode {
   width: 100% !important;
   height: 100% !important;
   background-color: #fff !important;

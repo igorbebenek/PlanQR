@@ -21,6 +21,20 @@ interface ScheduleEvent {
 }
 
 export default function Tablet() {
+
+  useEffect(() => {
+    const rootElement = document.getElementById('root');
+    if (rootElement) {
+      rootElement.classList.add('tablet-mode'); // Dodaj klasę
+    }
+
+    return () => {
+      if (rootElement) {
+        rootElement.classList.remove('tablet-mode'); // Usuń klasę przy odmontowaniu
+      }
+    };
+  }, []);
+
   const params = useParams<{ department?: string; room?: string }>();
   const location = useLocation();
   
