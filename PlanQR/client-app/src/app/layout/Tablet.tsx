@@ -140,7 +140,7 @@ export default function Tablet() {
         } else {
           // Tu można zmienić, by pokazywało dzisiejszą datę
           // targetDate = new Date();
-          targetDate = new Date('2025-03-19');
+          targetDate = new Date();
         }
         
         const formattedDate = targetDate.toISOString().split('T')[0];
@@ -254,25 +254,6 @@ export default function Tablet() {
     return currentTimeValue >= startTimeValue && currentTimeValue < endTimeValue;
   };
 
-  const getEventType = (event: ScheduleEvent) => {
-    const description = event.description.toLowerCase();
-    
-    if (description.includes('laboratorium') || description.includes('lab')) {
-      return 'laboratorium';
-    } else if (description.includes('lektorat') || description.includes('język')) {
-      return 'lektorat';
-    } else if (description.includes('seminarium')) {
-      return 'seminarium';
-    } else if (description.includes('wykład') || description.includes('systemy')) {
-      return 'wyklad';
-    } else if (description.includes('projekt')) {
-      return 'projekt';
-    } else if (description.includes('audytoryjne')) {
-      return 'audytoryjne';
-    } else {
-      return 'zastepstwo'; 
-    }
-  };
 
   const getEventStyle = (event: ScheduleEvent) => {
     const startHour = parseInt(event.startTime.split(':')[0]);
@@ -340,7 +321,7 @@ export default function Tablet() {
               </div>
           
               <div className="room-number">
-                WI WI1- 308
+                  <span>{roomInfo.room}</span>
               </div>
               <div className='qrcode'>
                 <img src={QRcode} alt="QR code" className="qrcode" />
@@ -421,65 +402,8 @@ export default function Tablet() {
               </div>
             </div>
           )}
-          
-          {/* Legend at the bottom */}
-          {/* <div className="calendar-legend">
-            <span className="legend-title">Legenda:</span>
-            <div className="legend-item">
-              <span className="legend-color-box" style={{backgroundColor: '#039be5'}}></span>
-              <span className="legend-label">wykład</span>
-            </div>
-            <div className="legend-item">
-              <span className="legend-color-box" style={{backgroundColor: '#0f9d58'}}></span>
-              <span className="legend-label">laboratorium</span>
-            </div>
-            <div className="legend-item">
-              <span className="legend-color-box" style={{backgroundColor: '#4285f4'}}></span>
-              <span className="legend-label">zastępstwo</span>
-            </div>
-            <div className="legend-item">
-              <span className="legend-color-box" style={{backgroundColor: '#f4b400'}}></span>
-              <span className="legend-label">lektorat</span>
-            </div>
-            <div className="legend-item">
-              <span className="legend-color-box" style={{backgroundColor: '#996600'}}></span>
-              <span className="legend-label">projekt</span>
-            </div>
-            <div className="legend-item">
-              <span className="legend-color-box" style={{backgroundColor: '#00796b'}}></span>
-              <span className="legend-label">audytoryjne</span>
-            </div>
-            <div className="legend-item">
-              <span className="legend-color-box" style={{backgroundColor: '#8e24aa'}}></span>
-              <span className="legend-label">seminarium</span>
-            </div>
-          </div> */}
         </div>
         
-        {/* Right notifications panel */}
-        {/* <div className="notifications-panel">
-        <div className="notifications-header">
-            <h2>Powiadomienia prowadzącego</h2>
-          </div>
-          
-          {selectedEvent ? (
-            <div className="notification-content">              
-              <div className="notification-list">
-                {Array.isArray(selectedEvent?.notifications) && selectedEvent.notifications.length > 0 ? (
-                  <div className="notification-items">
-                    {selectedEvent.notifications.map((notification, i) => (
-                      <div key={i} className="notification-item">{notification}</div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="no-notifications">Brak powiadomień</div>
-                )}
-              </div>
-            </div>
-          ) : (
-            <div className="select-event-message">Wybierz wydarzenie, aby zobaczyć powiadomienia</div>
-          )}
-        </div> */}
       </div>
     </div>
   );

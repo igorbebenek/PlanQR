@@ -15,7 +15,7 @@ export default function LoginPanel() {
         try {
           const token = localStorage.getItem("token");
           if (!token) {
-            console.log("User is unauthorized (token is NULL)");
+            // console.log("User is unauthorized (token is NULL)");
             return;
           }
           const response = await fetch(siteUrl + ':5000/api/auth/check-login', {
@@ -41,7 +41,6 @@ export default function LoginPanel() {
     event.preventDefault();
 
     try {
-      console.log(siteUrl);
       const response = await fetch(siteUrl + ':5000/api/auth/login', {
         method: "POST",
         headers: {

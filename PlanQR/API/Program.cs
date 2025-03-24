@@ -8,6 +8,18 @@ using Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var projectRoot = Directory.GetParent(Directory.GetCurrentDirectory())!.FullName;
+var pfxPath = Path.Combine(projectRoot, "certs", "cert.pfx");
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(5000, listenOptions =>
+    {
+        var certPassword = builder.Configuration["CertificateSettings:PfxPassword"];
+        listenOptions.UseHttps(pfxPath, certPassword);
+    });
+});
+
 var siteUrl = builder.Configuration["SiteSettings:SiteUrl"];
 
 builder.Services.AddCors(options =>
