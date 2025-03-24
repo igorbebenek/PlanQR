@@ -1,7 +1,6 @@
 /// <reference types="node" />
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
-import mkcert from 'vite-plugin-mkcert'
 import fs from 'fs'
 import path, { dirname } from 'path'
 import { fileURLToPath } from 'url'

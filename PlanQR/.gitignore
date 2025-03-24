@@ -487,3 +487,4 @@ $RECYCLE.BIN/
 
 
 certs/
+appsettings.Development.json
