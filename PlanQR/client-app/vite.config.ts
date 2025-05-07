@@ -15,7 +15,7 @@ export default defineConfig({
       key: fs.readFileSync(path.resolve(__dirname,'../certs/planqr.key')),
       cert: fs.readFileSync(path.resolve(__dirname, '../certs/qrplan.pem')),
     },
-    port: 3000,
+    port: 443,
     host: true,
     proxy: {
       '/schedule_student.php': {

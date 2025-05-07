@@ -27,7 +27,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend",
         policy =>
         {
-            policy.WithOrigins(siteUrl + ":3000") // Podaj dokładny adres frontendowy
+            policy.WithOrigins(siteUrl) // Podaj dokładny adres frontendowy
                   .AllowCredentials()
                   .AllowAnyMethod()
                   .AllowAnyHeader();

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import './Tablet.css';
 import { fetchMessages } from '../services/messageService';
 import LogoWI from '../../assets/WI.jpg';
 import LogoZUT from '../../assets/ZUT_Logo.png';
-import QRcode from '../../assets/wiwi1-308.png';
+import {QRCodeCanvas}  from 'qrcode.react';
 
 interface ScheduleEvent {
   id: string;
@@ -338,7 +338,11 @@ export default function Tablet() {
                   <span>{roomInfo.room}</span>
               </div>
               <div className='qrcode'>
-                <img src={QRcode} alt="QR code" className="qrcode" />
+                <QRCodeCanvas
+                value={`https://planqr.wi.zut.edu.pl/${encodeURIComponent(roomInfo.building)}/${encodeURIComponent(roomInfo.room)}`}
+                size={100} 
+                style={{ width: '100%', height: 'auto' }}
+                />
               </div>
             </div>
           </div>
