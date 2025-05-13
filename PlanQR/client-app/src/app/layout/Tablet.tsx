@@ -210,7 +210,7 @@ export default function Tablet() {
             room: event.room || 'Brak informacji',
             group_name: event.group_name || '',
             login: event.login || '',
-            notifications: messages.map((msg: { body: string }) => msg.body),
+            notifications: [],
             color: event.color || '#039be5',
             form: event.lesson_form_short || '',
           } as ScheduleEvent;
@@ -240,6 +240,31 @@ export default function Tablet() {
 
     return () => clearInterval(intervalId);
   }, [roomInfo.building, roomInfo.room, location.search, hasSpecialDate]);
+
+  useEffect(() => {
+    const updateMessages = async () => {
+      try {
+        const updatedItems = await Promise.all(scheduleItems.map(async (event) => {
+          try {
+            const messages = await fetchMessages(event.id);
+            return { ...event, notifications: messages.map((msg: { body: string }) => msg.body) };
+          } catch {
+            return event;
+          }
+        }));
+        setScheduleItems(updatedItems);
+      } catch (err) {
+        console.error("Błąd przy aktualizacji wiadomości:", err);
+      }
+    };
+
+    if (scheduleItems.length > 0) {
+      updateMessages();
+      const intervalId = setInterval(updateMessages, 30 * 1000);
+      return () => clearInterval(intervalId);
+    }
+  }, [scheduleItems.length]);
+
 
   const timeSlots = Array.from({ length: 13 }, (_, i) => {
     const hour = i + 8;
