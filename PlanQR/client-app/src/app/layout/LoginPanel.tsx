@@ -13,11 +13,11 @@ export default function LoginPanel() {
   useEffect(() => {
       const checkLoginStatus = async () => {
         try {
-          const token = localStorage.getItem("token");
-          if (!token) {
-            // console.log("User is unauthorized (token is NULL)");
-            return;
-          }
+          // const token = localStorage.getItem("token");
+          // if (!token) {
+          //   // console.log("User is unauthorized (token is NULL)");
+          //   return;
+          // }
           const response = await fetch(siteUrl + ':5000/api/auth/check-login', {
             method: 'GET',
             credentials: 'include',
