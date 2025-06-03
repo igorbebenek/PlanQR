@@ -479,13 +479,17 @@ export default function Tablet() {
                   </div>
                   <div className="event-footer">
                     {event.notifications && event.notifications.length > 0 ? (
-                      event.notifications.map((notification, index) => (
-                        <div key={index} className="notification-item">
-                          {notification}
-                        </div>
-                      ))
+                      <div className={`notifications-marquee ${event.notifications.length <= 1 ? 'no-scroll' : ''}`}>
+                        {event.notifications.map((notification, notifIndex) => (
+                          <div key={notifIndex} className="notification-item">
+                            {notification}
+                          </div>
+                        ))}
+                      </div>
                     ) : (
-                      <span>Brak powiadomień</span>
+                      <div className="notifications-marquee no-scroll">
+                        <span>Brak powiadomień</span>
+                      </div>
                     )}
                   </div>
                 </div>

@@ -654,3 +654,70 @@ body, html {
   pointer-events: none;
   width: 100%;
 }
+
+/* Proste rozwiązanie - dodaj do swojego pliku CSS */
+
+.event-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: auto;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  font-size: 10px;
+  color: #fff;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+}
+
+.notifications-marquee {
+  display: flex;
+  gap: 10px;
+  white-space: nowrap;
+  animation: marquee 12s linear infinite;
+  will-change: transform;
+}
+
+.notification-item {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-size: 10px;
+  color: #fff;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Animacja marquee - tam i z powrotem */
+@keyframes marquee {
+  0%, 20% {
+    transform: translateX(0);
+  }
+  45%, 55% {
+    transform: translateX(calc(-100% + 1000px)); /* Dostosuj 200px do szerokości kontenera */
+  }
+  80%, 100% {
+    transform: translateX(0);
+  }
+}
+
+/* Zatrzymanie animacji przy najechaniu myszką */
+.event-footer:hover .notifications-marquee {
+  animation-play-state: paused;
+}
+
+/* Dla pojedynczego powiadomienia lub krótkich treści - wyłącz animację */
+.notifications-marquee.no-scroll {
+  animation: none;
+  justify-content: center;
+}
+
+.notifications-marquee {
+  display: flex;
+  gap: 10px;
+  white-space: nowrap;
+  animation: marquee 60s ease-in-out infinite; /* Zwiększono czas trwania z 12s na 20s */
+  will-change: transform;
+}
