@@ -8,11 +8,64 @@ import plLocale from '@fullcalendar/core/locales/pl';
 import { useParams } from 'react-router-dom';
 import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
+import { fetchMessages } from "../services/messageService";
+import { EventApi, EventClickArg } from '@fullcalendar/core';
 
 export default function MyCalendar() {
   const { department, room } = useParams();
   const [events, setEvents] = useState([]); 
   const [currentDates, setCurrentDates] = useState({ start: '', end: '' });
+
+  const [messages, setMessages] = useState<any[]>([]);
+  const [newMessage, setNewMessage] = useState("");
+  const [selectedLessonId, setSelectedLessonId] = useState<number | null>(null);
+  const [login, setLogin] = useState<string | null>(null);
+  const [lessonLogin, setLessonLogin] = useState<string | null>(null);
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<EventApi | null>(null);
+
+  const handleEventClick = (info: EventClickArg) => {
+    const event = info.event;
+    console.log("Clicked event:", event.extendedProps);
+
+    setSelectedEvent(event);
+    const lessonId = event.extendedProps.id;
+
+    if (lessonId) {
+      setSelectedLessonId(lessonId);
+      setLessonLogin(event.extendedProps.login);
+      fetchMessages(lessonId)
+        .then(setMessages)
+        .catch((err) => console.error("Error fetching messages:", err));
+    } else {
+      console.error("Lesson ID is missing!");
+    }
+
+    setIsSidebarOpen(true);
+  };
+
+  const closeSidebar = () => {
+    setSelectedEvent(null);
+    setIsSidebarOpen(false);
+  };
+
+  const [calendarView, setCalendarView] = useState(window.innerWidth < 600 ? 'listWeek' : 'timeGridWeek');
+
+  const handleWindowResize = () => {
+    if (window.innerWidth < 600) {
+      setCalendarView('listWeek');
+    } else {
+      setCalendarView('timeGridWeek');
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleWindowResize);
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, []);
 
   const fetchEvents = async (startDate: string, endDate: string) => {
     const url = `/schedule_student.php?kind=apiwi&department=${department}&room=${room}&start=${startDate}&end=${endDate}`;
@@ -43,12 +96,21 @@ export default function MyCalendar() {
         subject: event.subject,
         wydzial: event.wydzial,
         wydz_sk: event.wydz_sk,
+        extendedProps: {
+          id: event.id,
+          login: event.login,
+        }
       })));
 
       console.log('Fetched events:', data); 
     } catch (error) {
       console.error('Error fetching events:', error);
     }
+  };
+
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleString();
   };
 
   useEffect(() => {
@@ -66,6 +128,8 @@ export default function MyCalendar() {
 
   return (
     <>
+    <div className="lecturer-calendar">
+    <div className={`main-content ${isSidebarOpen ? 'shrink' : ''}`}>
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="timeGridWeek"
@@ -93,9 +157,48 @@ export default function MyCalendar() {
             theme: 'custom-yellow',
           });
         }}
+        eventClick={handleEventClick}
         slotMinTime="07:00:00"
-        slotMaxTime="21:00:00"
+        slotMaxTime="22:00:00"
+        windowResize={handleWindowResize}
+        
       />
+      </div>
+      {isSidebarOpen && (
+              <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
+                <button
+                  className="sidebarCloseButton"
+                  onClick={closeSidebar}
+                >
+                  Zamknij
+                </button>
+                {selectedEvent ? (
+                  <div>
+                    <h3 className="text-xl font-bold mb-4">{selectedEvent.title}</h3>
+
+                    <p><strong>Sala:</strong> {selectedEvent.extendedProps.room}<strong>  Grupa:</strong> {selectedEvent.extendedProps.group_name}</p>
+                  </div>
+                ) : (
+                  <p>Brak szczegółów wydarzenia</p>
+                )}
+                <div className="sidebarChat">
+                  <div className="messages-container">
+                    {messages.map((msg, index) => (
+                      <div key={index} className="message-wrapper">
+                        <div className="message-header">
+                          <strong>{msg.lecturer}</strong>
+                          <span className="message-time">{msg.createdAt ? formatDate(msg.createdAt) : "Invalid Date"}</span>
+                        </div>
+                        <div className="message-bubble">
+                          <p className="message-text">{msg.body}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
     </>
   );
 }

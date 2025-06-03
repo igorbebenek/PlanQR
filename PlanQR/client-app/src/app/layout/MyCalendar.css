@@ -97,6 +97,7 @@
 .sidebarCloseButton {
     margin-top:  5%; /* Зменшений відступ зверху */
     margin-bottom: 5%; /* Менший відступ, щоб назва предмета була ближче */
+    background: #d3d3d3;
 }
 .sidebarChat{
     position: absolute;
