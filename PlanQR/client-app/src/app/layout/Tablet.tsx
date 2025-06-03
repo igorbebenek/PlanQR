@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import './Tablet.css';
 import { fetchMessages } from '../services/messageService';
 import LogoWI from '../../assets/WI.jpg';
 import LogoZUT from '../../assets/ZUT_Logo.png';
 import {QRCodeCanvas}  from 'qrcode.react';
+import { get } from 'http';
 
 interface ScheduleEvent {
   id: string;
@@ -21,16 +22,17 @@ interface ScheduleEvent {
 }
 
 export default function Tablet() {
+  const timeGridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const rootElement = document.getElementById('root');
     if (rootElement) {
-      rootElement.classList.add('tablet-mode'); // Dodaj klasę
+      rootElement.classList.add('tablet-mode');
     }
 
     return () => {
       if (rootElement) {
-        rootElement.classList.remove('tablet-mode'); // Usuń klasę przy odmontowaniu
+        rootElement.classList.remove('tablet-mode');
       }
     };
   }, []);
@@ -71,6 +73,7 @@ export default function Tablet() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedEvent, setSelectedEvent] = useState<ScheduleEvent | null>(null);
+  const [calendarStartHour, setCalendarStartHour] = useState(6);
   
   useEffect(() => {
     const parseRoomInfo = () => {
@@ -125,9 +128,9 @@ export default function Tablet() {
         dayName: now.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase(),
         dayNumber: now.getDate(),
       });
-    }, 1000); // Aktualizacja co sekundę
+    }, 1000);
   
-    return () => clearInterval(intervalId); // Czyszczenie interwału przy odmontowaniu komponentu
+    return () => clearInterval(intervalId);
   }, []);
 
   useEffect(() => {
@@ -152,8 +155,6 @@ export default function Tablet() {
             throw new Error('Nieprawidłowy format daty');
           }
         } else {
-          // Tu można zmienić, by pokazywało dzisiejszą datę
-          // targetDate = new Date();
           targetDate = new Date();
         }
         
@@ -220,6 +221,14 @@ export default function Tablet() {
         
         const sortedEvents = formattedEvents.sort((a, b) => a.startTime.localeCompare(b.startTime));
         
+        // Ustaw godzinę początkową kalendarza na podstawie pierwszego wydarzenia
+        if (sortedEvents.length > 0) {
+          const firstEventStartHour = parseInt(sortedEvents[0].startTime.split(':')[0]);
+          setCalendarStartHour(Math.max(6, firstEventStartHour)); // Minimum godz. 8, lub godzinę przed pierwszymi zajęciami
+        } else {
+          setCalendarStartHour(6); // Domyślna godzina początkowa
+        }
+        
         setScheduleItems(sortedEvents);
         if (sortedEvents.length > 0) {
           setSelectedEvent(sortedEvents[0]);
@@ -265,22 +274,72 @@ export default function Tablet() {
     }
   }, [scheduleItems.length]);
 
+  // Funkcja do automatycznego przewijania kalendarza
+  const scrollToCurrentTime = () => {
+    if (!timeGridRef.current || scheduleItems.length === 0) return;
 
-  const timeSlots = Array.from({ length: 13 }, (_, i) => {
-    const hour = i + 8;
-    const hourFormatted = hour < 10 ? `0${hour}` : `${hour}`;
-    return `${hourFormatted}:00`;
-  });
-  
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+    
+    // Znajdź aktualnie trwające zajęcia lub najbliższe przyszłe
+    const currentEvent = scheduleItems.find(event => isEventCurrent(event));
+    const upcomingEvent = scheduleItems.find(event => {
+      const eventStartHour = parseInt(event.startTime.split(':')[0]);
+      const eventStartMinute = parseInt(event.startTime.split(':')[1]);
+      const eventStartTime = eventStartHour + eventStartMinute / 60;
+      const currentTime = currentHour + currentMinute / 60;
+      return eventStartTime > currentTime;
+    });
+
+    let targetHour = currentHour;
+    
+    if (currentEvent) {
+      // Jeśli są obecnie trwające zajęcia, przewiń do ich początku
+      targetHour = parseInt(currentEvent.startTime.split(':')[0]);
+    } else if (upcomingEvent) {
+      // Jeśli nie ma obecnie trwających zajęć, przewiń do najbliższych przyszłych
+      targetHour = parseInt(upcomingEvent.startTime.split(':')[0]);
+    }
+    
+    // Oblicz pozycję do przewinięcia
+    const slotHeight = 100;
+    const scrollPosition = Math.max(0, (targetHour - calendarStartHour) * slotHeight);
+    
+    timeGridRef.current.scrollTo({
+      top: scrollPosition,
+      behavior: 'smooth'
+    });
+  };
+
+  // Efekt do automatycznego przewijania
   useEffect(() => {
-  }, []);
+    if (!isLoading && !error && scheduleItems.length > 0) {
+      // Przewiń po załadowaniu danych
+      setTimeout(scrollToCurrentTime, 100);
+      
+      // Ustaw interwał do przewijania co minutę
+      const scrollInterval = setInterval(scrollToCurrentTime, 60000);
+      
+      return () => clearInterval(scrollInterval);
+    }
+  }, [scheduleItems, calendarStartHour, isLoading, error]);
   
+  const getEventTime = (event: ScheduleEvent) => {
+    const startHour = parseInt(event.startTime.split(':')[0]);
+    const startMinute = parseInt(event.startTime.split(':')[1]);
+    const endHour = parseInt(event.endTime.split(':')[0]);
+    const endMinute = parseInt(event.endTime.split(':')[1]);
   
+    const startTimeValue = startHour + startMinute / 60;
+    const endTimeValue = endHour + endMinute / 60;
   
+    return {startTimeValue, endTimeValue};
+  }
 
   const isEventCurrent = (event: ScheduleEvent) => {
     const now = new Date();
-    const currentTimeValue = now.getHours() + now.getMinutes() / 60; // Aktualny czas w formacie dziesiętnym
+    const currentTimeValue = now.getHours() + now.getMinutes() / 60;
   
     const startHour = parseInt(event.startTime.split(':')[0]);
     const startMinute = parseInt(event.startTime.split(':')[1]);
@@ -293,20 +352,21 @@ export default function Tablet() {
     return currentTimeValue >= startTimeValue && currentTimeValue < endTimeValue;
   };
 
+  const timeSlots = () => {
+    return Array.from({ length: 15 }, (_, i) => {
+      const hour = i + calendarStartHour;
+      const hourFormatted = hour < 10 ? `0${hour}` : `${hour}`;
+      return `${hourFormatted}:00`;
+    });
+  };
 
   const getEventStyle = (event: ScheduleEvent) => {
-    const startHour = parseInt(event.startTime.split(':')[0]);
-    const startMinute = parseInt(event.startTime.split(':')[1]);
-    const endHour = parseInt(event.endTime.split(':')[0]);
-    const endMinute = parseInt(event.endTime.split(':')[1]);
-  
-    const startTime = startHour + startMinute / 60;
-    const endTime = endHour + endMinute / 60;
+    const startTime = getEventTime(event).startTimeValue;
+    const endTime = getEventTime(event).endTimeValue;
     const duration = endTime - startTime;
-  
-    const slotHeight = 50; // Nowa wysokość slotu czasu w pikselach
-    const topPosition = (startTime - 8) * slotHeight; // Pozycja od godziny 8:00
-    const height = duration * slotHeight; // Wysokość eventu
+    const slotHeight = 100;
+    const topPosition = (startTime - calendarStartHour) * slotHeight;
+    const height = duration * slotHeight;
   
     return {
       top: `${topPosition}px`,
@@ -315,8 +375,8 @@ export default function Tablet() {
   };
 
   const getCurrentTimePosition = () => {
-    const currentTime = new Date().getHours(); // Pobiera aktualną godzinę
-    return (currentTime - 8) * 50 + new Date().getMinutes() * 0.6; 
+    const currentTime = new Date().getHours() + new Date().getMinutes() / 60;
+    return (currentTime - calendarStartHour) * 100;
   };
   
   const findCurrentEvent = () => {
@@ -338,18 +398,12 @@ export default function Tablet() {
   return (
     <div className="tablet-container">
       <div className="calendar-layout">
-        {/* Left calendar panel */}
         <div className="calendar-panel">
           <div className="header-container">
             <div className="header-logos">
               <div className="university-logo-container">
                 <img src={LogoZUT} alt="Logo ZUT" className="university-logo" />
               </div>
-              {/* <div className="faculty-logo-container">
-                <img src={LogoWI} alt="Logo Wydziału Informatyki" className="faculty-logo" />
-              </div> */}
-              
-              
             </div>
             
           <div className="room-info-container">
@@ -380,28 +434,23 @@ export default function Tablet() {
             <div className="no-events-container">Brak zajęć na dzisiaj</div>
           ) : (
             <div className="calendar-container">
-              {/* Day indicator circle */}
               <div className="day-indicator">
                 <div className="day-name">{currentDateTime.dayName}</div>
                 <div className="day-circle">{currentDateTime.dayNumber}</div>
               </div>
               
-              {/* Calendar grid */}
-              <div className="time-grid">
-                {/* Time slots */}
-                {timeSlots.map((time, index) => (
+              <div className="time-grid" ref={timeGridRef}>
+                {timeSlots().map((time, index) => (
                   <div key={index} className="time-slot">
                     <div className="time-label">{time}</div>
                     <div className="time-cell"></div>
                   </div>
                 ))}
                 
-                {/* Current time indicator */}
                 <div className="current-time-indicator" style={{ top: `${getCurrentTimePosition()}px` }}>
                   <div className="time-circle"></div>
                 </div>
                 
-                {/* Events */}
                 {scheduleItems.map((event, index) => (
                 <div
                 key={index}
@@ -446,7 +495,6 @@ export default function Tablet() {
             </div>
           )}
         </div>
-        
       </div>
     </div>
   );

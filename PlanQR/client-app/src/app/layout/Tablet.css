@@ -104,6 +104,7 @@ html, body {
   font-weight: bold;
   text-align: center;
   width: 60%;
+  text-transform: uppercase;
 }
 
 .datetime-placeholder {
@@ -117,6 +118,7 @@ html, body {
   flex: 1;
   overflow: hidden;
   padding-top: 0;
+  margin-top: 10px;
   height: 800px;
 }
 
@@ -410,7 +412,7 @@ body, html {
 
 .time-slot {
   display: flex;
-  height: 50px; /* Zwiększ wysokość każdego slotu czasu */
+  height: 80px; /* Zwiększ wysokość każdego slotu czasu */
   border-bottom: 1px solid #f1f3f4;
   background-color: #fff;
 }
@@ -581,7 +583,7 @@ body, html {
   bottom: 0;
   left: 0;
   right: 0;
-  height: auto; /* Automatyczna wysokość, aby dostosować się do liczby powiadomień */
+  height: auto ; /* Automatyczna wysokość, aby dostosować się do liczby powiadomień */
   display: flex;
   align-items: center;
   justify-content: flex-start; /* Wyrównanie powiadomień do lewej */
@@ -600,4 +602,55 @@ body, html {
   font-size: 10px;
   color: #fff;
   white-space: nowrap; /* Zapobiega zawijaniu tekstu w powiadomieniu */
+}
+
+.time-grid {
+  position: relative;
+  flex: 1;
+  padding-left: 0;
+  overflow-y: auto; /* Zmienione z hidden na auto */
+  overflow-x: hidden;
+  height: 100%;
+  width: calc(100% - 70px);
+  background-color: #fff;
+  /* Usunięto grid-template-rows dla lepszej kontroli wysokości */
+}
+
+.time-slot {
+  display: flex;
+  height: 100px; /* Zwiększona wysokość slotu */
+  min-height: 100px; /* Minimalna wysokość */
+  border-bottom: 1px solid #f1f3f4;
+  background-color: #fff;
+}
+
+/* Dodano style dla ukrycia scrollbara ale zachowania funkcjonalności przewijania */
+.time-grid::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+.time-grid {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* Pozostałe style pozostają bez zmian */
+.calendar-container {
+  position: relative;
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  padding-top: 0;
+  height: calc(100vh - 120px);
+}
+
+.current-time-indicator {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 2px solid #ea4335;
+  z-index: 10;
+  pointer-events: none;
+  width: 100%;
 }
