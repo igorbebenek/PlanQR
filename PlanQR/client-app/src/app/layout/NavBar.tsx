@@ -56,17 +56,19 @@ export default function NavBar() {
         <p><strong>{room || teacher}</strong></p>
       </Menu.Item>
       <Menu.Menu position="right" className="navbar-menu">
-        <Menu.Item>
-          {isLoggedIn ? (
-            <button onClick={handleLogout} color="red" className="navbar-login-btn-exit">
-              Wyloguj
-            </button>
-          ) : (
-            <Button as={NavLink} to="/" color="blue" className="navbar-login-btn">
-              Logowanie
-            </Button>
-          )}
-        </Menu.Item>
+      <Menu.Item>
+  {room ? null : (
+    isLoggedIn ? (
+      <button onClick={handleLogout} color="red" className="navbar-login-btn-exit">
+        Wyloguj
+      </button>
+    ) : (
+      <Button as={NavLink} to="/" color="blue" className="navbar-login-btn">
+        Logowanie
+      </Button>
+    )
+  )}
+</Menu.Item>
       </Menu.Menu>
     </Menu>
   );
