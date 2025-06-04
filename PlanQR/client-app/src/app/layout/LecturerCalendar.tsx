@@ -221,14 +221,19 @@ export default function LecturerCalendar() {
             });
           }}
           eventDidMount={(info) => {
-            const content = `${info.event.title} , prowadzący ${info.event.extendedProps.worker_title}, sala ${info.event.extendedProps.room}, grupa ${info.event.extendedProps.group_name} - ${info.event.extendedProps.lesson_status}`;
-            tippy(info.el, {
-              content: content,
-              placement: 'top',
-              trigger: 'mouseenter',
-              theme: 'custom-yellow',
-            });
-          }}
+  // Sprawdzenie, czy użytkownik korzysta z ekranu dotykowego
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+  if (!isTouchDevice) {
+    const content = `${info.event.title} , prowadzący ${info.event.extendedProps.worker_title}, sala ${info.event.extendedProps.room}, grupa ${info.event.extendedProps.group_name} - ${info.event.extendedProps.lesson_status}`;
+    tippy(info.el, {
+      content: content,
+      placement: 'top',
+      trigger: 'mouseenter focus', // Wyświetlanie tylko po najechaniu myszką lub skupieniu
+      theme: 'custom-yellow',
+    });
+  }
+}}
           eventClick={handleEventClick}
           slotMinTime="07:00:00"
           slotMaxTime="21:00:00"
@@ -265,7 +270,7 @@ export default function LecturerCalendar() {
                   </div>
                   <div className="message-bubble">
                     <p className="message-text">{msg.body}</p>
-                    {login === lessonLogin && ( 
+                    {login === lessonLogin && (
                     <button className="delete-btn" onClick={() => handleDeleteMessage(msg.id)}>
                       <FaTrashAlt />
                     </button>
