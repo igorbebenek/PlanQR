@@ -10,6 +10,7 @@ import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
 import { fetchMessages } from "../services/messageService";
 import { EventApi, EventClickArg } from '@fullcalendar/core';
+import listPlugin from '@fullcalendar/list';
 
 export default function MyCalendar() {
   const { department, room } = useParams();
@@ -131,8 +132,8 @@ export default function MyCalendar() {
     <div className="lecturer-calendar">
     <div className={`main-content ${isSidebarOpen ? 'shrink' : ''}`}>
       <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-        initialView="timeGridWeek"
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
+        initialView={calendarView}
         events={events}
         headerToolbar={{
           left: 'prev,next today',
@@ -149,13 +150,18 @@ export default function MyCalendar() {
           });
         }}
         eventDidMount={(info) => {
-          const content = `${info.event.title} , prowadzący ${info.event.extendedProps.worker_title}, sala ${info.event.extendedProps.room}, grupa ${info.event.extendedProps.group_name} - ${info.event.extendedProps.lesson_status}`;
-          tippy(info.el, {
-            content: content,
-            placement: 'top',
-            trigger: 'mouseenter',
-            theme: 'custom-yellow',
-          });
+          // Sprawdzenie, czy użytkownik korzysta z ekranu dotykowego
+          const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        
+          if (!isTouchDevice) {
+            const content = `${info.event.title} , prowadzący ${info.event.extendedProps.worker_title}, sala ${info.event.extendedProps.room}, grupa ${info.event.extendedProps.group_name} - ${info.event.extendedProps.lesson_status}`;
+            tippy(info.el, {
+              content: content,
+              placement: 'top',
+              trigger: 'mouseenter focus', // Wyświetlanie tylko po najechaniu myszką lub skupieniu
+              theme: 'custom-yellow',
+            });
+          }
         }}
         eventClick={handleEventClick}
         slotMinTime="07:00:00"
