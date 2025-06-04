@@ -125,12 +125,12 @@
       justify-content: center; 
   }
   
-  .navbar-login-btn 
+  .navbar-login-btn, .navbar-login-btn-exit
   {
-      width: 80%; 
+      width: 100%; 
       text-align: center;
-      padding: 1.5% 2%; 
-      font-size: 1.5vw; 
+      padding: 5px;
+      font-size: 10px;
   }
   
   .navbar-title 

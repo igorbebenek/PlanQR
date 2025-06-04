@@ -133,11 +133,12 @@ p a:hover
 {
     .login-container {
         padding: 10px;
+        margin: 0 auto;
     }
 
     .login-form {
         padding: 15px;
-        min-width: 300px;
+        min-width: 250px;
     }
 
     .login-image img {

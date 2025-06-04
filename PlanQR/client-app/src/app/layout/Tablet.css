@@ -1,723 +1,555 @@
-
-* {
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
-html, body {
-  background-color: #fff !important;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  color: black;
-}
-
-.tablet-container {
-  width: 100%;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  position: relative;
-}
-
-.calendar-layout {
-  display: flex;
-  width: 100%;
-  height: px;
-  overflow: hidden;
-  margin: 0;
-  padding: 0;
-  background-color: #fff;
-}
-
-.calendar-panel {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  border-right: 1px solid #dadce0;
-  overflow: hidden;
-  background-color: #fff;
-}
-
-.notifications-panel {
-  width: 30%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: #fff;
-}
-
-.header-container {
-  padding-bottom: 5px;
-  border-bottom: 1px solid #dadce0;
-  background-color: #fff;
-  width: 100%;
-}
-
-.header-logos {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 60px;
-  padding: 0 15px;
-}
-
-.university-logo {
-  height: 33px;
-  object-fit: contain;
-}
-
-.faculty-logo {
-  height: 50px;
-  object-fit: contain;
-}
-
-.room-info-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 60px;
-  padding: 0 15px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.address {
-  font-weight: normal;
-  font-size: 16px;
-  text-align: left;
-  line-height: 1.4;
-  width: 25%;
-}
-
-.room-number {
-  font-size: 36px;
-  font-weight: bold;
-  text-align: center;
-  width: 60%;
-  text-transform: uppercase;
-}
-
-.datetime-placeholder {
-  font-size: 30px;
-  font-weight: bold;
-}
-
-.calendar-container {
-  position: relative;
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-  padding-top: 0;
-  margin-top: 10px;
-  height: 800px;
-}
-
-.day-indicator {
-  position: sticky;
-  top: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 70px;
-  min-width: 70px;
-  border-right: 1px solid #dadce0;
-  background-color: #fff;
-  z-index: 2;
-  padding: 120px 0 0 0;
-  height: 100%;
-  display: flex;
-  justify-content: flex-start;
-}
-
-.day-name {
-  color: #1a73e8;
-  font-weight: bold;
-  font-size: 14px;
-  text-transform: uppercase;
-  margin-bottom: 2px;
-}
-
-.day-circle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  background-color: #1a73e8;
-  color: white;
-  border-radius: 50%;
-  font-weight: bold;
-  font-size: 22px;
-  margin: 5px 0;
-}
-
-.month-name {
-  color: #1a73e8;
-  font-weight: bold;
-  font-size: 14px;
-  text-transform: uppercase;
-  margin-top: 2px;
-}
-
-.time-grid {
-  position: relative;
-  flex: 1;
-  padding-left: 0;
-  overflow: hidden;
-  height: 100%;
-  width: calc(100% - 70px);
-  background-color: #fff;
-  display: grid;
-  grid-template-rows: repeat(14, 1fr);
-  height: 100%;
-}
-
-.time-slot {
-  display: flex;
-  height: 36px;
-  border-bottom: 1px solid #f1f3f4;
-  background-color: #fff;
-}
-
-.time-label {
-  width: 45px;
-  font-size: 12px;
-  color: #70757a;
-  text-align: right;
-  padding-right: 8px;
-  padding-top: 1px;
-}
-
-.time-cell {
-  flex: 1;
-  background-color: #fff;
-}
-
-.current-time-indicator {
-  position: absolute;
-  left: 0;
-  right: 0;
-  border-top: 2px solid #ea4335;
-  z-index: 10;
-  pointer-events: none;
-  width: 100%;
-}
-
-.time-circle {
-  position: absolute;
-  left: 50px;
-  top: -5px;
-  width: 10px;
-  height: 10px;
-  background-color: #ea4335;
-  border-radius: 50%;
-}
-
-.calendar-event {
-  position: absolute;
-  left: 70px;
-  right: 15px;
-  border-radius: 4px;
-  padding: 5px 10px;
-  color: white;
-  cursor: pointer;
-  overflow: hidden;
-  transition: all 0.2s ease;
-  z-index: 1;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
-}
-
-.calendar-event:hover {
-  transform: scale(1.01);
-  z-index: 5;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-}
-
-.calendar-event.active {
-  transform: scale(1.01);
-  z-index: 5;
-  box-shadow: 0 0 0 2px rgba(0,0,0,0.2);
-}
-
-.event-title {
-  font-weight: bold;
-  font-size: 14px;
-  margin-bottom: 4px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.event-time {
-  font-size: 12px;
-  opacity: 0.9;
-}
-
-.event-check {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  display: flex;
-  align-items: center;
-}
-
-.check-circle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 16px;
-  background-color: rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  font-size: 10px;
-  font-weight: bold;
-}
-
-.calendar-event.current {
-  border: 5px solid #ea4335; /* Czerwony border */
-  box-shadow: 0 0 5px rgba(234, 67, 53, 0.5); /* Opcjonalny efekt podświetlenia */
-  z-index: 1000; /* Ustaw wyższy z-index, aby wyróżnić event */
-}
-
-.notifications-header {
-  padding: 20px 15px 15px;
-  border-bottom: 1px solid #dadce0;
-  background-color: #fff;
-}
-
-.notifications-header h2 {
-  font-size: 18px;
-  font-weight: bold;
-  color: #3c4043;
-}
-
-.notification-content {
-  padding: 20px 15px;
-  height: calc(100% - 60px);
-  overflow: hidden;
-}
-
-
-.no-notifications,
-.select-event-message {
-  color: #5f6368;
-  font-style: italic;
-  padding: 30px 15px;
-  text-align: center;
-  font-size: 15px;
-}
-
-.loading-container,
-.error-container,
-.no-events-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  font-size: 18px;
-  color: #5f6368;
-  padding: 20px;
-}
-body, html {
-  background-color: #fff !important;
-  width: 100% !important;
-  height: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-}
-
-#root.tablet-mode {
-  width: 100% !important;
-  height: 100% !important;
-  background-color: #fff !important;
-}
-
-.tablet-container {
-  width: 100% !important;
-  height: 100vh !important;
-  max-width: none !important;
-  background-color: #fff !important;
-}
-
-.calendar-layout {
-  width: 100% !important;
-  background-color: #fff !important;
-}
-
-.calendar-panel, .notifications-panel {
-  background-color: #fff !important;
-}
-
-.day-indicator {
-  display: none;
-  background-color: #fff !important;
-}
-
-.calendar-panel {
-  max-width: none !important;
-  width: 100% !important;
-}
-
-.notifications-panel {
-  max-width: none !important;
-  width: 30% !important;
-}
-
-.notifications-header, 
-.notification-content, 
-.time-slot, 
-.time-cell, 
-.time-grid {
-  background-color: #fff !important;
-}
-
-
-::-webkit-scrollbar {
-  display: none !important;
-}
-
-* {
-  scrollbar-width: none !important;
-}
-
-.calendar-container {
-  position: relative;
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-  padding-top: 0;
-  height: calc(100vh - 120px); /* Zwiększ wysokość kalendarza */
-}
-
-.time-grid {
-  position: relative;
-  flex: 1;
-  padding-left: 0;
-  overflow: hidden;
-  height: 100%; /* Dopasuj do kontenera */
-  width: calc(100% - 70px);
-  background-color: #fff;
-}
-
-.time-slot {
-  display: flex;
-  height: 80px; /* Zwiększ wysokość każdego slotu czasu */
-  border-bottom: 1px solid #f1f3f4;
-  background-color: #fff;
-}
-
-.current-time-indicator {
-  position: absolute;
-  left: 0;
-  right: 0;
-  border-top: 2px solid #ea4335;
-  z-index: 10;
-  pointer-events: none;
-  width: 0;
-}
-
-.qrcode {
-  height: auto;
-  width: 100px;
-  margin-bottom: 30px;
-}
-
-
-.calendar-event {
-  display: flex; /* Flexbox dla podziału na lewą i prawą stronę */
-  position: absolute;
-  left: 70px;
-  right: 15px;
-  border-radius: 4px;
-  padding: 5px;
-  color: white;
-  cursor: pointer;
-  overflow: hidden;
-  transition: all 0.2s ease;
-  z-index: 1;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
-  align-items: center; /* Wyśrodkowanie w pionie dla dzieci */
-}
-
-.calendar-event-left {
-  width: 10%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px;
-  font-size: clamp(10px, 2.5vh, 16px); /* Minimalny 10px, skalowanie do 2.5% wysokości widoku, maksymalny 16px */
-  font-weight: bold;
-  text-align: center;
-}
-
-.calendar-event-right {
-  width: 90%;
-  position: relative; /* Ustawienie kontekstu dla pozycji absolutnej */
-  padding: 5px;
-  font-size: clamp(12px, 2.5vh, 18px);
-  overflow: hidden;
-}
-
-.calendar-event-right {
-  width: 90%;
-  height: 100%;
-  position: relative; /* Ustawienie kontekstu dla pozycji absolutnej */
-  padding: 5px;
-  font-size: clamp(12px, 2.5vh, 18px);
-  overflow: hidden;
-}
-
-.event-description {
-  width: 100%;
-  flex: 1; /* Górny blok zajmuje pozostałą przestrzeń */
-  display: flex; /* Ustawienie flexboxa */
-  align-items: center; /* Wyśrodkowanie w pionie */
-  justify-content: center; /* Opcjonalne: Wyśrodkowanie w poziomie */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.event-footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 10px;
-  color: #fff;
-  border-top: 1px solid rgba(0, 0, 0, 0.2); /* Biała linia oddzielająca */
-}
-
-.event-description {
-  display: flex; /* Ustawienie flexboxa */
-  align-items: center; /* Wyśrodkowanie w pionie */
-  justify-content: space-between; /* Rozdzielenie elementów w poziomie */
-  width: 100%;
-  height: 100%; /* Ustaw wysokość na 100%, aby dopasować do rodzica */
-  overflow: hidden;
-}
-
-.description-block {
-  display: flex; /* Flexbox dla każdego bloku */
-  align-items: center; /* Wyśrodkowanie zawartości w pionie */
-  justify-content: flex-start; /* Wyrównanie tekstu do lewej */
-  text-align: left; /* Wyrównanie tekstu */
-  overflow-wrap: break-word; /* Zawijanie tekstu */
-  word-wrap: break-word; /* Alternatywne zawijanie tekstu */
-  white-space: normal; /* Pozwala na zawijanie tekstu */
-  height: 100%; /* Dopasowanie wysokości do rodzica */
-}
-
-.description-block-1, .description-block-2 {
-  width: 40%; /* Podział na dwie równe części */
-}
-
-.description-block-3 {
-  width: 20%; /* Trzecia część */
-}
-
-.event-description {
-  display: flex; /* Ustawienie flexboxa */
-  align-items: center; /* Wyśrodkowanie w pionie */
-  justify-content: space-between; /* Rozdzielenie elementów w poziomie */
-  width: 100%;
-  height: 100%; /* Dopasowanie do rodzica */
-  padding-bottom: 20px; /* Ustępuje miejsca dla event-footer */
-  overflow: hidden;
-}
-
-.description-block-1, .description-block-2 {
-  width: 40%; /* Podział na dwie równe części */
-  position: relative; /* Ustawienie kontekstu dla pseudoelementu */
-}
-
-.description-block-1::after, .description-block-2::after {
-  content: ''; /* Pseudoelement */
-  position: absolute;
-  top: 20%; /* Odstęp od góry */
-  bottom: 20%; /* Odstęp od dołu */
-  right: 0; /* Linia po prawej stronie */
-  width: 1px; /* Szerokość linii */
-  background-color: rgba(255, 255, 255, 0.2); /* Kolor linii */
-}
-
-.description-block-1 {
-  display: flex; /* Flexbox dla bloku */
-  align-items: center; /* Wyśrodkowanie w pionie */
-  justify-content: flex-start; /* Wyrównanie tekstu do lewej */
-  text-align: left; /* Wyrównanie tekstu w ramach bloku */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: wrap;
-  height: 100%; /* Dopasowanie wysokości do rodzica */
-}
-
-.description-block-2, .description-block-3 {
-  display: flex; /* Flexbox dla każdego bloku */
-  align-items: center; /* Wyśrodkowanie w pionie */
-  justify-content: center; /* Wyśrodkowanie w poziomie */
-  text-align: center; /* Wyrównanie tekstu w środku */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: wrap;
-  height: 100%; /* Dopasowanie wysokości do rodzica */
-}
-
-.event-footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: auto ; /* Automatyczna wysokość, aby dostosować się do liczby powiadomień */
-  display: flex;
-  align-items: center;
-  justify-content: flex-start; /* Wyrównanie powiadomień do lewej */
-  gap: 5px; /* Odstęp między powiadomieniami */
-  padding: 5px;
-  font-size: 10px;
-  color: #fff;
-  border-top: 1px solid rgba(255, 255, 255, 0.2); /* Biała linia oddzielająca */
-  overflow-x: auto; /* Pozwala na przewijanie w poziomie, jeśli powiadomień jest dużo */
-}
-
-.notification-item {
-  background-color: rgba(255, 255, 255, 0.2); /* Tło dla każdego powiadomienia */
-  padding: 2px 5px;
-  border-radius: 4px; /* Zaokrąglone rogi */
-  font-size: 10px;
-  color: #fff;
-  white-space: nowrap; /* Zapobiega zawijaniu tekstu w powiadomieniu */
-}
-
-.time-grid {
-  position: relative;
-  flex: 1;
-  padding-left: 0;
-  overflow-y: auto; /* Zmienione z hidden na auto */
-  overflow-x: hidden;
-  height: 100%;
-  width: calc(100% - 70px);
-  background-color: #fff;
-  /* Usunięto grid-template-rows dla lepszej kontroli wysokości */
-}
-
-.time-slot {
-  display: flex;
-  height: 100px; /* Zwiększona wysokość slotu */
-  min-height: 100px; /* Minimalna wysokość */
-  border-bottom: 1px solid #f1f3f4;
-  background-color: #fff;
-}
-
-/* Dodano style dla ukrycia scrollbara ale zachowania funkcjonalności przewijania */
-.time-grid::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
-}
-
-.time-grid {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
-}
-
-/* Pozostałe style pozostają bez zmian */
-.calendar-container {
-  position: relative;
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-  padding-top: 0;
-  height: calc(100vh - 120px);
-}
-
-.current-time-indicator {
-  position: absolute;
-  left: 0;
-  right: 0;
-  border-top: 2px solid #ea4335;
-  z-index: 10;
-  pointer-events: none;
-  width: 100%;
-}
-
-/* Proste rozwiązanie - dodaj do swojego pliku CSS */
-
-.event-footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: auto;
-  display: flex;
-  align-items: center;
-  padding: 5px;
-  font-size: 10px;
-  color: #fff;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  overflow: hidden;
-}
-
-.notifications-marquee {
-  display: flex;
-  gap: 10px;
-  white-space: nowrap;
-  animation: marquee 12s linear infinite;
-  will-change: transform;
-}
-
-.notification-item {
-  background-color: rgba(255, 255, 255, 0.2);
-  padding: 2px 5px;
-  border-radius: 4px;
-  font-size: 10px;
-  color: #fff;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-/* Animacja marquee - tam i z powrotem */
-@keyframes marquee {
-  0%, 20% {
-    transform: translateX(0);
+/* =============================================================================
+   GLOBAL STYLES & RESET
+   ============================================================================= */
+
+   * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
   }
-  45%, 55% {
-    transform: translateX(calc(-100% + 1000px)); /* Dostosuj 200px do szerokości kontenera */
+  
+  html, body {
+    background-color: #fff !important;
+    margin: 0;
+    padding: 0;
+    width: 100% !important;
+    height: 100% !important;
+    overflow: hidden !important;
+    color: black;
+    font-family: 'Arial', sans-serif !important;
   }
-  80%, 100% {
-    transform: translateX(0);
+  
+  /* Hide scrollbars */
+  ::-webkit-scrollbar {
+    display: none !important;
   }
-}
-
-/* Zatrzymanie animacji przy najechaniu myszką */
-.event-footer:hover .notifications-marquee {
-  animation-play-state: paused;
-}
-
-/* Dla pojedynczego powiadomienia lub krótkich treści - wyłącz animację */
-.notifications-marquee.no-scroll {
-  animation: none;
-  justify-content: center;
-}
-
-.notifications-marquee {
-  display: flex;
-  gap: 10px;
-  white-space: nowrap;
-  animation: marquee 60s ease-in-out infinite; /* Zwiększono czas trwania z 12s na 20s */
-  will-change: transform;
-}
+  
+  * {
+    scrollbar-width: none !important;
+  }
+  
+  /* =============================================================================
+     MAIN LAYOUT CONTAINERS
+     ============================================================================= */
+  
+  .tablet-container {
+    width: 100% !important;
+    height: 100vh !important;
+    max-width: none !important;
+    margin: 0;
+    padding: 0;
+    background-color: #fff !important;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  #root.tablet-mode {
+    width: 100% !important;
+    height: 100% !important;
+    background-color: #fff !important;
+  }
+  
+  .calendar-layout {
+    display: flex;
+    width: 100% !important;
+    height: px;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    background-color: #fff !important;
+  }
+  
+  /* =============================================================================
+     HEADER SECTION
+     ============================================================================= */
+  
+  .header-container {
+    padding-bottom: 5px;
+    border-bottom: 1px solid #dadce0;
+    background-color: #fff;
+    width: 100%;
+  }
+  
+  .header-logos {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    padding: 0 15px;
+  }
+  
+  .university-logo {
+    height: 33px;
+    object-fit: contain;
+  }
+  
+  .faculty-logo {
+    height: 50px;
+    object-fit: contain;
+  }
+  
+  .room-info-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    padding: 0 15px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .address {
+    font-weight: normal;
+    font-size: 16px;
+    text-align: left;
+    line-height: 1.4;
+    width: 25%;
+  }
+  
+  .room-number {
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    width: 60%;
+    text-transform: uppercase;
+  }
+  
+  .datetime-placeholder {
+    font-size: 30px;
+    font-weight: bold;
+  }
+  
+  .qrcode {
+    height: auto;
+    width: 100px;
+    margin-bottom: 30px;
+  }
+  
+  /* =============================================================================
+     CALENDAR PANEL
+     ============================================================================= */
+  
+  .calendar-panel {
+    max-width: none !important;
+    width: 100% !important;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #dadce0;
+    overflow: hidden;
+    background-color: #fff !important;
+  }
+  
+  .calendar-container {
+    position: relative;
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    padding-top: 0;
+    margin-top: 10px;
+    height: calc(100vh - 120px);
+  }
+  
+  /* =============================================================================
+     DAY INDICATOR
+     ============================================================================= */
+  
+  .day-indicator {
+    position: sticky;
+    top: 0;
+    display: none; /* Hidden based on tablet mode */
+    flex-direction: column;
+    align-items: center;
+    width: 70px;
+    min-width: 70px;
+    border-right: 1px solid #dadce0;
+    background-color: #fff !important;
+    z-index: 2;
+    padding: 120px 0 0 0;
+    height: 100%;
+    justify-content: flex-start;
+  }
+  
+  .day-name {
+    color: #1a73e8;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  
+  .day-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: #1a73e8;
+    color: white;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 22px;
+    margin: 5px 0;
+  }
+  
+  .month-name {
+    color: #1a73e8;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  
+  /* =============================================================================
+     TIME GRID
+     ============================================================================= */
+  
+  .time-grid {
+    position: relative;
+    flex: 1;
+    padding-left: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+    width: calc(100% - 70px);
+    background-color: #fff !important;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+  
+  .time-grid::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+  
+  .time-slot {
+    display: flex;
+    height: 100px;
+    min-height: 100px;
+    border-bottom: 1px solid #f1f3f4;
+    background-color: #fff !important;
+  }
+  
+  .time-label {
+    width: 45px;
+    font-size: 12px;
+    color: #70757a;
+    text-align: right;
+    padding-right: 8px;
+    padding-top: 1px;
+  }
+  
+  .time-cell {
+    flex: 1;
+    background-color: #fff !important;
+  }
+  
+  /* =============================================================================
+     CURRENT TIME INDICATOR
+     ============================================================================= */
+  
+  .current-time-indicator {
+    position: absolute;
+    left: 0;
+    right: 0;
+    border-top: 2px solid #ea4335;
+    z-index: 10;
+    pointer-events: none;
+    width: 100%;
+  }
+  
+  .time-circle {
+    position: absolute;
+    left: 50px;
+    top: -5px;
+    width: 10px;
+    height: 10px;
+    background-color: #ea4335;
+    border-radius: 50%;
+  }
+  
+  /* =============================================================================
+     CALENDAR EVENTS
+     ============================================================================= */
+  
+  .calendar-event {
+    font-family: 'PT Sans' !important;
+    display: flex;
+    position: absolute;
+    left: 70px;
+    right: 15px;
+    border-radius: 20px;
+    padding: 5px;
+    color: white;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.2s ease;
+    z-index: 1;
+    box-shadow: 4px 6px 15px rgba(0, 0, 0, 0.8) !important;
+    align-items: center;
+    
+  }
+  
+  .calendar-event:hover {
+    transform: scale(1.01);
+    z-index: 5;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  }
+  
+  .calendar-event.active {
+    transform: scale(1.01);
+    z-index: 5;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
+  }
+  
+  .calendar-event.current {
+    border: 5px solid #ea4335;
+    box-shadow: 0 0 5px rgba(234, 67, 53, 0.5);
+    z-index: 1000;
+    
+  }
+  
+  /* Event layout structure */
+  .calendar-event-left {
+    font-family: 'Arial', sans-serif !important;
+    width: 10%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    font-size: clamp(10px, 2.5vh, 16px);
+    font-weight: bold;
+    text-align: center;
+    
+  }
+  
+  .calendar-event-right {
+    width: 90%;
+    height: 100%;
+    position: relative;
+    padding: 5px;
+    font-size: clamp(12px, 2.5vh, 18px);
+    overflow: hidden;
+  }
+  
+  .event-description {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 20px;
+    overflow: hidden;
+    font-size: 24px;
+  }
+  
+  .description-block-1 {
+    width: 40%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: wrap;
+    height: 100%;
+  }
+  
+  .description-block-2 {
+    width: 40%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: wrap;
+    height: 100%;
+  }
+  
+  .description-block-3 {
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: wrap;
+    height: 100%;
+  }
+  
+  
+  
+  /* Vertical separators */
+  .description-block-1::after,
+  .description-block-2::after {
+    content: '';
+    position: absolute;
+    top: 20%;
+    bottom: 20%;
+    right: 0;
+    width: 1px;
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  /* Legacy event styles (kept for compatibility) */
+  .event-title {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .event-time {
+    font-size: 12px;
+    opacity: 0.9;
+  }
+  
+  .event-check {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .check-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: bold;
+  }
+  
+  /* =============================================================================
+     EVENT FOOTER & NOTIFICATIONS
+     ============================================================================= */
+  
+  .event-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+    font-size: 10px;
+    color: #fff;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    padding-left: 10px;
+  }
+  
+  .notifications-marquee {
+    display: flex;
+    gap: 10px;
+    white-space: nowrap;
+    animation: marquee 60s ease-in-out infinite;
+    will-change: transform;
+  }
+  
+  .notifications-marquee.no-scroll {
+    animation: none;
+    justify-content: center;
+    font-size: 18px;
+  }
+  
+  .notification-item {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 2px 5px;
+    border-radius: 10px;
+    font-size: 18px;
+    color: #fff;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  
+  .event-footer:hover .notifications-marquee {
+    animation-play-state: paused;
+  }
+  
+  /* =============================================================================
+     NOTIFICATIONS PANEL
+     ============================================================================= */
+  
+  .notifications-panel {
+    max-width: none !important;
+    width: 30% !important;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff !important;
+  }
+  
+  .notifications-header {
+    padding: 20px 15px 15px;
+    border-bottom: 1px solid #dadce0;
+    background-color: #fff !important;
+  }
+  
+  .notifications-header h2 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #3c4043;
+  }
+  
+  .notification-content {
+    padding: 20px 15px;
+    height: calc(100% - 60px);
+    overflow: hidden;
+    background-color: #fff !important;
+  }
+  
+  .no-notifications,
+  .select-event-message {
+    color: #5f6368;
+    font-style: italic;
+    padding: 30px 15px;
+    text-align: center;
+    font-size: 18px;
+  }
+  
+  /* =============================================================================
+     UTILITY STATES
+     ============================================================================= */
+  
+  .loading-container,
+  .error-container,
+  .no-events-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 18px;
+    color: #5f6368;
+    padding: 20px;
+  }
+  
+  /* =============================================================================
+     ANIMATIONS
+     ============================================================================= */
+/*   
+  @keyframes marquee {
+    0%, 20% {
+      transform: translateX(0);
+    }
+    45%, 55% {
+      transform: translateX(calc(-100% + 900px));
+    }
+    80%, 100% {
+      transform: translateX(0);
+    }
+  } */
