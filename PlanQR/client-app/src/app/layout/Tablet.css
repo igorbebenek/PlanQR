@@ -308,7 +308,6 @@
     border: 5px solid #ea4335;
     box-shadow: 0 0 5px rgba(234, 67, 53, 0.5);
     z-index: 1000;
-    
   }
   
   /* Event layout structure */
@@ -343,7 +342,7 @@
     height: 100%;
     padding-bottom: 20px;
     overflow: hidden;
-    font-size: 24px;
+    font-size: 23px;
   }
   
   .description-block-1 {
@@ -380,9 +379,10 @@
     text-align: center;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: wrap;
+    white-space: nowrap;
     height: 100%;
-  }
+    font-size: 20px;
+}
   
   
   
@@ -541,15 +541,15 @@
   /* =============================================================================
      ANIMATIONS
      ============================================================================= */
-/*   
+  
   @keyframes marquee {
     0%, 20% {
       transform: translateX(0);
     }
     45%, 55% {
-      transform: translateX(calc(-100% + 900px));
+      transform: translateX(calc(-100% + 850px));
     }
     80%, 100% {
       transform: translateX(0);
     }
-  } */
+  }
