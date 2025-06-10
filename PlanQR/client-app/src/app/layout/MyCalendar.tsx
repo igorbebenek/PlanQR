@@ -26,6 +26,12 @@ export default function MyCalendar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<EventApi | null>(null);
 
+
+  useEffect(() => {
+    document.title = `Plan sali - ${room}` 
+  }
+  , []);
+
   const handleEventClick = (info: EventClickArg) => {
     const event = info.event;
     console.log("Clicked event:", event.extendedProps);

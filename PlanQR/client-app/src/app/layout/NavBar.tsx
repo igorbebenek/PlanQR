@@ -49,9 +49,11 @@ export default function NavBar() {
 
   return (
     <Menu inverted fixed="top" className="navbar">
-      <Menu.Item className="navbar-logo">
+    <Menu.Item className="navbar-logo">
+      <a href={siteUrl}>
         <img src={img} alt="logo" />
-      </Menu.Item>
+      </a>
+    </Menu.Item>
       <Menu.Item className="room-name">
         <p><strong>{room || teacher}</strong></p>
       </Menu.Item>

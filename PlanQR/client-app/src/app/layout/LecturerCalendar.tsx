@@ -20,6 +20,13 @@ leoProfanity.add(polishBadWords);
 const siteUrl = import.meta.env.VITE_SITE_URL;
 
 export default function LecturerCalendar() {
+  useEffect(() => {
+    document.title = `Plan wykładowcy - ${teacher}`;
+    leoProfanity.loadDictionary("en");
+    leoProfanity.add(polishBadWords);
+  }
+  , []);
+
   const { teacher } = useParams();
   const [events, setEvents] = useState([]);
   const [currentDates, setCurrentDates] = useState({ start: '', end: '' });
