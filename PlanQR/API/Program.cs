@@ -37,6 +37,9 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers();
 builder.Services.AddApplicationServices(builder.Configuration);
 
+// Service for notification cleanup
+builder.Services.AddHostedService<NotificationCleanupService>();
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlite(connectionString));
@@ -73,6 +76,8 @@ using (var scope = app.Services.CreateScope())
     {
         await context.Database.MigrateAsync(); 
         await Seed.DBData(context); 
+
+        await context.SaveChangesAsync();
     }
     catch (Exception ex)
     {
