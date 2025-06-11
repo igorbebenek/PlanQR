@@ -17,8 +17,8 @@ export default defineConfig(({ mode }) => {
   return {
     server: {
       https: {
-        key: fs.readFileSync(path.resolve(__dirname,'../certs/planqr.key')),
-        cert: fs.readFileSync(path.resolve(__dirname, '../certs/qrplan.pem')),
+        key: fs.readFileSync(path.resolve(__dirname,'../certs/cert.key')),
+        cert: fs.readFileSync(path.resolve(__dirname, '../certs/cert.pem')),
       },
       port: 443,
       host: true,
