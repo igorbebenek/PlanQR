@@ -3,7 +3,6 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
-appsettings.json
 
 # dotenv files
 .env.local
@@ -486,8 +485,6 @@ $RECYCLE.BIN/
 *.swp
 
 
-certs/cert.pfx
-certs/planqr.key
-certs/qrplan.pem
+
 appsettings.Development.json
 PlanQRDB.db
