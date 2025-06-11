@@ -6,7 +6,7 @@
 appsettings.json
 
 # dotenv files
-.env
+.env.local
 
 # User-specific files
 *.rsuser
@@ -486,6 +486,8 @@ $RECYCLE.BIN/
 *.swp
 
 
-certs/
+certs/cert.pfx
+certs/planqr.key
+certs/qrplan.pem
 appsettings.Development.json
 PlanQRDB.db
