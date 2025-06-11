@@ -1,0 +1,51 @@
+= Dokumentacja Wdrożeniowa Projektu PlanQR
+:author: 
+:revdate: {docdate}
+:toc: left
+:toclevels: 3
+:source-highlighter: highlight.js
+
+Niniejszy dokument opisuje kroki niezbędne do wdrożenia i uruchomienia aplikacji *PlanQR* w środowisku produkcyjnym.
+
+== Wstęp
+
+PlanQR to system do przeglądania planów zajęć dla sal oraz wykładowców, wzbogacony o moduł powiadomień (czatu) w czasie rzeczywistym dla poszczególnych zajęć. Aplikacja została zaprojektowana w architekturze klient-serwer.
+
+.Kluczowe komponenty
+* *Backend:*. Aplikacja API napisana w *.NET 8* z użyciem ASP.NET Core. Odpowiada za autentykację, obsługę powiadomień oraz komunikację z bazą danych.
+* *Frontend:*. Aplikacja kliencka typu SPA (Single Page Application) zbudowana przy użyciu *React*, *TypeScript* i *Vite*.
+* *Baza Danych:*. *SQLite* do przechowywania wiadomości.
+* *Autentykacja:*. Integracja z uczelnianym systemem *LDAP* (dla wykładowców) oraz autoryzacja oparta na *JWT (JSON Web Tokens)*.
+
+== Architektura Systemu
+
+Przepływ danych w systemie jest następujący:
+
+. *Użytkownik (przeglądarka)* komunikuje się z aplikacją frontendową (React).
+. *Frontend (React)*:
+.. Pobiera plany zajęć bezpośrednio z zewnętrznego skryptu `schedule_student.php` na serwerze `plan.zut.edu.pl`.
+.. Komunikuje się z *Backendem (.NET API)* w celu:
+... Logowania/wylogowywania wykładowców.
+... Wysyłania i odbierania wiadomości/powiadomień.
+. *Backend (.NET API)*:
+.. Weryfikuje poświadczenia wykładowców w uczelnianym *serwerze LDAP*.
+.. Generuje i waliduje tokeny JWT.
+.. Zapisuje i odczytuje wiadomości z bazy danych *SQLite*.
+.. Uruchamia usługę w tle do cyklicznego czyszczenia starych powiadomień.
+
+== Konfiguracja Środowiska
+
+Przed wdrożeniem należy skonfigurować zmienne środowiskowe i pliki konfiguracyjne. Instrukcja jest GitHub : 
+
+== Dodatkowe Informacje
+
+=== Baza Danych
+Aplikacja używa *SQLite*. Plik bazy danych zostanie automatycznie utworzony przy pierwszym uruchomieniu, a migracje zostaną zastosowane.
+
+=== Zależności Zewnętrzne
+Projekt jest silnie uzależniony od dwóch zewnętrznych usług:
+. *Serwer LDAP ZUT:* Niezbędny do logowania wykładowców.
+. *Skrypt `schedule_student.php`:* Kluczowy do pobierania danych o planach zajęć.
+
+=== Tryb Tabletu
+Aplikacja posiada specjalny widok pod ścieżką `/tablet/:department/:room`, który jest zoptymalizowany do wyświetlania na urządzeniach typu tablet, montowanych przy salach.
