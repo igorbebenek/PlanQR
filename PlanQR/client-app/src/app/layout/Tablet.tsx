@@ -84,7 +84,7 @@ export default function Tablet() {
       const marqueeElement = marqueeRefs.current[index];
       if (marqueeElement) {
         const isOverflowing = marqueeElement.scrollWidth > 925;
-        console.log(marqueeElement.scrollWidth, marqueeElement.clientWidth, isOverflowing);
+        // console.log(marqueeElement.scrollWidth, marqueeElement.clientWidth, isOverflowing);
         updatedScrollableStates[index] = isOverflowing;
       }
     });

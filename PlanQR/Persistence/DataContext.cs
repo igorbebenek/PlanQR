@@ -10,7 +10,7 @@ public class DataContext : DbContext
 
     public DbSet<Message> Messages { get; set; }
 
-
+    public DbSet<DeviceList> DeviceLists { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

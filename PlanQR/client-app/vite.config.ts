@@ -13,6 +13,7 @@ export default defineConfig(({ mode }) => {
 
   const siteUrl = env.VITE_SITE_URL // Np. https://planqr.wi.zut.edu.pl
 
+
   return {
     server: {
       https: {
