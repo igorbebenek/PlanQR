@@ -54,3 +54,13 @@ npm run dev
 10) Kliknij na `Apply`
 
 Konfiguracja przekierowania zakończona 
+
+### Konfiguracja tabletu 
+Wykorzystywane oprogramowanie:
+-Fully Kiosk Browser:
+  Odpowiada za uruchamianie aplikacji planu w trybie kiosku. Blokuje dostęp do innych aplikacji, ustawień systemowych czy przycisków. Zapewnia automatyczne włączanie aplikacji po starcie urządzenia. Utrzymuje ekran włączony podczas pracy. 
+  Instalacja i konfiguracja: Aplikację pobiera się ze sklepu google play. W ustawieniach definiowana jset aplikacja startowa. Aktywowane są opcje blokady przycisków systemowych i utrzymania ekranu włączonego. 
+-AirDroid:
+  Aplikacja umożliwia zdalną kontrolę i administrację tabletów z poziomu komputera. 
+  Instalowany jest przez Google Play. Na każdym tablecie logujemy się na centralne konto administracyjne AirDroid. Przyznawane są wszystkie wymagane uprawnienia dla poprawnej pracy zdalnej. Na komputerze administracyjnym wykorzystywana jest aplikacja AirDroid Dekstop. 
+  Wykorzystywany w wersji bezpłatnej.
