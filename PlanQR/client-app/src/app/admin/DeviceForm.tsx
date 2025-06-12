@@ -2,18 +2,20 @@ import { useState } from 'react';
 import axios from 'axios';
 
 const DeviceForm = () => {
+  const siteUrl = import.meta.env.VITE_SITE_URL;
   const [deviceName, setDeviceName] = useState('');
   const [deviceClassroom, setDeviceClassroom] = useState('');
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://planqr.wi.zut.edu.pl:5000/api/devices', {
+      const response = await axios.post(siteUrl + ':5000/api/devices', {
         deviceName,
         deviceClassroom,
       });
       setDeviceName('');
       setDeviceClassroom('');
+      window.location.reload();
     } catch (error) {
       console.error('Błąd przy dodawaniu urządzenia:', error);
     }

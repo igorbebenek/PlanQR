@@ -36,20 +36,20 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<DeviceList>> CreateDevice([FromBody] CreateDeviceDto dto)
         {
-            var urlSource = $"{dto.deviceName}_{dto.deviceClassroom}"; // Updated to match camelCase property names
+            var urlSource = $"{dto.deviceName}_{dto.deviceClassroom.ToUpper()}"; // Zamiana deviceClassroom na wielkie litery
             var base64Url = Convert.ToBase64String(Encoding.UTF8.GetBytes(urlSource));
 
             var device = new DeviceList
             {
-                deviceName = dto.deviceName, // Updated to match camelCase property names
-                deviceClassroom = dto.deviceClassroom, // Updated to match camelCase property names
-                deviceURL = base64Url // Updated to match camelCase property names
+                deviceName = dto.deviceName, // Bez zmian
+                deviceClassroom = dto.deviceClassroom.ToUpper(), // Zamiana na wielkie litery
+                deviceURL = base64Url // Bez zmian
             };
 
-            _context.DeviceLists.Add(device); // Updated to match DbSet name
+            _context.DeviceLists.Add(device); // Dodanie do bazy danych
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetDevice), new { id = device.id }, device); // Updated to match camelCase property names
+            return CreatedAtAction(nameof(GetDevice), new { id = device.id }, device); // Zwrócenie utworzonego urządzenia
         }
 
         [HttpPut("{id}")]
@@ -86,6 +86,20 @@ namespace API.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        [HttpGet("validate")]
+        public async Task<IActionResult> ValidateRoomAndSecretUrl([FromQuery] string room, [FromQuery] string secretUrl)
+        {
+            var device = await _context.DeviceLists
+                .FirstOrDefaultAsync(d => d.deviceClassroom == room && d.deviceURL == secretUrl);
+
+            if (device == null)
+            {
+                return NotFound(new { message = "Nie znaleziono urządzenia z podanym room i secretUrl." });
+            }
+
+            return Ok(new { message = "Urządzenie znalezione.", device });
         }
     }
 }

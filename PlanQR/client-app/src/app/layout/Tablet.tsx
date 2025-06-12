@@ -22,6 +22,9 @@ interface ScheduleEvent {
 }
 
 export default function Tablet() {
+  const siteUrl = import.meta.env.VITE_SITE_URL;
+  const { secretUrl } = useParams<{ secretUrl: string }>(); // Pobierz parametr z URL
+
   const timeGridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -45,6 +48,41 @@ export default function Tablet() {
     room: ""
   });
   
+  const [isValid, setIsValid] = useState<boolean | null>(null); // Stan do przechowywania wyniku walidacji
+
+
+  useEffect(() => {
+    const validateRoomAndSecretUrl = async () => {
+      try {
+        const response = await fetch(
+          siteUrl + `:5000/api/devices/validate?room=${encodeURIComponent(
+            roomInfo.room
+          )}&secretUrl=${encodeURIComponent(secretUrl || '')}`
+        );
+
+        if (!response.ok) {
+          throw new Error('Nie znaleziono urządzenia z podanym room i secretUrl.');
+        }
+
+        const data = await response.json();
+        console.log('Walidacja zakończona sukcesem:', data);
+        setIsValid(true);
+      } catch (err: any) {
+        console.error('Błąd podczas walidacji:', err.message);
+        setIsValid(false);
+        setError(err.message);
+      }
+    };
+
+    if (roomInfo.room && secretUrl) {
+      validateRoomAndSecretUrl();
+    }
+  }, [roomInfo.room, secretUrl]);
+
+  if (isValid === false) {
+    throw new Error('Nie znaleziono urządzenia z podanym room i secretUrl.');
+  }
+
   const showSpecialDateForAll = false;
   const hasSpecialDate = showSpecialDateForAll;
   
@@ -444,7 +482,7 @@ export default function Tablet() {
               </div>
               <div className='qrcode'>
                 <QRCodeCanvas
-                value={`https://planqr.wi.zut.edu.pl/${encodeURIComponent(roomInfo.building)}/${encodeURIComponent(roomInfo.room)}`}
+                value={siteUrl + `/${encodeURIComponent(roomInfo.building)}/${encodeURIComponent(roomInfo.room)}`}
                 size={100} 
                 style={{ width: '100%', height: 'auto' }}
                 />
