@@ -39,7 +39,7 @@ dotnet run
 ```
 npm run dev
 ```
-### Automatyczne przekierowanie z HTTP na HTTPS w projekcie
+### Automatyczne przekierowanie z HTTP na HTTPS w projekcie (Windows Server)
 
 1) Otworzyć `Internet Information Services (IIS) Manager`
 2) W lewym oknie `Connections` kliknij dwukrotnie swoją stronę internetową
@@ -53,4 +53,4 @@ npm run dev
 9) W `Redirect URL` trzeba wpisać `https://{HTTP_HOST}/{R:1}`
 10) Kliknij na `Apply`
 
-Konfiguracja przekierowanie zakończona 
+Konfiguracja przekierowania zakończona 
