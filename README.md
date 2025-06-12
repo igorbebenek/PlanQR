@@ -1,7 +1,7 @@
 # PlanQR
 
 ## Wymagany jest .NET w wersji 8.0.0 oraz NodeJS w wersji 22.16.0
-
+[Dokumentacja projektu](https://github.com/igorbebenek/PlanQR/blob/main/Dokumentacja.adoc)
 ## Instalacja pakietów
 
 ### W katalogu `API` wykonaj:
