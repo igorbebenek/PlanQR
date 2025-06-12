@@ -1,4 +1,4 @@
-= Dokumentacja Wdrożeniowa Projektu PlanQR
+= Dokumentacja Projektu PlanQR
 :author: 
 :revdate: {docdate}
 :toc: left
@@ -48,4 +48,4 @@ Projekt jest silnie uzależniony od dwóch zewnętrznych usług:
 . *Skrypt `schedule_student.php`:* Kluczowy do pobierania danych o planach zajęć.
 
 === Tryb Tabletu
-Aplikacja posiada specjalny widok pod ścieżką `/tablet/:department/:room`, który jest zoptymalizowany do wyświetlania na urządzeniach typu tablet, montowanych przy salach.
+Aplikacja posiada specjalny widok pod ścieżką `/tablet/:department/:room/:secretUrl`, który jest zoptymalizowany do wyświetlania na urządzeniach typu tablet, montowanych przy salach.
