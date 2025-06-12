@@ -49,3 +49,7 @@ Projekt jest silnie uzależniony od dwóch zewnętrznych usług:
 
 === Tryb Tabletu
 Aplikacja posiada specjalny widok pod ścieżką `/tablet/:department/:room/:secretUrl`, który jest zoptymalizowany do wyświetlania na urządzeniach typu tablet, montowanych przy salach.
+
+=== Panel admina
+Aplikacja posiada specjalny panel admina pod ścieżką `/adminpanel`, który umożliwia rejestrowanie tabletów i przypisywanie ich do sal, to właśnie tam generuje się secretUrl. Dostęp jest możliwy po wcześniejszym zalogowaniu się do strony. 
+Lista osób uprawnionych do dostępu do panelu admina jest zdefiniowana w pliku `client-app\src\app\admin\adminConfig.ts`.
